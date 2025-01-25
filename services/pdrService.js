@@ -1,671 +1,182 @@
-const OpenAI = require('openai');
+import sqlite3 from 'sqlite3';
+import { promisify } from 'util';
 
 class PDRService {
     constructor() {
-        if (!process.env.OPENAI_API_KEY) {
-            throw new Error('OPENAI_API_KEY environment variable is required');
+        this.db = new sqlite3.Database('./data/local.db');
+        this.dbAll = promisify(this.db.all).bind(this.db);
+        this.dbGet = promisify(this.db.get).bind(this.db);
+        this.dbRun = promisify(this.db.run).bind(this.db);
+    }
+
+    async getAgeAdjustmentFactor(age, wpiPercent) {
+        let ageRange;
+        if (age <= 21) ageRange = 'age_21_and_under';
+        else if (age <= 26) ageRange = 'age_22_to_26';
+        else if (age <= 31) ageRange = 'age_27_to_31';
+        else if (age <= 36) ageRange = 'age_32_to_36';
+        else if (age <= 41) ageRange = 'age_37_to_41';
+        else if (age <= 46) ageRange = 'age_42_to_46';
+        else if (age <= 51) ageRange = 'age_47_to_51';
+        else if (age <= 56) ageRange = 'age_52_to_56';
+        else if (age <= 61) ageRange = 'age_57_to_61';
+        else ageRange = 'age_62_and_over';
+
+        const result = await this.dbGet(
+            `SELECT ${ageRange} as factor FROM age_adjustments WHERE wpi_percent = ?`,
+            [Math.round(wpiPercent)]
+        );
+        return result ? result.factor : null;
+    }
+
+    async getOccupationalAdjustment(occupation, wpiPercent) {
+        // Get occupation group
+        const occupationResult = await this.dbGet(
+            'SELECT group_number FROM occupations WHERE occupation_title LIKE ?',
+            [`%${occupation}%`]
+        );
+
+        if (!occupationResult) {
+            throw new Error(`Occupation not found: ${occupation}`);
         }
 
-        this.client = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY
-        });
+        // Get occupational adjustment
+        const groupNumber = occupationResult.group_number;
+        const result = await this.dbGet(
+            `SELECT variant FROM variants WHERE body_part = ? AND occupational_group = ? AND impairment_code = ?`,
+            ['General', groupNumber, 'DEFAULT']
+        );
 
-        // Define the tools for PDR analysis
-        this.tools = [
-            {
-                type: "function",
-                function: {
-                    name: "extract_medical_info",
-                    description: "Extract key information from medical reports for permanent disability ratings",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        required: [
-                            "name",
-                            "date_of_birth",
-                            "occupation",
-                            "date_of_injury",
-                            "body_parts",
-                            "medical_provider",
-                            "claim_number"
-                        ],
-                        properties: {
-                            name: {
-                                type: "string",
-                                description: "Patient's name"
-                            },
-                            date_of_birth: {
-                                type: "string",
-                                description: "Patient's date of birth"
-                            },
-                            occupation: {
-                                type: "string",
-                                description: "Patient's occupation"
-                            },
-                            date_of_injury: {
-                                type: "string",
-                                description: "Date of injury"
-                            },
-                            body_parts: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    required: [
-                                        "part",
-                                        "wpi_percentage",
-                                        "apportionment"
-                                    ],
-                                    properties: {
-                                        part: {
-                                            type: "string",
-                                            description: "Body part affected"
-                                        },
-                                        wpi_percentage: {
-                                            type: "number",
-                                            description: "Whole Person Impairment percentage"
-                                        },
-                                        apportionment: {
-                                            type: "string",
-                                            description: "Any apportionment mentioned"
-                                        }
-                                    },
-                                    additionalProperties: false
-                                }
-                            },
-                            medical_provider: {
-                                type: "string",
-                                description: "Name of medical provider"
-                            },
-                            claim_number: {
-                                type: "string",
-                                description: "Claim number"
-                            }
-                        },
-                        additionalProperties: false
-                    }
+        return result ? parseFloat(result.variant) : null;
+    }
+
+    async getImpairmentDetails(code) {
+        const result = await this.dbGet(
+            'SELECT * FROM bodypart_impairments WHERE code = ?',
+            [code]
+        );
+        return result;
+    }
+
+    async calculateRating(medicalData) {
+        try {
+            const noApportionmentSections = [];
+            const withApportionmentSections = [];
+            let totalNoApport = 0;
+            let totalWithApport = 0;
+
+            // Get statutory max weekly earnings
+            const maxWeeklyEarnings = 435.00; // Default PD Statutory Max
+            const actualWeeklyEarnings = Math.min(medicalData.demographics.weeklyEarnings || maxWeeklyEarnings, maxWeeklyEarnings);
+            const pdWeeklyRate = Math.min(actualWeeklyEarnings * (2 / 3), 290.00); // 2/3 of earnings, capped at 290
+
+            // Calculate age at time of injury
+            const dob = new Date(medicalData.demographics.dateOfBirth);
+            const doi = new Date(medicalData.demographics.dateOfInjury);
+            const age = Math.floor((doi - dob) / (365.25 * 24 * 60 * 60 * 1000));
+
+            // Process each impairment
+            for (const impairment of medicalData.impairments) {
+                // Get occupational adjustment using exact title
+                const occupationalAdjustment = await this.getOccupationalAdjustment(
+                    medicalData.demographics.occupation.title,
+                    impairment.wpi
+                );
+                if (!occupationalAdjustment) {
+                    throw new Error(`Occupational adjustment not found for occupation: ${medicalData.demographics.occupation.title}`);
                 }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "determine_occupation_group",
-                    description: "Determine occupation group number and variant based on job duties",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        required: [
-                            "occupation",
-                            "body_parts",
-                            "group_number"
-                        ],
-                        properties: {
-                            occupation: {
-                                type: "string",
-                                description: "Patient's occupation"
-                            },
-                            body_parts: {
-                                type: "array",
-                                description: "List of body parts affected along with their occupational variants",
-                                items: {
-                                    type: "object",
-                                    required: [
-                                        "part",
-                                        "variant"
-                                    ],
-                                    properties: {
-                                        part: {
-                                            type: "string",
-                                            description: "Body part affected"
-                                        },
-                                        variant: {
-                                            type: "string",
-                                            description: "Occupational variant code"
-                                        }
-                                    },
-                                    additionalProperties: false
-                                }
-                            },
-                            group_number: {
-                                type: "string",
-                                description: "Occupation group number"
-                            }
-                        },
-                        additionalProperties: false
-                    }
+
+                // Get age adjustment
+                const ageAdjustment = await this.getAgeAdjustmentFactor(age, impairment.wpi);
+                if (!ageAdjustment) {
+                    throw new Error(`Age adjustment not found for age: ${age}`);
                 }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "calculate_rating",
-                    description: "Calculate permanent disability rating using standard formula",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        required: [
-                            "impairments",
-                            "combined_rating",
-                            "combination_steps"
-                        ],
-                        properties: {
-                            impairments: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    required: [
-                                        "code",
-                                        "wpi",
-                                        "fec_adjusted",
-                                        "occupation_adjusted",
-                                        "age_adjusted",
-                                        "description"
-                                    ],
-                                    properties: {
-                                        code: {
-                                            type: "string",
-                                            description: "Impairment code (XX.XX.XX.XX format)"
-                                        },
-                                        wpi: {
-                                            type: "number",
-                                            description: "Initial WPI percentage"
-                                        },
-                                        fec_adjusted: {
-                                            type: "number",
-                                            description: "FEC adjusted value (WPI × 1.4)"
-                                        },
-                                        occupation_adjusted: {
-                                            type: "number",
-                                            description: "Value after occupation adjustment"
-                                        },
-                                        age_adjusted: {
-                                            type: "number",
-                                            description: "Final value after age adjustment"
-                                        },
-                                        description: {
-                                            type: "string",
-                                            description: "Description of the impairment"
-                                        }
-                                    },
-                                    additionalProperties: false
-                                }
-                            },
-                            combined_rating: {
-                                type: "number",
-                                description: "Final combined rating percentage"
-                            },
-                            combination_steps: {
-                                type: "array",
-                                items: {
-                                    type: "string",
-                                    description: "Step by step combination calculations"
-                                }
-                            }
-                        },
-                        additionalProperties: false
-                    }
+
+                // Calculate base rating with occupational and age adjustments
+                let finalRating = impairment.wpi * (occupationalAdjustment / 100) * (ageAdjustment / 100);
+
+                // Apply pain add-on if specified (3% standard)
+                if (impairment.adjustments.pain.add) {
+                    finalRating += 3;
                 }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "format_rating_string",
-                    description: "Format the final rating string with all components",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        required: [
-                            "name",
-                            "claim_number",
-                            "employer",
-                            "ratings",
-                            "combined_rating",
-                            "pd_weeks",
-                            "age_doi",
-                            "weekly_earnings",
-                            "pd_rate",
-                            "pd_total",
-                            "future_medical"
-                        ],
-                        properties: {
-                            name: {
-                                type: "string",
-                                description: "Patient's name"
-                            },
-                            claim_number: {
-                                type: "string",
-                                description: "Claim number"
-                            },
-                            employer: {
-                                type: "string",
-                                description: "Employer name"
-                            },
-                            ratings: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    required: [
-                                        "code",
-                                        "wpi",
-                                        "fec",
-                                        "group_variant",
-                                        "adjusted",
-                                        "final",
-                                        "description"
-                                    ],
-                                    properties: {
-                                        code: {
-                                            type: "string",
-                                            description: "Impairment code"
-                                        },
-                                        wpi: {
-                                            type: "number",
-                                            description: "WPI value"
-                                        },
-                                        fec: {
-                                            type: "string",
-                                            description: "FEC adjustment"
-                                        },
-                                        group_variant: {
-                                            type: "string",
-                                            description: "Occupation group and variant"
-                                        },
-                                        adjusted: {
-                                            type: "number",
-                                            description: "Adjusted value"
-                                        },
-                                        final: {
-                                            type: "number",
-                                            description: "Final percentage"
-                                        },
-                                        description: {
-                                            type: "string",
-                                            description: "Description of rating"
-                                        }
-                                    },
-                                    additionalProperties: false
-                                }
-                            },
-                            combined_rating: {
-                                type: "number",
-                                description: "Final combined rating percentage"
-                            },
-                            pd_weeks: {
-                                type: "number",
-                                description: "Total weeks of permanent disability"
-                            },
-                            age_doi: {
-                                type: "number",
-                                description: "Age at date of injury"
-                            },
-                            weekly_earnings: {
-                                type: "number",
-                                description: "Average weekly earnings"
-                            },
-                            pd_rate: {
-                                type: "number",
-                                description: "PD weekly rate"
-                            },
-                            pd_total: {
-                                type: "number",
-                                description: "Total PD payout"
-                            },
-                            future_medical: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    required: [
-                                        "specialty",
-                                        "cost"
-                                    ],
-                                    properties: {
-                                        specialty: {
-                                            type: "string",
-                                            description: "Medical specialty"
-                                        },
-                                        cost: {
-                                            type: "number",
-                                            description: "Estimated cost"
-                                        }
-                                    },
-                                    additionalProperties: false
-                                }
-                            }
-                        },
-                        additionalProperties: false
-                    }
+
+                // Apply ADL impacts if specified
+                if (impairment.adjustments.adl.impacted) {
+                    finalRating *= 1.4; // 40% increase for ADL impacts
                 }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "search_vector_store",
-                    description: "Search vector store for JSON files representing occupational tables and age adjustment tables to assist in making calculations.",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        required: [
-                            "file_types",
-                            "query",
-                            "limit"
-                        ],
-                        properties: {
-                            file_types: {
-                                type: "array",
-                                description: "List of file types to search for",
-                                items: {
-                                    type: "string",
-                                    description: "Type of file, e.g., 'occupational_table' or 'age_adjustment_table'"
-                                }
-                            },
-                            query: {
-                                type: "string",
-                                description: "Search query to find relevant tables"
-                            },
-                            limit: {
-                                type: "number",
-                                description: "Maximum number of results to return"
-                            }
-                        },
-                        additionalProperties: false
-                    }
-                }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "code_interpreter",
-                    description: "Execute code using OpenAI's code interpreter",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        properties: {
-                            code: {
-                                type: "string",
-                                description: "Code to execute"
-                            }
-                        },
-                        required: ["code"],
-                        additionalProperties: false
-                    }
-                }
-            },
-            {
-                type: "function",
-                function: {
-                    name: "file_search",
-                    description: "Search through files",
-                    strict: true,
-                    parameters: {
-                        type: "object",
-                        properties: {
-                            query: {
-                                type: "string",
-                                description: "Search query"
-                            }
-                        },
-                        required: ["query"],
-                        additionalProperties: false
-                    }
+
+                // Get impairment details from database
+                const impairmentDetails = await this.getImpairmentDetails(impairment.bodyPart.code);
+
+                // Create section with detailed information
+                const section = {
+                    code: impairment.bodyPart.code,
+                    name: impairment.bodyPart.name,
+                    section: impairment.bodyPart.section,
+                    type: impairment.bodyPart.type,
+                    description: impairmentDetails ? impairmentDetails.description : impairment.bodyPart.name,
+                    wpi: impairment.wpi,
+                    occupationalAdjustment: occupationalAdjustment,
+                    ageAdjustment: ageAdjustment,
+                    painAdd: impairment.adjustments.pain.add,
+                    adlImpact: impairment.adjustments.adl.impacted,
+                    rating: parseFloat(finalRating.toFixed(2)),
+                    futureMedial: impairment.futureMedial,
+                    apportionment: impairment.apportionment
+                };
+
+                // Add to appropriate section based on apportionment
+                if (impairment.apportionment.nonIndustrial > 0) {
+                    withApportionmentSections.push(section);
+                    const industrialRating = finalRating * (impairment.apportionment.industrial / 100);
+                    totalWithApport = this.combineRatings([totalWithApport, industrialRating]);
+                } else {
+                    noApportionmentSections.push(section);
+                    totalNoApport = this.combineRatings([totalNoApport, finalRating]);
                 }
             }
-        ];
 
-        // Initialize vector store for file search
-        this.vectorStore = null;
-        this.initializeVectorStore();
-    }
-
-    async initializeVectorStore() {
-        try {
-            // Initialize vector store with OpenAI
-            const response = await this.client.beta.vectorStores.create({
-                name: "legal_documents"
-            });
-
-            this.vectorStore = response.id;
-            console.log('Vector store initialized:', this.vectorStore);
-
-            return this.vectorStore;
-        } catch (error) {
-            console.error('Error initializing vector store:', error);
-            throw error;
-        }
-    }
-
-    async searchFiles(query, fileType = null) {
-        try {
-            const messages = [
-                { role: "user", content: `Search for: ${query}` }
-            ];
-
-            const response = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: messages,
-                tools: [{
-                    type: "function",
-                    function: {
-                        name: "search_vector_store",
-                        description: "Search vector store for JSON files representing occupational tables and age adjustment tables to assist in making calculations.",
-                        strict: true,
-                        parameters: {
-                            type: "object",
-                            required: [
-                                "file_types",
-                                "query",
-                                "limit"
-                            ],
-                            properties: {
-                                file_types: {
-                                    type: "array",
-                                    description: "List of file types to search for",
-                                    items: {
-                                        type: "string",
-                                        description: "Type of file, e.g., 'occupational_table' or 'age_adjustment_table'"
-                                    }
-                                },
-                                query: {
-                                    type: "string",
-                                    description: "Search query to find relevant tables"
-                                },
-                                limit: {
-                                    type: "number",
-                                    description: "Maximum number of results to return"
-                                }
-                            },
-                            additionalProperties: false
-                        }
-                    }
-                }],
-                tool_choice: { type: "function", function: { name: "search_vector_store" } }
-            });
-
-            const searchResults = await this.client.beta.vectorStores.files.search(
-                this.vectorStore,
-                {
-                    query: query,
-                    file_type: fileType,
-                    max_results: 10
-                }
-            );
-
-            return searchResults;
-        } catch (error) {
-            console.error('Error searching files:', error);
-            throw error;
-        }
-    }
-
-    async executeCode(code, language, inputData = {}) {
-        try {
-            // Execute code using OpenAI's code interpreter
-            const messages = [
-                {
-                    role: "user",
-                    content: `Execute the following ${language} code:\n\n${code}`
-                }
-            ];
-
-            const response = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: messages,
-                tools: [{
-                    type: "function",
-                    function: {
-                        name: "code_interpreter",
-                        description: "Execute code using OpenAI's code interpreter",
-                        strict: true,
-                        parameters: {
-                            type: "object",
-                            properties: {
-                                code: {
-                                    type: "string",
-                                    description: "Code to execute"
-                                }
-                            },
-                            required: ["code"],
-                            additionalProperties: false
-                        }
-                    }
-                }],
-                tool_choice: { type: "function", function: { name: "code_interpreter" } }
-            });
-
-            // Extract the code execution results
-            const result = response.choices[0].message.tool_calls?.[0]?.function?.output;
-
-            if (!result) {
-                throw new Error('Code execution failed or returned no output');
-            }
+            // Calculate total PD payout (using higher of the two ratings)
+            const higherRating = Math.max(totalNoApport, totalWithApport);
+            const pdPayout = higherRating * 620; // Standard multiplier
 
             return {
-                output: result,
-                code: code,
-                language: language
-            };
-        } catch (error) {
-            console.error('Error in code execution:', error);
-            throw error;
-        }
-    }
-
-    async processMedicalReport(pdfText, occupation, age) {
-        try {
-            console.log('Processing medical report...');
-
-            // Initialize conversation with system message
-            const messages = [
-                {
-                    role: "system",
-                    content: "You are a Workers' Compensation expert analyzing medical reports for permanent disability ratings. Follow each step carefully and show your work."
+                no_apportionment: {
+                    sections: noApportionmentSections,
+                    total: parseFloat(totalNoApport.toFixed(2))
                 },
-                {
-                    role: "user",
-                    content: `Please analyze this medical report for permanent disability rating.\n\nMedical Report Text:\n${pdfText}\n\nOccupation: ${occupation}\nAge: ${age}`
-                }
-            ];
-
-            // Step 1: Extract medical information
-            const extractionResponse = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages,
-                tools: this.tools,
-                tool_choice: { type: "function", function: { name: "extract_medical_info" } }
-            });
-
-            const toolCall = extractionResponse.choices[0].message.tool_calls[0];
-            const extractedInfo = JSON.parse(toolCall.function.arguments);
-            
-            // Add the assistant's message with the tool call
-            messages.push(extractionResponse.choices[0].message);
-            
-            // Add the tool response message
-            messages.push({
-                role: "tool",
-                tool_call_id: toolCall.id,
-                content: JSON.stringify(extractedInfo)
-            });
-
-            messages.push({
-                role: "assistant",
-                content: "Medical information extracted successfully. Now determining occupation group and variants."
-            });
-
-            // Step 2: Determine occupation group
-            const occupationResponse = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages,
-                tools: this.tools,
-                tool_choice: { type: "function", function: { name: "determine_occupation_group" } }
-            });
-
-            const occupationToolCall = occupationResponse.choices[0].message.tool_calls[0];
-            const occupationInfo = JSON.parse(occupationToolCall.function.arguments);
-            
-            // Add the assistant's message with the tool call
-            messages.push(occupationResponse.choices[0].message);
-            
-            // Add the tool response message
-            messages.push({
-                role: "tool",
-                tool_call_id: occupationToolCall.id,
-                content: JSON.stringify(occupationInfo)
-            });
-
-            messages.push({
-                role: "assistant",
-                content: "Occupation group determined. Calculating ratings for each impairment."
-            });
-
-            // Step 3: Calculate ratings
-            const ratingResponse = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages,
-                tools: this.tools,
-                tool_choice: { type: "function", function: { name: "calculate_rating" } }
-            });
-
-            const ratingToolCall = ratingResponse.choices[0].message.tool_calls[0];
-            const ratingInfo = JSON.parse(ratingToolCall.function.arguments);
-            
-            // Add the assistant's message with the tool call
-            messages.push(ratingResponse.choices[0].message);
-            
-            // Add the tool response message
-            messages.push({
-                role: "tool",
-                tool_call_id: ratingToolCall.id,
-                content: JSON.stringify(ratingInfo)
-            });
-
-            messages.push({
-                role: "assistant",
-                content: "Ratings calculated. Formatting final rating string."
-            });
-
-            // Step 4: Format final rating string
-            const formattingResponse = await this.client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages,
-                tools: this.tools,
-                tool_choice: { type: "function", function: { name: "format_rating_string" } }
-            });
-
-            const formattingToolCall = formattingResponse.choices[0].message.tool_calls[0];
-            const formattedRating = JSON.parse(formattingToolCall.function.arguments);
-
-            // Return complete analysis
-            return {
-                extractedInfo,
-                occupationInfo,
-                ratingInfo,
-                formattedRating
+                with_apportionment: {
+                    sections: withApportionmentSections,
+                    total: parseFloat(totalWithApport.toFixed(2))
+                },
+                weekly_earnings: actualWeeklyEarnings,
+                pd_weekly_rate: pdWeeklyRate,
+                total_pd_payout: parseFloat(pdPayout.toFixed(2)),
+                life_weekly_rate: Math.min(actualWeeklyEarnings * 0.195, 85.00) // 19.5% of earnings, capped at 85
             };
-
         } catch (error) {
-            console.error('Error processing medical report:', error);
+            console.error('Error calculating PDR:', error);
             throw error;
         }
+    }
+
+    // Helper function to combine multiple ratings using the Combined Values Chart formula
+    combineRatings(ratings) {
+        if (ratings.length === 0) return 0;
+
+        // Sort ratings in descending order
+        ratings.sort((a, b) => b - a);
+
+        // Start with the highest rating
+        let result = ratings[0];
+
+        // Combine subsequent ratings
+        for (let i = 1; i < ratings.length; i++) {
+            result = result + (ratings[i] * (1 - result / 100));
+        }
+
+        return parseFloat(result.toFixed(2));
     }
 }
 
-module.exports = new PDRService();
+export default new PDRService();

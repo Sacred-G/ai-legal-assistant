@@ -1,13 +1,17 @@
 {
   "name": "ai-legal-assistant",
+  "type": "module",
   "version": "1.0.0",
   "description": "AI Legal Assistant Application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "install-deps": "npm install && cd client && npm install",
-    "build": "cd client && npm run build",
-    "postinstall": "npm run install-deps && npm run build"
+    "install-deps": "npm install",
+    "build": "cd client && npm install && npm run build",
+    "dev": "concurrently \"nodemon server.js\" \"cd client && npm run dev\"",
+    "postinstall": "npm run build",
+    "test": "react-scripts test",
+    "reset-env": "node scripts/reset-env.js"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -15,15 +19,30 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.16.0",
     "@google/generative-ai": "^0.1.1",
+    "@modelcontextprotocol/server-filesystem": "0.6.2",
+    "@supabase/supabase-js": "^2.47.16",
+    "axios": "^1.7.9",
+    "canvas": "^3.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "form-data": "^4.0.1",
+    "glob": "^10.3.10",
+    "http-proxy-middleware": "^3.0.3",
     "multer": "^1.4.5-lts.1",
-    "openai": "^4.24.1",
+    "openai": "^4.80.0",
+    "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
-    "path": "^0.12.7"
+    "pdfjs-dist": "^4.10.38",
+    "react-scripts": "^5.0.1",
+    "sqlite3": "^5.1.7",
+    "zod-to-json-schema": "^3.22.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "concurrently": "^8.0.1",
     "nodemon": "^2.0.22"
   }

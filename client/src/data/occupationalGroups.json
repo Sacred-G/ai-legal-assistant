@@ -1,0 +1,758 @@
+{
+  "occupationalGroups": {
+    "110": {
+      "name": "Professional Occupations",
+      "description": "Some use of keyboards but less than 112 or 112; greater standing and walking demands than 112 and 120.",
+      "typicalOccupations": [
+        "Lawyer",
+        "Loan Officer",
+        "Urban Planner"
+      ],
+      "characteristics": {
+        "spine": "C",
+        "shoulder": "C",
+        "elbow": "D",
+        "wrist": "D",
+        "fingerMotion": "F",
+        "grip": "D",
+        "leg": "D",
+        "psych": "J"
+      }
+    },
+    "111": {
+      "name": "Professional and Clerical Occupations",
+      "description": "Substantial use of keyboards; greater demands for standing and walking than 112 and 120.",
+      "typicalOccupations": [
+        "Accountant",
+        "Claims Clerk",
+        "Reservations Agent"
+      ],
+      "characteristics": {
+        "spine": "C",
+        "shoulder": "D",
+        "elbow": "F",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "E",
+        "leg": "D",
+        "psych": "I"
+      }
+    },
+    "112": {
+      "name": "Mostly Clerical Occupations",
+      "description": "Highest demand for use of keyboard; prolonged sitting.",
+      "typicalOccupations": [
+        "Billing Clerk",
+        "Computer Keyboard Operator",
+        "Secretary"
+      ],
+      "characteristics": {
+        "spine": "D",
+        "shoulder": "D",
+        "elbow": "G",
+        "wrist": "H",
+        "fingerMotion": "I"
+      }
+    },
+    "120": {
+      "name": "Most Technical Occupations",
+      "description": "Precision work requiring skill and dexterity; use of hand tools; more sitting than 110 and 111.",
+      "typicalOccupations": [
+        "Electrical drafter",
+        "Illustrator",
+        "Jeweler"
+      ],
+      "characteristics": {
+        "spine": "D",
+        "shoulder": "E",
+        "elbow": "G",
+        "wrist": "H",
+        "fingerMotion": "H",
+        "grip": "F",
+        "leg": "C",
+        "psych": "I"
+      }
+    },
+    "210": {
+      "name": "Mostly Professional Occupations",
+      "description": "Extensive speech and hearing; standing and lifting; may require driving to business locations; other physical demands at the lower end of the light category.",
+      "typicalOccupations": [
+        "Actor",
+        "Announcer",
+        "Clergy member"
+      ],
+      "characteristics": {
+        "spine": "D",
+        "shoulder": "C",
+        "elbow": "D",
+        "wrist": "D",
+        "fingerMotion": "E",
+        "grip": "C",
+        "leg": "E",
+        "psych": "I"
+      }
+    },
+    "221": {
+      "name": "Light Assembly Occupations, Food Preparation Occupations",
+      "description": "Vision important; repetitive fingering and use of hand tools; similar to 220 for all parts of body except for wrist and finger motion which is one variant lower.",
+      "typicalOccupations": [
+        "Assembler",
+        "small products Inspector",
+        "electronics Produce Sorter"
+      ],
+      "characteristics": {
+        "spine": "E",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "F",
+        "leg": "E",
+        "psych": "F"
+      }
+    },
+    "230": {
+      "name": "Machine Operator and Tenders",
+      "description": "Average demands for this strength level on spine and legs; hand activities are most significant.",
+      "typicalOccupations": [
+        "Bottle Packer",
+        "Circular Saw Operator",
+        "Offset Press Operator"
+      ],
+      "characteristics": {
+        "spine": "E",
+        "shoulder": "F",
+        "elbow": "F",
+        "wrist": "F",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "E",
+        "psych": "F"
+      }
+    },
+    "240": {
+      "name": "Mostly Attendants (providing services)",
+      "description": "Minimal hand activities; low on arm activities; average for 200 series on spine and legs.",
+      "typicalOccupations": [
+        "Host/Hostess",
+        "Parking Lot Attendant",
+        "Weight Reduction Specialist"
+      ],
+      "characteristics": {
+        "spine": "E",
+        "shoulder": "D",
+        "elbow": "E",
+        "wrist": "E",
+        "fingerMotion": "E",
+        "grip": "D",
+        "leg": "E",
+        "psych": "G"
+      }
+    },
+    "250": {
+      "name": "Public Transportation Drivers & Light Delivery Drivers",
+      "description": "Operates light automotive equipment over public thoroughfares; vision, hearing and other head disabilities important; highest variants for spine and leg activities in 200 series (along with 213 & 214); grip demands similar to 251.",
+      "typicalOccupations": [
+        "Parking Enforcement Officer",
+        "Subway Car Operator",
+        "Taxi Driver"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "F",
+        "psych": "H"
+      }
+    },
+    "251": {
+      "name": "Outside Sales, Inspectors, & Business Agents",
+      "description": "Work requires extensive driving of light automotive equipment over public thoroughfares to reach business locations; vision, hearing and other head disabilities important; average demand for spine and leg activities for this strength level; arms are one variant lower that 250.",
+      "typicalOccupations": [
+        "Food & Drug Inspector",
+        "Real Estate Agent",
+        "Sales Rep. sporting goods"
+      ],
+      "characteristics": {
+        "spine": "E",
+        "shoulder": "D",
+        "elbow": "F",
+        "wrist": "E",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "E",
+        "psych": "I"
+      }
+    },
+    "290": {
+      "name": "Personal Attendants",
+      "description": "Vision important; cosmetic appearance important; arms variants at high end for 200 series.",
+      "typicalOccupations": [
+        "Hair Stylist"
+      ],
+      "characteristics": {
+        "spine": "E",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "H",
+        "fingerMotion": "G",
+        "grip": "F",
+        "leg": "E",
+        "psych": "H"
+      }
+    },
+    "310": {
+      "name": "Medical Occupations",
+      "description": "Low end of 300 series for most parts of body; head disabilities, including speech, hearing, PTHS are highest in 300 series.",
+      "typicalOccupations": [
+        "Acupressurist",
+        "MRI Technologist",
+        "X-ray Technologist"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "F",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "F",
+        "psych": "I"
+      }
+    },
+    "311": {
+      "name": "Mostly Medical Occupations",
+      "description": "Medical treatments performed result in higher spine demands; head disabilities are at the highest levels.",
+      "typicalOccupations": [
+        "Masseur/Masseuse",
+        "Nurse – LVN",
+        "Psychiatric Technician"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "F",
+        "leg": "F",
+        "psych": "J"
+      }
+    },
+    "320": {
+      "name": "Assemblers",
+      "description": "Precision work requiring use of hand tools; highest arm variants for the 320 series; lower end variants for 300 series for spine & leg (same as 321 & 322); highest head variants in 320 series.",
+      "typicalOccupations": [
+        "Machinist",
+        "Office Machine Servicer",
+        "Television & Radio Repairer"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "H",
+        "wrist": "I",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "F",
+        "psych": "H"
+      }
+    },
+    "321": {
+      "name": "Assemblers",
+      "description": "Use of hand tools required; precision requirements less than 320 – arm variants slightly lower; same demand on spine and legs as 320 & 322.",
+      "typicalOccupations": [
+        "Assembler",
+        "Garment Cutter",
+        "machine Painter",
+        "spray gun"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "H",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "F",
+        "psych": "F"
+      }
+    },
+    "322": {
+      "name": "Food Preparation and Service Occupations",
+      "description": "Least precise work in 320 series – arm variants the lowest; spine & legs same as 320 & 321",
+      "typicalOccupations": [
+        "Airline Flight Attendant",
+        "Cook",
+        "Waiter/Waitress"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "F",
+        "psych": "G"
+      }
+    },
+    "330": {
+      "name": "Press Operators, Sawyers, etc.",
+      "description": "Most demanding on arms of machine operations series (330s); spine and legs at lower end for 300 series, & same as 331 & 322.",
+      "typicalOccupations": [
+        "Blister Machine Operator",
+        "Power Press Tender",
+        "Tubular Furniture Maker"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "F",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "F",
+        "psych": "F"
+      }
+    },
+    "331": {
+      "name": "Machine Tending & Processing",
+      "description": "Observation and control of machinery; occasional stooping required; mechanical adjustments performed; variants similar to 332.",
+      "typicalOccupations": [
+        "Coating Machine Op",
+        "Mixing Machine Op",
+        "food prep",
+        "Washer, machine"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "F",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "F",
+        "psych": "F"
+      }
+    },
+    "332": {
+      "name": "Observation of Large Stationary Equipment",
+      "description": "Work performed in a plant or other large facility, some mechanical adjustments of machinery performed lowest variants for 300 series for most parts of body.",
+      "typicalOccupations": [
+        "Brewery Cellar Worker",
+        "Power Reactor Operator",
+        "Stationary Engineer"
+      ],
+      "characteristics": {
+        "spine": "F",
+        "shoulder": "F",
+        "elbow": "F",
+        "wrist": "E",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "F",
+        "psych": "G"
+      }
+    },
+    "340": {
+      "name": "Mostly Cleaners",
+      "description": "Work involves cleaning equipment and/or buildings; operation of cleaning devices, some lifting, some climbing, lowest variants for head disabilities of 300 series; lower end of 300 series for arms; highest demands are for spine & leg activities",
+      "typicalOccupations": [
+        "Auto Washer & Polisher",
+        "Janitor",
+        "Nurse Aide"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "F",
+        "elbow": "G",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "G",
+        "psych": "D"
+      }
+    },
+    "341": {
+      "name": "Cleaners (working at high levels)",
+      "description": "Work generally performed at high levels – higher end of 300 series for spine & legs; average demands on arms.",
+      "typicalOccupations": [
+        "Aircraft Service Attendant",
+        "Sign Poster",
+        "Window Cleaner"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "F",
+        "leg": "G",
+        "psych": "D"
+      }
+    },
+    "350": {
+      "name": "Truck Drivers",
+      "description": "Operate heavy vehicle over public thoroughfares; may do some loading of materials, may tie down loads, may hook up hoses, etc., and performs related duties; head disabilities highest in 300 series.",
+      "typicalOccupations": [
+        "Armored Car Driver",
+        "Lunch Truck Driver",
+        "Truck Driver"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "F",
+        "elbow": "H",
+        "wrist": "F",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "G",
+        "psych": "H"
+      }
+    },
+    "351": {
+      "name": "Heavy Equipment Operators",
+      "description": "Operates heavy construction equipment at work sites; arm demands at lower end of 300 series; spine & leg demands at higher end of 300 series.",
+      "typicalOccupations": [
+        "Crane Operator",
+        "Forklift Operator",
+        "Snowplow Operator"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "G",
+        "elbow": "H",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "G",
+        "psych": "G"
+      }
+    },
+    "360": {
+      "name": "Porters, Packers",
+      "description": "Significant lifting and carrying required; significant walking required; may occasionally climb at low levels; variants are 'G' for most parts of body; head disabilities are mostly 'F' or lower.",
+      "typicalOccupations": [
+        "Clerk, Shipping",
+        "Conveyor Tender",
+        "Warehouse worker"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "F",
+        "fingerMotion": "F",
+        "grip": "G",
+        "leg": "G",
+        "psych": "E"
+      }
+    },
+    "370": {
+      "name": "Mechanical Assembly, Installation, Repairers",
+      "description": "Mechanical work on automobiles, machinery and other equipment, requiring a combination of some skill and significant physical effort; highest variants in 300 series for arm",
+      "typicalOccupations": [
+        "Automobile Accessories Installer",
+        "Mechanic, automobile",
+        "Welder, Combination"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "G",
+        "elbow": "I",
+        "wrist": "J",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "G",
+        "psych": "H"
+      }
+    },
+    "380": {
+      "name": "Skilled Construction Work",
+      "description": "Work requires construction of buildings or large structure; strenuous demands on arms, legs & spine result in highest variants in 300 series; significant climbing required.",
+      "typicalOccupations": [
+        "Burglar Alarm",
+        "Carpenter Electrician"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "H",
+        "elbow": "I",
+        "wrist": "J",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "I",
+        "psych": "H"
+      }
+    },
+    "390": {
+      "name": "Security Officers, Coaches",
+      "description": "Inside and outside work requiring significant walking, some uneven ground, and climbing –leg demands are most significant aspect of duties; work may be high risk but not necessarily highly physical; demands for arms & spine are at middle of 300 series.",
+      "typicalOccupations": [
+        "Bodyguard",
+        "Instructor, Physical education",
+        "Security Officer"
+      ],
+      "characteristics": {
+        "spine": "G",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "H",
+        "psych": "H"
+      }
+    },
+    "420": {
+      "name": "Meat Processing +",
+      "description": "Heavy demands placed on arms; spine demand similar to most in 400 series; leg demands lowest in 400 series.",
+      "typicalOccupations": [
+        "Baker",
+        "Butcher",
+        "Glass Cutter"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "G",
+        "elbow": "H",
+        "wrist": "I",
+        "fingerMotion": "G",
+        "grip": "H",
+        "leg": "G",
+        "psych": "F"
+      }
+    },
+    "430": {
+      "name": "Machine-assisted Metal Shaping",
+      "description": "Heavy demands on spine & legs in lifting & carrying; work performed at ground level; requires use of heavy hand tools or force with arms.",
+      "typicalOccupations": [
+        "Boilermaker",
+        "Power Brake Operator",
+        "Shear Operator"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "H",
+        "elbow": "I",
+        "wrist": "H",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "H",
+        "psych": "G"
+      }
+    },
+    "460": {
+      "name": "Material Handlers & Machine Loaders & Unloaders",
+      "description": "Strenuous demands on spine & legs for lifting and carrying heavy objects; lowest demand for specialized arm activities in 400 series.",
+      "typicalOccupations": [
+        "Baggage Handler",
+        "Chain Offbearer",
+        "Laborer"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "F",
+        "grip": "G",
+        "leg": "H",
+        "psych": "E"
+      }
+    },
+    "470": {
+      "name": "Installers & Repairers",
+      "description": "Strenuous demands on all parts of body – variants are at the higher end of the 400 series.",
+      "typicalOccupations": [
+        "Household Appliance Installer",
+        "Maintenance Mechanic",
+        "Television Technician"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "H",
+        "elbow": "I",
+        "wrist": "J",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "H",
+        "psych": "H"
+      }
+    },
+    "480": {
+      "name": "Construction Helpers, Oil Field Workers & Some Skilled Construction Workers",
+      "description": "Heavy laboring work at construction sites or other work sites; very strenuous use of spine for lifting and exerting force; heavy demands on arms (similar to 492); leg requirements lower than for 481 & 492.",
+      "typicalOccupations": [
+        "Carpenter Helper",
+        "Laborer, construction",
+        "Roughneck"
+      ],
+      "characteristics": {
+        "spine": "I",
+        "shoulder": "H",
+        "elbow": "H",
+        "wrist": "G",
+        "fingerMotion": "G",
+        "grip": "G",
+        "leg": "H",
+        "psych": "E"
+      }
+    },
+    "481": {
+      "name": "Skilled Construction Workers",
+      "description": "Work requires construction of buildings or large structures; skilled work performed at various levels, with significant demands for climbing, but lower demands on legs than 482; strenuous use of arms (same as 470).",
+      "typicalOccupations": [
+        "Cable Television Installer",
+        "Millwright",
+        "Pipe Fitter"
+      ],
+      "characteristics": {
+        "spine": "I",
+        "shoulder": "H",
+        "elbow": "I",
+        "wrist": "J",
+        "fingerMotion": "H",
+        "grip": "H",
+        "leg": "I",
+        "psych": "H"
+      }
+    },
+    "482": {
+      "name": "Skilled Construction Workers",
+      "description": "Construction and maintenance work performed at high and dangerous levels – balance required; demands on spine & legs similar to 590; very strenuous use of arms.",
+      "typicalOccupations": [
+        "Bridge Maintenance Worker",
+        "Grip (movie industry)",
+        "Tree Trimmer"
+      ],
+      "characteristics": {
+        "spine": "J",
+        "shoulder": "I",
+        "elbow": "J",
+        "wrist": "J",
+        "fingerMotion": "I",
+        "grip": "J",
+        "leg": "J",
+        "psych": "I"
+      }
+    },
+    "490": {
+      "name": "Mostly Sworn Officers – Police & Fire (legal presumptions apply)",
+      "description": "Workers called upon to perform demanding activities in unpredictable and dangerous circumstances; significant demands on all parts of body.",
+      "typicalOccupations": [
+        "Fire Fighter",
+        "Paramedic",
+        "Police Officer"
+      ],
+      "characteristics": {
+        "spine": "I",
+        "shoulder": "I",
+        "elbow": "I",
+        "wrist": "H",
+        "fingerMotion": "H",
+        "grip": "I",
+        "leg": "I",
+        "psych": "J"
+      }
+    },
+    "491": {
+      "name": "Agricultural & Livestock Workers",
+      "description": "Work requires tending the land and/or caring for animals; physical demands & variants similar to 460 but slightly lower in mental demands.",
+      "typicalOccupations": [
+        "Dog Catcher",
+        "Farmer, General",
+        "Gardener"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "G",
+        "elbow": "G",
+        "wrist": "G",
+        "fingerMotion": "F",
+        "grip": "G",
+        "leg": "H",
+        "psych": "D"
+      }
+    },
+    "492": {
+      "name": "Logging & Fishing Occupations",
+      "description": "Very physical work performed outside; high demand on spine & legs for balancing, working on rugged terrain, and climbing; arm and other variants similar to 560.",
+      "typicalOccupations": [
+        "Bucker",
+        "Logger, all-round"
+      ],
+      "characteristics": {
+        "spine": "I",
+        "shoulder": "H",
+        "elbow": "H",
+        "wrist": "H",
+        "fingerMotion": "G",
+        "grip": "H",
+        "leg": "I",
+        "psych": "E"
+      }
+    },
+    "493": {
+      "name": "Mostly Professional Athletes",
+      "description": "Substantial athletic performance required but less arduous than Group 590",
+      "typicalOccupations": [
+        "Bowler, professional",
+        "Ski instructor",
+        "Aerobic instructor"
+      ],
+      "characteristics": {
+        "spine": "H",
+        "shoulder": "H",
+        "elbow": "H",
+        "wrist": "H",
+        "fingerMotion": "G",
+        "grip": "H",
+        "leg": "I",
+        "psych": "H"
+      }
+    },
+    "560": {
+      "name": "Mostly Material Handlers",
+      "description": "Requires lifting of large and/or very heavy objects or exerting very significant force – very strenuous demands placed on spine & legs.",
+      "typicalOccupations": [
+        "Ambulance Attendant",
+        "Furniture Mover",
+        "Garbage Collector, manual"
+      ],
+      "characteristics": {
+        "spine": "J",
+        "shoulder": "H",
+        "elbow": "H",
+        "wrist": "H",
+        "fingerMotion": "G",
+        "grip": "H",
+        "leg": "I",
+        "psych": "D"
+      }
+    },
+    "590": {
+      "name": "Mostly Professional Athletes",
+      "description": "Peak athletic performance requiring whole body strength with specialized training and skills; highest variants for all parts of the body.",
+      "typicalOccupations": [
+        "Athlete, professional",
+        "Stunt Performer"
+      ],
+      "characteristics": {
+        "spine": "J",
+        "shoulder": "J",
+        "elbow": "J",
+        "wrist": "J",
+        "fingerMotion": "I",
+        "grip": "J",
+        "leg": "J",
+        "psych": "I"
+      }
+    }
+  }
+}

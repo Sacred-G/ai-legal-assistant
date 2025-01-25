@@ -1,0 +1,5619 @@
+{
+    "occupations": [
+        {
+            "group_number": "110",
+            "name": "Literary Agent",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Account Exec",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Appeals Referee",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Management Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Biology Specimen Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Manager, Benefits",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Manager, Bus Transportation",
+            "industry": "motor trans."
+        },
+        {
+            "group_number": "110",
+            "name": "Cardiac Monitor Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Manager, Data Processing",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Cephalometric Analyst",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Manager, Department",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "110",
+            "name": "Clinical Psychologist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Consultant, Education",
+            "industry": "education"
+        },
+        {
+            "group_number": "110",
+            "name": "Coordinator, Skill-Training Program",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "110",
+            "name": "President",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "110",
+            "name": "Counselor",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Psychologist, Clinical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Psychologist, Counseling",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Public Health Service Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Director, Regulatory Agency",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Reports Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Director, Research & Development",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "110",
+            "name": "Director, Service",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "110",
+            "name": "Urban Planner",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Drawings Checker, Engineering",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Voc Rehab Consultant",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "110",
+            "name": "Editor, Managing, Newspaper",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Abstractor",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Financial Aids Officer",
+            "industry": "education"
+        },
+        {
+            "group_number": "111",
+            "name": "Account Info Clk",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "110",
+            "name": "Financial Planner",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Accountant",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Grant Coordinator",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Accountant Property",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Harbor Master",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Hazardous Waste Management, Specialist",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Administrative Analyst",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "110",
+            "name": "Hearing Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Admissions Evaluator",
+            "industry": "education"
+        },
+        {
+            "group_number": "110",
+            "name": "Import-Export Agent",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "111",
+            "name": "Alarm Signal Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "110",
+            "name": "Job Development Specialist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Archivist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "110",
+            "name": "Judge",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Lawyer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Attendance Clerk",
+            "industry": "education"
+        },
+        {
+            "group_number": "110",
+            "name": "Legislative Assistant",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Auction Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "111",
+            "name": "Auditor",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Automobile Locator",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "111",
+            "name": "Credit Counselor",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Bonding Agent",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Crew Scheduler",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "111",
+            "name": "Data Base Administrator",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Budget Analyst",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Business Representative, Labor Union",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Document Preparer, Microfilm",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Caseworker",
+            "industry": "social ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Editor, Newspaper",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Editor, Publications",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Check Cashier",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Eligibility Worker",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Child Support Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Employee Relations Specialist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Employment Interviewer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Aeronautical Design",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "111",
+            "name": "Clerk, Advertising Space",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Biomedical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Clerk, Animal Hospital",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Electro-Optical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Nuclear",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Clerk, Contract, Automobile",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Packaging",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Clerk, Court",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Power Distribution",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "111",
+            "name": "Engineer, Product Safety",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Clerk, Election",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Equal Opportunity Rep.",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Escrow Officer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Columnist/Commentator",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Examiner",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Forms Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Computer Security Specialist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Holter Scanning Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Computer Support Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Hospital Admitting Clerk",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Copy Reader",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Industrial Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Copy Writer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Information And Referral Aide",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Court Clerk",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Interviewer, Employment",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Investigator, Credit Fraud",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "111",
+            "name": "Statistician, Applied",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Stress Analyst",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "111",
+            "name": "Manager, Office",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "111",
+            "name": "Switchboard Operator, Police District",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Manager, Personnel",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Systems Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Market Research Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Systems Programmer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Navigator",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "111",
+            "name": "Tax Preparer",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Optical Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Television Console Monitor",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "111",
+            "name": "Traffic Clerk",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Train Dispatcher",
+            "industry": "r. r. trans."
+        },
+        {
+            "group_number": "111",
+            "name": "Personnel Recruiter",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Translator, Documents",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Police Clerk",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Tumor Registrar",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "111",
+            "name": "Proofreader, Production",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "112",
+            "name": "Public Relations Representative",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Purser",
+            "industry": "water trans."
+        },
+        {
+            "group_number": "112",
+            "name": "Recruiter, Personnel",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Registration Clerk",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "112",
+            "name": "Researcher",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Computer Programmer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "111",
+            "name": "Copyist",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "111",
+            "name": "Reservations Agent",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "112",
+            "name": "Editorial Writer",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Social Worker",
+            "industry": "social ser."
+        },
+        {
+            "group_number": "112",
+            "name": "Software Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Magnetic Tape Composer Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "111",
+            "name": "Drafter, Mechanical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Secretary, Medical",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "120",
+            "name": "Fashion Artist",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "112",
+            "name": "Stenocaptioner",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "120",
+            "name": "Fingernail Former",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "112",
+            "name": "Graphic Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Illustrator",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Telephone Answering Service Op.",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "120",
+            "name": "Integrated Circuit Layout Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "112",
+            "name": "Manicurist",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "112",
+            "name": "Writer, Prose, Fiction And Nonfiction",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Writer, Technical Publications",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Painter, Hand, Decorative",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "120",
+            "name": "Printed Circuit Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Calligrapher",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Sign Writer, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "120",
+            "name": "Controls Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Cytotechnologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "120",
+            "name": "Technical Illustrator",
+            "industry": "education"
+        },
+        {
+            "group_number": "120",
+            "name": "Drafter, Architectural",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "120",
+            "name": "Drafter, Assistant",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Drafter, Civil",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Drafter, Electrical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Announcer",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "120",
+            "name": "Drafter, Electromechanisms Design",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Auctioneer",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "120",
+            "name": "Drafter, Landscape",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Clergy Member",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Faculty Member, College Or Univ.",
+            "industry": "education"
+        },
+        {
+            "group_number": "211",
+            "name": "Toll Collector",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "210",
+            "name": "Interpreter",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Administrator, Health Care Facility",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "210",
+            "name": "Newscaster",
+            "industry": "Radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Air Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "210",
+            "name": "Show Host/Hostess",
+            "industry": "Radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Air Traffic Control Specialist, Tower",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "210",
+            "name": "Appraiser, Art",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "211",
+            "name": "Appraiser, Business Eqpt.",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "211",
+            "name": "Architect",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Audio Operator",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "211",
+            "name": "Braille Operator",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "212",
+            "name": "Biochemist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Cardiopulmonary Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Chemical Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Chemical Laboratory Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Custodian, Property",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Chemist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Customer Service Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "212",
+            "name": "Civil Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "211x Flight Information Expediter",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "212",
+            "name": "Demonstrator",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "211",
+            "name": "License Clerk",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Dental Assistant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Dialysis Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Marker",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "212",
+            "name": "Dietitian, Clinical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Medical Record Clerk",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Director, Recreational Center",
+            "industry": "social ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Echocardiograph Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Paralegal",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Electrical Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Electrical Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Electromyographic Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "211",
+            "name": "Proofreader",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "212",
+            "name": "Electronics Design Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Electronics Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "211",
+            "name": "Engineer Electronics Design",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Agricultural",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Automotive",
+            "industry": "auto mfg."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Chemical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Vehicle Leasing / Rental",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Civil",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Warehouse",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Factory Lay-Out",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Master Control Operator",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Mechanical",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Medical Assistant, Office",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Railroad",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Medical Laboratory Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Fashion Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Metallurgical Tester",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Flight Engineer",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "212",
+            "name": "Funeral Director",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Gate Agent",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "212",
+            "name": "Nurse case manager",
+            "industry": "Medical Services"
+        },
+        {
+            "group_number": "212",
+            "name": "Interpreter, Deaf",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Nurse, School",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Occupational Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Job Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Photographer, Still",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Lab, Assistant, Blood And Plasma",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Physician Assistant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Plant Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Polygraph Examiner",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Management Trainee",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Producer",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Advertising Agency",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Pulmonary Function Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Quality Control Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Customer Services",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Radiographer, Industrial",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Fast Food Services",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "212",
+            "name": "Radiotelephone Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Recording Engineer",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Labor Relations",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Rehabilitation Center Manager",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Safety Engineer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Parts",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "212",
+            "name": "Safety Manager",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Quality Control",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Manager, Retail Store",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "212",
+            "name": "Sales Rep, Advertising",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "212",
+            "name": "Sales Rep, Data Processing Services",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Conductor, Passenger Car",
+            "industry": "r.r. trans."
+        },
+        {
+            "group_number": "212",
+            "name": "Sales Rep, Upholstery, Furniture Repair",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Contractor",
+            "industry": "construction"
+        },
+        {
+            "group_number": "212",
+            "name": "School Principal",
+            "industry": "Education"
+        },
+        {
+            "group_number": "213",
+            "name": "Customer Service Representative",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "212",
+            "name": "Security Guard, Gate",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "213",
+            "name": "Seismologist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Engineer, Aeronautical Test",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "212",
+            "name": "Sound Effects Technician",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "213",
+            "name": "Engineer, Field Service",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Engineer, Soils",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Speech Pathologist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Environmental Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Stress Test Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Estimator/Cruiser",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "212",
+            "name": "Superintendent, Building",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "213",
+            "name": "Exterminator",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Superintendent, Plant Protection",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "213",
+            "name": "Surgical technician",
+            "industry": "Medical Srvcs."
+        },
+        {
+            "group_number": "213",
+            "name": "Field Engineer",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "212",
+            "name": "Teacher, Adult Education",
+            "industry": "education"
+        },
+        {
+            "group_number": "213",
+            "name": "Teacher, Secondary School",
+            "industry": "education"
+        },
+        {
+            "group_number": "213",
+            "name": "Forester",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Testing Machine Operator, Metal",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Geologist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Ticket Agent",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "213",
+            "name": "Guide, Establishment",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Time And Motion Study Analyst",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Horticulturist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Industrial Hygienist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "212",
+            "name": "Traffic Engineer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Inspector, Agricultural Commodities",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Tutor",
+            "industry": "education"
+        },
+        {
+            "group_number": "213",
+            "name": "Inspector, Air Carrier",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "Ultrasound Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Inspector, Airplane",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "212",
+            "name": "Videotape Operator, Studio",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "213",
+            "name": "Inspector, Metal Fabricating",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "212",
+            "name": "Voice Pathologist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Inspector, Weigh Station",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "212",
+            "name": "X-ray Operator, Industrial",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "213",
+            "name": "Land Surveyor",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "213",
+            "name": "Airline Transportation Agent",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "213",
+            "name": "Airplane Inspector",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "213",
+            "name": "Manager, Automobile Service Station",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Bill Poster",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Manager, Dairy Farm",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "213",
+            "name": "Building Inspector",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Manager, Nursery",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "213",
+            "name": "Meter Reader",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "214",
+            "name": "Model, Photographers",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "214",
+            "name": "Order Filler, Catalog Sales",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "OSHA Inspector",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "214",
+            "name": "Parking Lot Attendant",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Photojournalist",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "214",
+            "name": "Security Guard, Plant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "214",
+            "name": "Recreation Aide",
+            "industry": "social ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Service Representative",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "214",
+            "name": "Retail Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Sales Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Soil Conservationist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "214",
+            "name": "Salesperson, General Merchandise",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Superintendent, Construction",
+            "industry": "construction"
+        },
+        {
+            "group_number": "214",
+            "name": "Salesperson, Parts",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Salesperson, Shoes",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "213",
+            "name": "Ticket inspector, transportation",
+            "industry": "Transportation"
+        },
+        {
+            "group_number": "214",
+            "name": "Service Manager",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "213",
+            "name": "Shop Estimator",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "214",
+            "name": "Auto Repair Service Estimator",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "214",
+            "name": "Bagger",
+            "industry": "retail trade; groceries"
+        },
+        {
+            "group_number": "214",
+            "name": "Cashier-Checker",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "214",
+            "name": "Checker, Grocery",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher Aide",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Elementary School",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Clerk, Sales",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Industrial Arts",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Learning Disabled",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Music",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Physically Impaired",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Grocery Checker",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Preschool/Kindergarten",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Instructor, Vocational Training",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Teacher, Vocational Training",
+            "industry": "education"
+        },
+        {
+            "group_number": "214",
+            "name": "Interior Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "214",
+            "name": "Vault Cashier",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "220",
+            "name": "Repairer, Art Objects",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "214",
+            "name": "Anesthesiologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "220",
+            "name": "Surgeon",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "220",
+            "name": "Tool Designer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "220",
+            "name": "Dental Hygienist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "220",
+            "name": "Dentist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Assembler, Electric Motor",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "220",
+            "name": "Gunsmith",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Assembler, Production",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Instrument Maker And Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Assembler, Small Products",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Internist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Audio Video Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Laboratory Tester",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Book Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Medical Laboratory Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Bow Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Candlemaker",
+            "industry": "fabrication, nec"
+        },
+        {
+            "group_number": "220",
+            "name": "Nurse Anesthetist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Clay Modeler",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Optometrist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Coil Winder, Repair",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Pharmacist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Compositor, Typesetter",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "220",
+            "name": "Phlebotomist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Decal Applier",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "220",
+            "name": "Physician, General Practitioner",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Podiatrist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Dressmaker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Key Cutter",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Egg Candler",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Leather Cutter",
+            "industry": "leather prod."
+        },
+        {
+            "group_number": "221",
+            "name": "Electric Motor Assembler",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "221",
+            "name": "Locksmith",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Electrical Appliance Repairer, Small",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Electrical Instrument Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Masker, Parts",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Mat Cutter, Picture Frames",
+            "industry": "wood prod., nec"
+        },
+        {
+            "group_number": "221",
+            "name": "Mixer, Paint (Hand)",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Model Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Fabricator, Foam Rubber",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Mold And Model Maker, Plaster",
+            "industry": "concrete prod."
+        },
+        {
+            "group_number": "221",
+            "name": "Filler",
+            "industry": "tex. Prod., nec"
+        },
+        {
+            "group_number": "221",
+            "name": "Florist",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "221",
+            "name": "Painter, Airbrush",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Photoengraver",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "221",
+            "name": "Garment Cutter, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Gift Wrapper",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "221",
+            "name": "Gilder, Metal Leaf",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Piano Tuner",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Picture Framer",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "221",
+            "name": "Presser, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Printed Circuit Board Assembler, Hand",
+            "industry": "comm. equip."
+        },
+        {
+            "group_number": "221",
+            "name": "Quality Assurance Monitor",
+            "industry": "auto mfg."
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector, Electronics",
+            "industry": "comm. equip."
+        },
+        {
+            "group_number": "221",
+            "name": "Racket Stringer",
+            "industry": "toy-sport equip."
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector, Fabric",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector, Garment",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector, Glass",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Sewer, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Inspector, Metal Finish",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Shoe Repairer",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Silk Screen Frame Assembler",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Cap-Lining Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Silk Screen Printer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Ski Repairer, Production",
+            "industry": "toy-sport equip."
+        },
+        {
+            "group_number": "230",
+            "name": "Sorter, Agricultural Produce",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "230",
+            "name": "Centrifuge Operator, Plasma Process.",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "221",
+            "name": "Sports Equipment Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Spot Cleaner",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Striper & Letterer, Hand, Motorcycles",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Coffee Roaster",
+            "industry": "food prep., nec"
+        },
+        {
+            "group_number": "221",
+            "name": "Thread Cutter, Hand or Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Touch-Up Painter, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Toy Assembler",
+            "industry": "toy-sport equip."
+        },
+        {
+            "group_number": "230",
+            "name": "Crimping Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Tube Bender, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Typesetter/Compositor",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Cutter, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "221",
+            "name": "Cutting Machine Operator, Automated",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "221",
+            "name": "Wire Harness Assembler",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "230",
+            "name": "Drier Operator",
+            "industry": "food prep., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Embossing Press Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Bindery Worker",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Blueprinting Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Box Printing Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Buffing Machine Tender, Automatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Flatwork Finisher",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Folder Seamer, Automatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Folding Machine Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Ginner",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "230",
+            "name": "Press Operator",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Grommet Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Press Operator, Offset",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Hemmer, Automatic",
+            "industry": "tex. prod., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Injection Molding Machine Tender",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "230",
+            "name": "Rivet And Bolt Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Kick Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Rolling Mill Attendant",
+            "industry": "steel & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Rougher, Bar Mill",
+            "industry": "steel & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Sawyer, Cork Slabs",
+            "industry": "wood prod., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Leather Garment Presser",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Seed Pelleter",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "230",
+            "name": "Sewing Machine Operator",
+            "industry": "tex. prod., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Machine Operator, Roofing Materials",
+            "industry": "build. mat., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Mailing Machine Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Soap Maker",
+            "industry": "soap & rel."
+        },
+        {
+            "group_number": "230",
+            "name": "Stamping Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Microfilm Processor",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "230",
+            "name": "Sterilizer",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "230",
+            "name": "Molding Machine Tender, Compression",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "230",
+            "name": "Still Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Stitcher, Wire, Saddle And Side",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Offset Press Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Stretching Machine Tender, Frame",
+            "industry": "leather mfg."
+        },
+        {
+            "group_number": "230",
+            "name": "Palletizer Operator, Automatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Tacking Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Pattern-Punching Machine Operator",
+            "industry": "tex. prod., nec"
+        },
+        {
+            "group_number": "230",
+            "name": "Ticket Printer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Phototypesetter Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Typesetting Machine Tender",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Platen Press Feeder",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Platen Press Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "230",
+            "name": "Pleating Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "230",
+            "name": "Babysitter",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Motorcycle Driver, Delivery",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "240",
+            "name": "Blind Aide",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Parking Enforcement Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Butler",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Patrol officer, volunteer",
+            "industry": "Government Srvcs"
+        },
+        {
+            "group_number": "240",
+            "name": "Shuttle Bus Driver",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "240",
+            "name": "Checkroom Attendant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "250",
+            "name": "Subway Car Operator",
+            "industry": "r. r. trans."
+        },
+        {
+            "group_number": "240",
+            "name": "Child Monitor",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Taxi Driver",
+            "industry": "motor trans."
+        },
+        {
+            "group_number": "240",
+            "name": "Companion",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Valet, Parking",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Audiovisual Production Specialist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "240",
+            "name": "Guard, School-Crossing",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Auditor, Field",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "240",
+            "name": "Host/Hostess",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "251",
+            "name": "Coin Machine Collector",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Model, Artists'",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "251",
+            "name": "Parking Lot Attendant, Booth",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Rest Room Attendant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "251",
+            "name": "Driver's License Examiner",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Fashion Coordinator",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "240",
+            "name": "Inspector, Food And Drug",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Inspector, Health Care Facilities",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Weight Reduction Specialist",
+            "industry": "personal services"
+        },
+        {
+            "group_number": "251",
+            "name": "Inspector, Quality Assurance",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "240",
+            "name": "Inspector, Transportation",
+            "industry": "motor trans."
+        },
+        {
+            "group_number": "250",
+            "name": "Airplane Pilot, Commercial",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "251",
+            "name": "Instructor, Driving",
+            "industry": "education"
+        },
+        {
+            "group_number": "250",
+            "name": "Bus Driver",
+            "industry": "motor trans."
+        },
+        {
+            "group_number": "251",
+            "name": "Investigator",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Chauffeur",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "251",
+            "name": "Investigator, Inside/Outside",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Police Artist",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Process Server",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "250",
+            "name": "Deliverer, Car Rental",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Purchasing Agent",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "250",
+            "name": "Deliverer, Floral Arrangements",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "251",
+            "name": "Real Estate Agent",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "250",
+            "name": "Deliverer, Pizza",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "251",
+            "name": "Reporter",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "250",
+            "name": "Light Rail Car Operator",
+            "industry": "r.r. trans."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Computers And EDP Systems",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "250",
+            "name": "Locomotive Engineer",
+            "industry": "r.r. trans."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Door-To-Door",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Farm, Garden Eqpt. & Supplies",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "311",
+            "name": "Nurse, Licensed Vocational",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Livestock",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "311",
+            "name": "Nurse, Private Duty",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Office Machines",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "311",
+            "name": "Nurse-Midwife",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Recreation, Sporting Goods",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "311",
+            "name": "Occupational Therapist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Security Systems",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "311",
+            "name": "Physical Therapist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Sales Rep, Women's And Girls' Apparel",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "311",
+            "name": "Psychiatric Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Salesperson, Automobiles",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "311",
+            "name": "Respiratory Therapist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "251",
+            "name": "Taxidermist",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "290",
+            "name": "Barber",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "311",
+            "name": "Veterinarian",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "290",
+            "name": "Beautician",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "311",
+            "name": "Veterinarian, Laboratory Animal Care",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "290",
+            "name": "Cosmetologist",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "311",
+            "name": "Veterinary Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "290",
+            "name": "Electrologist",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Armature Bander",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "290",
+            "name": "Hair Stylist",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Acupressurist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Bicycle Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "310",
+            "name": "Angiogram Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Biomedical Equipment Technician",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "310",
+            "name": "MRI Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Bookbinder",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "310",
+            "name": "Nuclear Medicine Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Orthotist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Cable Assembler And Swager",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "310",
+            "name": "Perfusionist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Capacitor Assembler",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "310",
+            "name": "Physiatrist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Cash Register Servicer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "310",
+            "name": "Prosthetist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Casting Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "310",
+            "name": "Radiation Therapy Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Radiologic Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Recreational Therapist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "X-ray Technologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Computer set-up person",
+            "industry": "Business Services"
+        },
+        {
+            "group_number": "311",
+            "name": "Chiropractor",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Chiropractor Assistant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Electric Motor Control Unit Assembler",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "311",
+            "name": "Masseur/Masseuse",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Nurse, General Duty",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Electromedical Equipment Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Percussion Instrument Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Etcher, Hand",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "320",
+            "name": "Piano Technician",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Fabricating Machine Operator, Metal",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Precision Assembler, Bench",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "320",
+            "name": "Fire Extinguisher Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Printer, Job",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "320",
+            "name": "Firesetter",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "320",
+            "name": "Fixture Repairer-Fabricator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Former, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Repairer, Office Machines",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Gas Meter Adjuster",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "320",
+            "name": "Repairer, Salvaged Parts",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Harness Maker",
+            "industry": "leather prod."
+        },
+        {
+            "group_number": "320",
+            "name": "Repairer, Wind Instrument",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Inspector, Eddy Current",
+            "industry": "steel & rel."
+        },
+        {
+            "group_number": "320",
+            "name": "Screen Maker, Photographic Process",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Instrument Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Setter, Automatic Spinning Lathe",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Sheet metal Fabricating Machine Oper.",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Subassembler",
+            "industry": "machinery mfg."
+        },
+        {
+            "group_number": "320",
+            "name": "Lay-Out Maker sheet metal; any",
+            "industry": "industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Television And Radio Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Leather Worker",
+            "industry": "leather prod."
+        },
+        {
+            "group_number": "320",
+            "name": "Template Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Tester, Nondestructive",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "320",
+            "name": "Luggage Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Machinist, Automotive",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Meter Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Vacuum Cleaner Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Auto Painter",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Office Machine Servicer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Automobile Upholsterer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "320",
+            "name": "Battery Assembler, Dry Cell",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "320",
+            "name": "Battery Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "320",
+            "name": "Box Maker, Paperboard",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Broom Stitcher",
+            "industry": "fabrication, nec"
+        },
+        {
+            "group_number": "321",
+            "name": "Straightener, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Buffer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Driller, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Tire Recapper",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "321",
+            "name": "Furniture Upholsterer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Garment Cutter, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Airplane Flight Attendant",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "321",
+            "name": "Glass Polisher",
+            "industry": "glass mfg."
+        },
+        {
+            "group_number": "322",
+            "name": "Grinder, Disk, Belt or Wheel",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Metal Grinder And Finisher",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Metal Sprayer, Production",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Mold Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Painter, Brush",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Caterer",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "321",
+            "name": "Painter, Spray Gun",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Painter, Touch-Up",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Parachute Rigger",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "322",
+            "name": "Cook",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "321",
+            "name": "Polisher/Buffer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Cook",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "321",
+            "name": "Presser, All-Round",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "322",
+            "name": "Presser, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Putty Glazer, Pottery",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Rug Repairer",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "322",
+            "name": "Saw Blade Filer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Deli Cutter-Slicer",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "322",
+            "name": "Dietary Aide, Hospital Services",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "330",
+            "name": "Carton-Forming Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Cloth Printer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Flight Attendant",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "330",
+            "name": "Crystal Grower",
+            "industry": "comm. equip."
+        },
+        {
+            "group_number": "322",
+            "name": "Meat Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "330",
+            "name": "Meat Cutter",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "330",
+            "name": "Poultry Dresser",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "330",
+            "name": "Cutter Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Salad Maker",
+            "industry": "water trans."
+        },
+        {
+            "group_number": "330",
+            "name": "Cutting Machine Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Die Cutter",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "322",
+            "name": "Arbor Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Autoclave Operator",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "330",
+            "name": "Band-Sawing Machine Operator",
+            "industry": "fabrication, nec"
+        },
+        {
+            "group_number": "330",
+            "name": "Bending Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Fabricator/Assembler, Metal Products",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Blister Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Brake Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Bread Wrapping Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Grinder, Bench",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Power Press Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Grinder, Tool",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Press Operator, Cylinder",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "330",
+            "name": "Press Operator, Rotogravure",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "330",
+            "name": "Pump Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Punch Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Laminating Machine Feeder",
+            "industry": "wood prod., nec"
+        },
+        {
+            "group_number": "330",
+            "name": "Riveter, Hydraulic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Riveting Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Riveting Machine Operator, Automatic",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "330",
+            "name": "Robotic Machine Operator",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "330",
+            "name": "Roller Machine Operator",
+            "industry": "metal prod., nec"
+        },
+        {
+            "group_number": "330",
+            "name": "Router Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Molder",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "330",
+            "name": "Nailing Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Nibbler Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Offset Press Helper",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "330",
+            "name": "Package Sealer, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Packager, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Spinning Lathe Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Picking Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Spray Painting Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Stapling Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Stereotype Caster & Molder",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "330",
+            "name": "Polishing Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Straightening Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Coater Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Stranding Machine Operator",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "331",
+            "name": "Decontaminator, Radioactive Material",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Dipper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Tool Dresser",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Embosser",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Tubular Furniture Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Felting Machine Operator",
+            "industry": "tex. Prod., nec"
+        },
+        {
+            "group_number": "330",
+            "name": "Filter Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Forming Machine Operator",
+            "industry": "glass mfg."
+        },
+        {
+            "group_number": "330",
+            "name": "Web Press Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "331",
+            "name": "Fruit Grader Operator",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "330",
+            "name": "Web Press Operator Helper, Offset",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "331",
+            "name": "Lacquerer",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "330",
+            "name": "Metal Cleaner, Immersion",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Mill Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "330",
+            "name": "Wrapping Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Mixing Machine Operator",
+            "industry": "food prep., nec"
+        },
+        {
+            "group_number": "331",
+            "name": "Bowling Ball Molder",
+            "industry": "toy-sport equip."
+        },
+        {
+            "group_number": "331",
+            "name": "Oxidized Finish Plater",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Briquette Machine Operator",
+            "industry": "fabrication, nec"
+        },
+        {
+            "group_number": "331",
+            "name": "Centrifugal Extractor Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Ceramic Coater, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "331",
+            "name": "Washer, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Child-Care Attendant, Handicapped",
+            "industry": "education"
+        },
+        {
+            "group_number": "332",
+            "name": "Children's Institution Attendant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Boiler Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Cleaner, Commercial Or Institutional",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Boiler Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Cleaner, Equipment",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Cleaner, Hospital",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Compressor Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Cleaner, Laboratory Equipment",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Firer, High Pressure",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Conductor, All Rails",
+            "industry": "r.r. trans."
+        },
+        {
+            "group_number": "332",
+            "name": "Fuel Attendant, Plant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Custodian",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Gas Compressor Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Dry Cleaner",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "332",
+            "name": "Gas Engine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Equipment Cleaner",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Hydroelectric Station Operator",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Funeral Attendant",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Operating Engineer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Operating Engineer, Refrigeration",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Greaser",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Power Plant Operator",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Home Attendant",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Power Reactor Operator",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Janitor",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Stationary Engineer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Laboratory Equipment Cleaner",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Substation Operator",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Launderer, Hand",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "332",
+            "name": "Lubrication Servicer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Turbine Attendant",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Mental Retardation Aide, Institution",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Turbine Operator",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "340",
+            "name": "Morgue Attendant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Nurse Aide",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Wastewater Treatment Plant Oper.",
+            "industry": "sanitary ser."
+        },
+        {
+            "group_number": "340",
+            "name": "Occupational Therapy Aide",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Water Pump Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "340",
+            "name": "Oiler",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "332",
+            "name": "Physical Therapy Aide",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "332",
+            "name": "Psychiatric Ward Attendant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "340",
+            "name": "Respiratory Therapy Aide",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "340",
+            "name": "Automobile Detailer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "340",
+            "name": "Rug Cleaner, Hand or Machine",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "340",
+            "name": "Automobile Washer & Polisher",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "340",
+            "name": "Service Station Attendant",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "351",
+            "name": "Asphalt Distributor Tender",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Asphalt Paving Machine Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Asphalt Surface Heater Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Cargo Agent",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "351",
+            "name": "Boom Conveyor Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Checker",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "351",
+            "name": "Bulldozer Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Concrete Paving Machine Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Checker, warehouse",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "351",
+            "name": "Crane Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Dinkey Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Dragline Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Conveyor Feeder-Offbearer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Elevating Grader Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Conveyor System Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Farm Machine Operator",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "360",
+            "name": "Conveyor Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Forklift Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Crane Follower",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Hoisting Engineer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Crane Hooker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Logging Tractor Operator",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "360",
+            "name": "Crate Maker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Motor-Grader Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Motorboat Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Displayer, Merchandise",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "351",
+            "name": "Overhead Crane Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Pile-Driver Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Fireworks Display Specialist",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Power Shovel Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Road Roller Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Furniture Crater",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Rock Drill Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Grainer, Machine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Snowplow Operator",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Stevedore",
+            "industry": "water trans."
+        },
+        {
+            "group_number": "360",
+            "name": "Street Sweeper Operator",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Laborer, General",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "351",
+            "name": "Tractor Crane Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Tractor Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Truck Driver, Road Oiling",
+            "industry": "construction"
+        },
+        {
+            "group_number": "360",
+            "name": "Machine Feeder",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "351",
+            "name": "Vacuum Cleaner Operator, Industrial",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "News Gathering Technician",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "360",
+            "name": "Packer, Agricultural Produce",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "370",
+            "name": "Electrician, Automotive",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Packer, Hand",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Equipment Installer, Vehicles",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Porter",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "370",
+            "name": "Evaporative Cooler Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Produce Clerk, Retail",
+            "industry": "Retail Trade"
+        },
+        {
+            "group_number": "370",
+            "name": "Garage Servicer, Transportation Eqpmt",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "360",
+            "name": "Glass Installer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Set-up person/trade show",
+            "industry": "Retail Trade"
+        },
+        {
+            "group_number": "370",
+            "name": "Machine Assembler/Builder",
+            "industry": "machinery mfg."
+        },
+        {
+            "group_number": "360",
+            "name": "Stock Clerk",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "370",
+            "name": "Machinist, Bench",
+            "industry": "machinery mfg."
+        },
+        {
+            "group_number": "360",
+            "name": "Surveyor Helper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Automobile",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Tool And Equipment Rental Clerk",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Front End",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Mechanic, Radiator",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "360",
+            "name": "Warehouse Worker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Rocket Engine Component",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "360",
+            "name": "Weigher, Production",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Small Engine",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Tractor",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Transmission",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Assembler, Motor Vehicle",
+            "industry": "auto. mfg."
+        },
+        {
+            "group_number": "370",
+            "name": "Mechanic, Tune-Up",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Automated Equipment Installer",
+            "industry": "machinery mfg."
+        },
+        {
+            "group_number": "370",
+            "name": "Automobile Accessories Installer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Motorcycle Repairer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Automobile Assembler",
+            "industry": "auto. mfg."
+        },
+        {
+            "group_number": "370",
+            "name": "Muffler Installer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Automobile Body Repairer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Pinsetter Adjuster, Automatic",
+            "industry": "toy-sport equip."
+        },
+        {
+            "group_number": "370",
+            "name": "Automobile Service Station Mechanic",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Pneumatic Tool Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Brake Repairer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "370",
+            "name": "Precision Assembler & Repairer",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "370",
+            "name": "Pump Servicer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Construction Equipment Mechanic",
+            "industry": "construction"
+        },
+        {
+            "group_number": "370",
+            "name": "Sewing Machine Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Conveyor Maintenance Mechanic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Sheetmetal Mechanic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Electrical Appliance Servicer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Smog Technician",
+            "industry": "Automotive Svc"
+        },
+        {
+            "group_number": "370",
+            "name": "Carpenter, Ship",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "370",
+            "name": "Transformer Assembler",
+            "industry": "elec. equip."
+        },
+        {
+            "group_number": "380",
+            "name": "Used Car Renovator",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "380",
+            "name": "Data Communications Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Decorator, Special Event",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "370",
+            "name": "Drapery Hanger",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "370",
+            "name": "Dry Wall Applicator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Aircraft Body Repairer",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "380",
+            "name": "Electric Meter Installer",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "380",
+            "name": "Aircraft Bonded Structures Repair",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Airframe & Power Plant Mechanic",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Alarm Service Technician",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician Apprentice",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Antenna Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician Helper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Antenna Installer, Satellite Communications",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician, Maintenance",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Assembler, Subassembly",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Electrician, Powerhouse",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "380",
+            "name": "Assembler-Installer, General",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Elevator Examiner And Adjuster",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Elevator Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Boat Repairer",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Boat Rigger",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "380",
+            "name": "Experimental Aircraft Mechanic",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Boatbuilder, Wood",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Floor Layer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Building Maintenance Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Furnace Installer And Repairer, Hot Air",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "380",
+            "name": "Burglar Alarm Installer/Repairer",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Glazier",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Cable Installer-Repairer",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "380",
+            "name": "Handyperson",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Cable Maintainer",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "380",
+            "name": "Hardwood Floor Layer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Cable Splicer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Heating/Air Conditioning Installer-Servicer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Insulation Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Carpenter",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Joiner",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Carpenter Acoustical",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Lather, Metal Or Wood",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Carpenter Apprentice",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Maintenance Repairer, Building",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Carpenter, Maintenance",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Mechanic, Aircraft",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "380",
+            "name": "Carpenter, Railcar",
+            "industry": "railroad equip."
+        },
+        {
+            "group_number": "380",
+            "name": "Mechanic, Radar",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Painter",
+            "industry": "construction"
+        },
+        {
+            "group_number": "380",
+            "name": "Window Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Painter, Sign",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Painter, Transportation Equipment",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "390",
+            "name": "Armored Car Guard",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Paperhanger",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Pinsetter Mechanic, Automatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Bodyguard",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Pipe Coverer And Insulator",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "390",
+            "name": "Pipe Organ Tuner And Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Bounty hunter",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Plasterer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Pneumatic Tube Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Public Address Setter-Up & Servicer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Detective, Store",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "380",
+            "name": "Exercise Physiologist",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Roofer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Sail Maker",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "390",
+            "name": "Septic Tank Installer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Instructor, Physical Education",
+            "industry": "education"
+        },
+        {
+            "group_number": "380",
+            "name": "Shipwright",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "390",
+            "name": "Sider",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Probation Officer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "380",
+            "name": "Steel Plate Caulker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "390",
+            "name": "Security Officer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Stonemason",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Special Policeman",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Street Light Servicer",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "390",
+            "name": "Stucco Mason",
+            "industry": "construction"
+        },
+        {
+            "group_number": "390",
+            "name": "Teacher, Physical Education",
+            "industry": "education"
+        },
+        {
+            "group_number": "380",
+            "name": "Taper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "420",
+            "name": "Television Receiver/Antenna Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "420",
+            "name": "Terrazzo Installer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "420",
+            "name": "Canvas Repairer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "380",
+            "name": "Tile Setter",
+            "industry": "construction"
+        },
+        {
+            "group_number": "420",
+            "name": "Embalmer",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "380",
+            "name": "Truss Builder, Construction",
+            "industry": "construction"
+        },
+        {
+            "group_number": "420",
+            "name": "Glass Cutter",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "420",
+            "name": "Saddle Maker",
+            "industry": "leather prod."
+        },
+        {
+            "group_number": "460",
+            "name": "Drophammer Operator",
+            "industry": "aircraft mfg."
+        },
+        {
+            "group_number": "460",
+            "name": "Chipper, Rough",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "430",
+            "name": "Drum Straightener",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Fitter, Metal",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Cremator",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "430",
+            "name": "Crusher Operator",
+            "industry": "concrete prod."
+        },
+        {
+            "group_number": "430",
+            "name": "Laminating Press Operator",
+            "industry": "plastic prod."
+        },
+        {
+            "group_number": "460",
+            "name": "Metal Fabricator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Cylinder Press Feeder",
+            "industry": "print. & pub."
+        },
+        {
+            "group_number": "430",
+            "name": "Power Brake Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Press Operator, Heavy Duty",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Punch Press Operator, Automatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Electrical Appliance Uncrater",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "430",
+            "name": "Shear Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Elevator Operator, Freight",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "430",
+            "name": "Spinner, Hydraulic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Emergency Medical Technician",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "430",
+            "name": "Torch Straightener And Heater",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Feeder",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "430",
+            "name": "Filter Press Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "430",
+            "name": "Aircraft Service Worker",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "460",
+            "name": "Anodizer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Automobile Wrecker",
+            "industry": "wholesale tr."
+        },
+        {
+            "group_number": "460",
+            "name": "Grinder-Chipper, Rough",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Baggage Handler",
+            "industry": "r.r. trans."
+        },
+        {
+            "group_number": "460",
+            "name": "Ice Cutter",
+            "industry": "food prep., nec"
+        },
+        {
+            "group_number": "460",
+            "name": "Ramp Attendant",
+            "industry": "air trans."
+        },
+        {
+            "group_number": "460",
+            "name": "Scrap Handler",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Laborer, General",
+            "industry": "steel & rel."
+        },
+        {
+            "group_number": "460",
+            "name": "Slitting Machine Operator Helper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Laborer, Shipyard",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "460",
+            "name": "Tank Cleaner",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Tire Changer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "460",
+            "name": "Tire Repairer",
+            "industry": "automotive ser."
+        },
+        {
+            "group_number": "460",
+            "name": "Machine Feeder, Raw Stock",
+            "industry": "tex. prod., nec"
+        },
+        {
+            "group_number": "460",
+            "name": "Truck Driver Helper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Material Stacker",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Truck Loader",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Washing Machine Loader And Puller",
+            "industry": "laundry & rel."
+        },
+        {
+            "group_number": "460",
+            "name": "Waste Disposal Attendant, Radioactive",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Water Softener Servicer And Installer",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "460",
+            "name": "Mixer, Paint (Machine)",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Mixing Machine Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Yard Attendant, Building Materials",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "460",
+            "name": "Household Appliance Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Orderly",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "470",
+            "name": "Maintenance Mechanic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Paper-Baling Machine Tender",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "470",
+            "name": "Maintenance Repairer, Indus. Machines and Plants",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Papercutting Machine Operator",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "470",
+            "name": "Mechanic, Diesel",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "460",
+            "name": "Mechanic, Safe And Vault",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "460",
+            "name": "Pump Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "470",
+            "name": "Robotics Service Technician",
+            "industry": "machinery mfg."
+        },
+        {
+            "group_number": "480",
+            "name": "Form Tamper Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "470",
+            "name": "Fumigator",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "470",
+            "name": "Stove Refinisher",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Television Technician",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "480",
+            "name": "Hod Carrier",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Air Hammer Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Asphalt Raker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Laborer, Concrete Mixing Plant",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Billboard & Sign Erector",
+            "industry": "fabrication, nec"
+        },
+        {
+            "group_number": "480",
+            "name": "Laborer, Concrete Paving",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Billboard Erector Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Laborer, Construction",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Blaster",
+            "industry": "mining; construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Laborer, Road",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Bricklayer Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Laborer, Wrecking & Salvaging",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Building Cleaner, Outside",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Maintenance Worker, Municipal",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "480",
+            "name": "Cable Puller",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Marble Setter Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Millwright Helper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Carpenter Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Mixer, Concrete",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Carpet Cutter",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "480",
+            "name": "Mixer, Mortar",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Carpet Layer Helper",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "480",
+            "name": "Caulker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Painter Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Cement Mason Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Pipe Layer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Cement Sprayer, Nozzle",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Pipe Layer Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Concrete Stone Finisher",
+            "industry": "concrete prod."
+        },
+        {
+            "group_number": "480",
+            "name": "Plasterer Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Concrete Vibrator Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Core Drill Operator",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Roofer Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Decorator, Street And Building",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Ditch Digger",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Exterminator, Termite",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "480",
+            "name": "Floor Finisher Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Sandblaster",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Form Stripper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Septic Tank Servicer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Form Tamper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Sewage Disposal Worker",
+            "industry": "sanitary ser."
+        },
+        {
+            "group_number": "480",
+            "name": "Sewer Line Repairer",
+            "industry": "sanitary ser."
+        },
+        {
+            "group_number": "481",
+            "name": "Pipe Fitter Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Shipfitter Helper",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "481",
+            "name": "Plumber",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Plumber Apprentice",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Plumber Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Powerhouse Mechanic",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "480",
+            "name": "Terrazzo Installer Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Railroad Car Builder",
+            "industry": "railroad equip."
+        },
+        {
+            "group_number": "480",
+            "name": "Tile Setter Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Railway Car Repairer",
+            "industry": "railroad equip."
+        },
+        {
+            "group_number": "480",
+            "name": "Wallpaper Remover, Steam",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Reinforcing Iron Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "480",
+            "name": "Well Digger",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Rigger/Slinger",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Well Drill Operator",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Riveter, Pneumatic",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Well Drill Operator Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Shipfitter",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "480",
+            "name": "Solar Energy System Installer",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "480",
+            "name": "Wrecker, Construction",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Waysman",
+            "industry": "Ship-boat mfg."
+        },
+        {
+            "group_number": "481",
+            "name": "Air Conditioning Installer Service",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Bridge Maintenance Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Bricklayer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Bridge Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Bricklayer Apprentice",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Elevator Constructor",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Cable Television Installer",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "482",
+            "name": "Carpenter, Rough",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Carpet layer",
+            "industry": "retail trade"
+        },
+        {
+            "group_number": "482",
+            "name": "Cement Mason",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Line Installer-Repairer",
+            "industry": "tel. & tel.; utilities"
+        },
+        {
+            "group_number": "481",
+            "name": "Duct Installer",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Painter, Bridge, Structural Steel",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Fence Erector",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Rigger",
+            "industry": "ship-boat mfg."
+        },
+        {
+            "group_number": "481",
+            "name": "Fitter",
+            "industry": "construction,"
+        },
+        {
+            "group_number": "481",
+            "name": "Form Builder",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Steel Erector",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Marble Setter",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Steeple Jack",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Mechanic, Powerhouse",
+            "industry": "utilities"
+        },
+        {
+            "group_number": "482",
+            "name": "Structural Steel Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Structural Steel Worker Helper",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Millwright",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "482",
+            "name": "Tower Erector",
+            "industry": "construction"
+        },
+        {
+            "group_number": "481",
+            "name": "Ornamental Iron Worker",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Tree Surgeon",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "481",
+            "name": "Pipe Fitter",
+            "industry": "construction"
+        },
+        {
+            "group_number": "482",
+            "name": "Wind Generating Electric Power Inst.",
+            "industry": "construction"
+        },
+        {
+            "group_number": "491",
+            "name": "Christmas Tree Farm Worker",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "482",
+            "name": "Wind Turbine Technician",
+            "industry": "Construction; utilities"
+        },
+        {
+            "group_number": "491",
+            "name": "Cowpuncher",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Bailiff",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Deckhand",
+            "industry": "water trans., fishing & hunt"
+        },
+        {
+            "group_number": "490",
+            "name": "Correctional Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Dog Catcher",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "490",
+            "name": "Deputy, Court",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Dog Groomer",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "490",
+            "name": "Detective",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Fire Fighter",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "491",
+            "name": "Farm Laborer, General",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Farmer, General",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Fire Lookout",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "491",
+            "name": "Farmworker, Fruit",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Fire Ranger",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "491",
+            "name": "Farmworker, Vegetable",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Fish And Game Warden",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Fish Farmer",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "490",
+            "name": "Forest Fire Fighter",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "491",
+            "name": "Fish Hatchery Laborer",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "490",
+            "name": "Group Supervisor",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Fisher, Line",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "490",
+            "name": "Guard, Correctional Facility",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Fisher, Net",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "490",
+            "name": "Investigator, Vice",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Forester Aide",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "490",
+            "name": "Jailer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Fruit Picker",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Motorcycle Police Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Gardener",
+            "industry": "domestic ser."
+        },
+        {
+            "group_number": "490",
+            "name": "Paramedic",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Groom",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "490",
+            "name": "Park Ranger",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Groundskeeper",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "490",
+            "name": "Parole Officer",
+            "industry": "profess. & kin."
+        },
+        {
+            "group_number": "491",
+            "name": "Police Captain",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Horseshoer",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Police Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Irrigator, Gravity Flow",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Police Officer, State Highway",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Irrigator, Sprinkling System",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Sheriff, Deputy",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Laborer, Farm",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Special Agent",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Landscape Gardener",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "490",
+            "name": "Traffic Officer",
+            "industry": "government ser."
+        },
+        {
+            "group_number": "491",
+            "name": "Lawn Service Worker",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "491",
+            "name": "Livestock Yard Attendant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "491",
+            "name": "Bee Keeper",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "491",
+            "name": "Cattle Herder",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "491",
+            "name": "Milker, Machine",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "491",
+            "name": "Orchard Sprayer, Hand",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "560",
+            "name": "Picker, Fruit",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "560",
+            "name": "Roll Tender/Setter",
+            "industry": "print & pub."
+        },
+        {
+            "group_number": "491",
+            "name": "Shellfish Grower",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "590",
+            "name": "Stable Attendant",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "590",
+            "name": "Tree Pruner, Low Level/Bucket",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "590",
+            "name": "Guide, Alpine",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "492",
+            "name": "Diver",
+            "industry": "any industry"
+        },
+        {
+            "group_number": "590",
+            "name": "Smoke Jumper",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "492",
+            "name": "Fisher, Diving",
+            "industry": "fishing & hunt."
+        },
+        {
+            "group_number": "492",
+            "name": "Forest Worker",
+            "industry": "forestry"
+        },
+        {
+            "group_number": "492",
+            "name": "Tree Cutter",
+            "industry": "agriculture"
+        },
+        {
+            "group_number": "493",
+            "name": "Bicycle messenger",
+            "industry": "business ser."
+        },
+        {
+            "group_number": "493",
+            "name": "Ambulance Attendant",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "560",
+            "name": "Ambulance Driver",
+            "industry": "medical ser."
+        },
+        {
+            "group_number": "560",
+            "name": "Dolly Pusher",
+            "industry": "radio-TV broad."
+        },
+        {
+            "group_number": "560",
+            "name": "Funeral Car Chauffeur",
+            "industry": "personal ser."
+        },
+        {
+            "group_number": "560",
+            "name": "Furniture Mover",
+            "industry": "motor trans."
+        },
+        {
+            "group_number": "560",
+            "name": "Garbage Collector, Manual",
+            "industry": "motor trans."
+        }
+    ]
+}

@@ -1,328 +1,403 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
+import { uploadFileToAssistants, sendAssistantMessage } from '../config/api';
+import { insertCalculatorInput, getCompleteRatingResults } from '../services/pdrService';
+import bodyList from '../../../data/mappingBody';
+import occupationMapping from '../../../data/occupationMapping';
+import codeList from '../../../data/mappingCode';
+import { Container, Grid, Button, LoadingOverlay } from '@mantine/core';
 
-export default function RateReports() {
-    const [file, setFile] = useState(null);
-    const [occupation, setOccupation] = useState('');
-    const [age, setAge] = useState('');
+// Import sub-components
+import FileUploadSection from './RateReports/FileUploadSection';
+import PersonalInfoSection from './RateReports/PersonalInfoSection';
+import ImpairmentForm from './RateReports/ImpairmentForm';
+import ImpairmentTable from './RateReports/ImpairmentTable';
+import AnalysisResults from './RateReports/AnalysisResults';
+
+const RateReports = () => {
+    const { isDark } = useTheme();
+    const [formData, setFormData] = useState({
+        file: null,
+        applicantName: '',
+        caseNumber: '',
+        groupNumber: '351',
+        gender: 'male',
+        occupation: '',
+        dateOfBirth: '',
+        dateOfInjury: '',
+        age: '',
+        weeklyEarnings: '',
+        maxEarnings: false,
+        evaluatorName: '',
+        nonIndustrial: '',
+        industrial: '',
+        selectedImpairment: '',
+        ag: false,
+        wpi: '',
+        leftRight: 'None',
+        painMedication: ''
+    });
     const [loading, setLoading] = useState(false);
-    const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
-    const [useAssistant, setUseAssistant] = useState(false);
+    const [fileId, setFileId] = useState(null);
+    const [threadId, setThreadId] = useState(null);
+    const [impairments, setImpairments] = useState([]);
+    const [analysis, setAnalysis] = useState(null);
+    const [occupations, setOccupations] = useState([]);
+    const [impairmentOptions, setImpairmentOptions] = useState([]);
+    const [processingStatus, setProcessingStatus] = useState('');
+    const [extractedData, setExtractedData] = useState(null);
 
-    const handleFileChange = (e) => {
-        if (e.target.files[0]) {
-            setFile(e.target.files[0]);
-            setError(null);
+    const handleDataExtracted = (bodyParts) => {
+        const impairments = bodyParts.map(part => ({
+            id: Date.now() + Math.random(),
+            impairment: part.code,
+            impairmentLabel: getFullImpairmentCode(part.code),
+            description: part.description,
+            wpi: part.wpi?.toString() || '',
+            industrial: part.apportionment?.industrial?.toString() || '',
+            nonIndustrial: part.apportionment?.nonIndustrial?.toString() || '',
+            leftRight: part.leftRight || 'None',
+            painMedication: part.painAdd || false,
+            ag: part.ag || false
+        }));
+        setImpairments(impairments);
+    };
+
+    useEffect(() => {
+        setImpairmentOptions(bodyList);
+    }, []);
+
+    useEffect(() => {
+        try {
+            // Filter out any invalid entries and map to the correct structure
+            const parsedOccupations = occupationMapping
+                .filter(item => item && typeof item === 'object' && item.occupation_title)
+                .map(item => ({
+                    group_number: item.group_number || '',
+                    occupation_title: item.occupation_title,
+                    industry: ''
+                }));
+
+            // Sort the filtered and valid occupations
+            const sortedOccupations = parsedOccupations.sort((a, b) =>
+                (a.occupation_title || '').localeCompare(b.occupation_title || '')
+            );
+
+            setOccupations(sortedOccupations);
+        } catch (error) {
+            console.error('Error loading occupations:', error);
+            setError('Error loading occupations. Please try again.');
+            setOccupations([]); // Set empty array on error
+        }
+    }, []);
+
+    const calculateAge = (dob, doi) => {
+        try {
+            const dobDate = new Date(dob);
+            const doiDate = new Date(doi);
+            let age = doiDate.getFullYear() - dobDate.getFullYear();
+            const m = doiDate.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && doiDate.getDate() < dobDate.getDate())) {
+                age--;
+            }
+            return age;
+        } catch (error) {
+            console.error('Error calculating age:', error);
+            return '';
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!file) {
-            setError('Please select a PDF file');
+    const getFullImpairmentCode = (number) => {
+        const codeItem = codeList.find(item => item.value === number);
+        return codeItem ? codeItem.label : number;
+    };
+
+    const getImpairmentCode = (label) => {
+        const match = label.match(/(\d+)\s*>/);
+        return match ? match[1] : '';
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+
+        if (name === 'occupation') {
+            const selectedOccupation = occupations.find(occ => occ.occupation_title === value);
+            setFormData(prev => ({
+                ...prev,
+                occupation: value,
+                groupNumber: selectedOccupation ? selectedOccupation.group_number : '351'
+            }));
+        } else if (name === 'dateOfBirth' || name === 'dateOfInjury') {
+            setFormData(prev => {
+                const newData = {
+                    ...prev,
+                    [name]: value
+                };
+                if (newData.dateOfBirth && newData.dateOfInjury) {
+                    newData.age = calculateAge(newData.dateOfBirth, newData.dateOfInjury).toString();
+                }
+                return newData;
+            });
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: type === 'checkbox' ? checked : value
+            }));
+        }
+    };
+
+    const handleAddImpairment = () => {
+        const impairmentCode = getImpairmentCode(formData.selectedImpairment);
+        const newImpairment = {
+            id: Date.now(),
+            nonIndustrial: formData.nonIndustrial,
+            industrial: formData.industrial,
+            impairment: impairmentCode,
+            impairmentLabel: formData.selectedImpairment,
+            ag: formData.ag,
+            wpi: formData.wpi,
+            leftRight: formData.leftRight,
+            painMedication: formData.painMedication
+        };
+
+        setImpairments(prev => [...prev, newImpairment]);
+        setFormData(prev => ({
+            ...prev,
+            nonIndustrial: '',
+            industrial: '',
+            selectedImpairment: '',
+            ag: false,
+            wpi: '',
+            leftRight: 'None',
+            painMedication: ''
+        }));
+    };
+
+    const handleRemoveImpairment = (id) => {
+        setImpairments(prev => prev.filter(imp => imp.id !== id));
+    };
+
+    const handleFileUpload = async (file) => {
+        setLoading(true);
+        setProcessingStatus('Uploading file...');
+        try {
+            const uploadFormData = new FormData();
+            uploadFormData.append('file', file);
+
+            const response = await uploadFileToAssistants(uploadFormData, 'rate');
+
+            // Store thread and assistant IDs if returned
+            if (response.threadId) setThreadId(response.threadId);
+            if (response.assistantId) setFileId(response.assistantId);
+            if (!response || !response.calculatorData) {
+                throw new Error('No data received from server');
+            }
+
+            try {
+                const { calculatorData } = response;
+                const demographics = calculatorData.demographics || {};
+
+                // Update form data with extracted information
+                setFormData(prev => ({
+                    ...prev,
+                    applicantName: demographics.name || '',
+                    dateOfInjury: demographics.dateOfInjury || '',
+                    dateOfBirth: demographics.dateOfBirth || '',
+                    occupation: demographics.occupation?.title || '',
+                    weeklyEarnings: demographics.weeklyEarnings?.toString() || '',
+                    maxEarnings: demographics.weeklyEarnings >= 1000,
+                    evaluatorName: calculatorData.evaluatorName || '',
+                    // Calculate age if both dates are present
+                    age: demographics.dateOfBirth && demographics.dateOfInjury ?
+                        calculateAge(demographics.dateOfBirth, demographics.dateOfInjury).toString() : ''
+                }));
+
+                // Process impairments if present
+                if (calculatorData.impairments && calculatorData.impairments.length > 0) {
+                    const newImpairments = calculatorData.impairments.map(imp => ({
+                        id: Date.now() + Math.random(),
+                        impairment: imp.bodyPart.code,
+                        impairmentLabel: getFullImpairmentCode(imp.bodyPart.code),
+                        description: imp.bodyPart.name,
+                        wpi: imp.wpi?.toString() || '',
+                        industrial: imp.apportionment?.industrial?.toString() || '100',
+                        nonIndustrial: imp.apportionment?.nonIndustrial?.toString() || '0',
+                        leftRight: imp.bodyPart.name.toLowerCase().includes('bilateral') ? 'Bilateral' :
+                            imp.bodyPart.name.toLowerCase().includes('right') ? 'Right' :
+                                imp.bodyPart.name.toLowerCase().includes('left') ? 'Left' : 'None',
+                        painMedication: imp.adjustments?.pain?.add || false,
+                        ag: imp.adjustments?.adl?.impacted || false
+                    }));
+                    setImpairments(newImpairments);
+                }
+
+                // Update occupation group if occupation is found
+                if (demographics.occupation?.title) {
+                    const matchedOccupation = occupations.find(occ =>
+                        occ.occupation_title.toLowerCase() === demographics.occupation.title.toLowerCase()
+                    );
+                    if (matchedOccupation) {
+                        setFormData(prev => ({
+                            ...prev,
+                            groupNumber: matchedOccupation.group_number || '351'
+                        }));
+                    }
+                }
+            } catch (parseError) {
+                console.error('Error parsing response:', parseError);
+                throw new Error('Failed to parse data from the medical report');
+            }
+
+            setProcessingStatus('File processed successfully');
+        } catch (error) {
+            console.error('Error processing file:', error);
+            setError('Error processing file. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!formData.occupation) {
+            setError('Please enter an occupation');
+            return;
+        }
+
+        if (!formData.age) {
+            setError('Please enter an age');
+            return;
+        }
+
+        if (impairments.length === 0) {
+            setError('Please add at least one impairment');
             return;
         }
 
         setLoading(true);
         setError(null);
-        setResponse(null);
-
-        const formData = new FormData();
-        formData.append('pdf', file);
-        formData.append('occupation', occupation);
-        formData.append('age', age);
-        formData.append('useAssistant', useAssistant);
 
         try {
-            const uploadResponse = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/process-pdf`, {
-                method: 'POST',
-                body: formData,
-            });
+            const inputData = {
+                demographics: {
+                    dateOfBirth: formData.dateOfBirth,
+                    dateOfInjury: formData.dateOfInjury,
+                    occupation: { title: formData.occupation },
+                    weeklyEarnings: parseFloat(formData.weeklyEarnings) || 0
+                },
+                impairments: impairments.map(imp => ({
+                    bodyPart: {
+                        code: imp.impairment,
+                        name: imp.impairmentLabel,
+                        section: 'General',
+                        type: 'Standard'
+                    },
+                    wpi: parseFloat(imp.wpi),
+                    adjustments: {
+                        pain: { add: imp.painMedication },
+                        adl: { impacted: imp.ag }
+                    },
+                    apportionment: {
+                        industrial: parseFloat(imp.industrial) || 100,
+                        nonIndustrial: parseFloat(imp.nonIndustrial) || 0
+                    },
+                    futureMedial: false
+                }))
+            };
 
-            if (!uploadResponse.ok) {
-                throw new Error('Failed to process PDF');
-            }
-
-            const data = await uploadResponse.json();
-            setResponse(data.analysis);
+            // Calculate ratings directly
+            const result = await insertCalculatorInput(inputData);
+            setAnalysis(result);
             setLoading(false);
-        } catch (err) {
-            setError(err.message);
+
+        } catch (error) {
+            console.error('Error calculating ratings:', {
+                error: error.message,
+                status: error.response?.status,
+                data: error.response?.data,
+                inputData: {
+                    hasName: !!inputData.name,
+                    hasAge: !!inputData.age,
+                    hasOccupation: !!inputData.occupation,
+                    impairmentCount: Object.keys(inputData.bodyParts).length
+                }
+            });
+            setError(error.response?.data?.error || error.message || 'Error calculating ratings');
             setLoading(false);
         }
     };
 
-    const renderAnalysisResults = () => {
-        if (!response) return null;
-
-        const { extractedInfo, occupationInfo, ratingInfo, formattedRating, calculations, references } = response;
-
-        return (
-            <div className="space-y-8">
-                {/* Patient Information */}
-                <div>
-                    <h4 className="text-lg font-semibold mb-2">Patient Information</h4>
-                    <div className="bg-gray-50 p-4 rounded">
-                        <p><span className="font-medium">Name:</span> {extractedInfo.name}</p>
-                        <p><span className="font-medium">DOB:</span> {extractedInfo.date_of_birth}</p>
-                        <p><span className="font-medium">Occupation:</span> {extractedInfo.occupation}</p>
-                        <p><span className="font-medium">Date of Injury:</span> {extractedInfo.date_of_injury}</p>
-                        <p><span className="font-medium">Claim #:</span> {extractedInfo.claim_number}</p>
-                    </div>
-                </div>
-
-                {/* Body Parts and WPI */}
-                <div>
-                    <h4 className="text-lg font-semibold mb-2">Body Parts and WPI</h4>
-                    <div className="bg-gray-50 p-4 rounded">
-                        {extractedInfo.body_parts.map((part, index) => (
-                            <div key={index} className="mb-2">
-                                <p><span className="font-medium">{part.part}:</span></p>
-                                <p className="ml-4">WPI: {part.wpi_percentage}%</p>
-                                {part.apportionment && (
-                                    <p className="ml-4">Apportionment: {part.apportionment}</p>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Occupation Analysis */}
-                <div>
-                    <h4 className="text-lg font-semibold mb-2">Occupation Analysis</h4>
-                    <div className="bg-gray-50 p-4 rounded">
-                        <p><span className="font-medium">Group Number:</span> {occupationInfo.group_number}</p>
-                        <div className="mt-2">
-                            <p className="font-medium">Body Part Variants:</p>
-                            {occupationInfo.body_parts.map((part, index) => (
-                                <p key={index} className="ml-4">
-                                    {part.part}: Variant {part.variant}
-                                </p>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Rating Calculations */}
-                <div>
-                    <h4 className="text-lg font-semibold mb-2">Rating Calculations</h4>
-                    <div className="bg-gray-50 p-4 rounded">
-                        {ratingInfo.impairments.map((imp, index) => (
-                            <div key={index} className="mb-4">
-                                <p className="font-medium">{imp.description}</p>
-                                <p className="ml-4">Code: {imp.code}</p>
-                                <p className="ml-4">WPI: {imp.wpi}%</p>
-                                <p className="ml-4">FEC Adjusted: {imp.fec_adjusted}%</p>
-                                <p className="ml-4">Occupation Adjusted: {imp.occupation_adjusted}%</p>
-                                <p className="ml-4">Age Adjusted: {imp.age_adjusted}%</p>
-                            </div>
-                        ))}
-                        <div className="mt-4 pt-4 border-t border-gray-300">
-                            <p className="font-medium">Combined Rating: {ratingInfo.combined_rating}%</p>
-                            <div className="mt-2">
-                                <p className="font-medium">Combination Steps:</p>
-                                {ratingInfo.combination_steps.map((step, index) => (
-                                    <p key={index} className="ml-4">{step}</p>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Final Rating */}
-                <div>
-                    <h4 className="text-lg font-semibold mb-2">Final Rating</h4>
-                    <div className="bg-gray-50 p-4 rounded">
-                        <p className="font-medium mb-2">
-                            {formattedRating.name} #{formattedRating.claim_number}
-                        </p>
-                        {formattedRating.ratings.map((rating, index) => (
-                            <div key={index} className="mb-2">
-                                <p className="font-mono">
-                                    {rating.code} - {rating.wpi} - {rating.fec} - {rating.group_variant} - {rating.adjusted} - {rating.final}%
-                                </p>
-                                <p className="ml-4">{rating.description}</p>
-                            </div>
-                        ))}
-                        <div className="mt-4 pt-4 border-t border-gray-300">
-                            <p><span className="font-medium">Combined Rating:</span> {formattedRating.combined_rating}%</p>
-                            <p><span className="font-medium">PD Weeks:</span> {formattedRating.pd_weeks}</p>
-                            <p><span className="font-medium">Age at DOI:</span> {formattedRating.age_doi}</p>
-                            <p><span className="font-medium">Weekly Earnings:</span> ${formattedRating.weekly_earnings}</p>
-                            <p><span className="font-medium">PD Rate:</span> ${formattedRating.pd_rate}/week</p>
-                            <p><span className="font-medium">Total PD:</span> ${formattedRating.pd_total}</p>
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-gray-300">
-                            <p className="font-medium">Future Medical:</p>
-                            {formattedRating.future_medical.map((fm, index) => (
-                                <p key={index} className="ml-4">
-                                    {fm.specialty}: ${fm.cost}
-                                </p>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Code Interpreter Results */}
-                {calculations?.length > 0 && (
-                    <div>
-                        <h4 className="text-lg font-semibold mb-2">Calculations and Analysis</h4>
-                        <div className="bg-gray-50 p-4 rounded space-y-4">
-                            {calculations.map((calc, index) => (
-                                <div key={index} className="bg-white rounded-lg shadow overflow-hidden">
-                                    <div className="bg-gray-800 text-white p-2">
-                                        <h5 className="text-sm font-mono">Python Code</h5>
-                                    </div>
-                                    <div className="p-3 bg-gray-100">
-                                        <pre className="whitespace-pre-wrap text-sm font-mono overflow-x-auto">
-                                            {calc.code}
-                                        </pre>
-                                    </div>
-                                    <div className="bg-gray-800 text-white p-2">
-                                        <h5 className="text-sm font-mono">Output</h5>
-                                    </div>
-                                    <div className="p-3">
-                                        <pre className="whitespace-pre-wrap text-sm overflow-x-auto">
-                                            {calc.output}
-                                        </pre>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* File Search Results */}
-                {references?.length > 0 && (
-                    <div>
-                        <h4 className="text-lg font-semibold mb-2">Reference Information</h4>
-                        <div className="bg-gray-50 p-4 rounded space-y-4">
-                            {references.map((ref, index) => (
-                                <div key={index} className="bg-white rounded-lg shadow">
-                                    <div className="bg-blue-600 text-white p-2">
-                                        <h5 className="font-medium">Search Query: {ref.query}</h5>
-                                    </div>
-                                    <div className="p-4 space-y-3">
-                                        {ref.results.map((result, idx) => (
-                                            <div key={idx} className="bg-gray-50 p-3 rounded border border-gray-200">
-                                                <p className="text-sm whitespace-pre-wrap">{result}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
-
     return (
-        <div className="max-w-full mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6 text-gray-600">Rate Reports</h2>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label htmlFor="occupation" className="block text-sm font-medium text-gray-700">
-                            Occupation
-                        </label>
-                        <input
-                            type="text"
-                            id="occupation"
-                            value={occupation}
-                            onChange={(e) => setOccupation(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            placeholder="Enter occupation"
-                        />
+        <Container size="xl" className={isDark ? 'text-gray-200' : 'text-gray-800'}>
+            <div style={{ position: 'relative' }}>
+                <LoadingOverlay visible={loading} blur={2} />
+                {processingStatus && (
+                    <div className="mt-2 text-blue-500 text-center font-medium">
+                        {processingStatus}
                     </div>
-                    <div>
-                        <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                            Age
-                        </label>
-                        <input
-                            type="text"
-                            id="age"
-                            value={age}
-                            onChange={(e) => setAge(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            placeholder="Enter age"
-                        />
-                    </div>
-                </div>
+                )}
 
-                <div className="mb-4 flex items-center">
-                    <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={useAssistant}
-                            onChange={(e) => setUseAssistant(e.target.checked)}
-                            className="sr-only peer"
+                <Grid gutter="md">
+                    <Grid.Col span={6}>
+                        <FileUploadSection
+                            formData={formData}
+                            loading={loading}
+                            error={error}
+                            handleInputChange={handleInputChange}
+                            handleFileUpload={handleFileUpload}
+                            occupations={occupations}
+                            extractedData={extractedData}
+                            onDataExtracted={handleDataExtracted}
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Use Assistant API</span>
-                    </label>
-                </div>
+                    </Grid.Col>
 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                    <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={handleFileChange}
-                        className="hidden"
-                        id="pdf-upload"
-                    />
-                    <label
-                        htmlFor="pdf-upload"
-                        className="cursor-pointer flex flex-col items-center justify-center space-y-2"
+                    <Grid.Col span={6}>
+                        <PersonalInfoSection
+                            formData={formData}
+                            handleInputChange={handleInputChange}
+                        />
+                    </Grid.Col>
+                </Grid>
+
+                <ImpairmentForm
+                    formData={formData}
+                    handleInputChange={handleInputChange}
+                    handleAddImpairment={handleAddImpairment}
+                    impairmentOptions={impairmentOptions}
+                />
+
+                <ImpairmentTable
+                    impairments={impairments}
+                    handleRemoveImpairment={handleRemoveImpairment}
+                    getFullImpairmentCode={getFullImpairmentCode}
+                />
+
+                <div className="mt-6 flex justify-center">
+                    <Button
+                        onClick={handleSubmit}
+                        size="md"
+                        loading={loading}
                     >
-                        <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                        <span className="text-blue-600 hover:text-blue-800">
-                            {file ? file.name : 'Scan Medical  Report (PDF)'}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                            Click or drag and drop
-                        </span>
-                    </label>
+                        {loading ? 'Calculating...' : 'Calculate Ratings'}
+                    </Button>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={loading || !file}
-                    className={`w-full py-3 px-4 rounded-md text-white font-medium transition-colors ${loading || !file
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-600 hover:bg-blue-700'
-                        }`}
-                >
-                    {loading ? 'Processing Document...' : 'Process Document'}
-                </button>
-            </form>
-
-            {loading && (
-                <div className="mt-8">
-                    <div className="flex flex-col items-center justify-center space-y-4">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-                        <p className="text-gray-600">Analyzing document...</p>
+                {error && (
+                    <div className="mt-4 text-red-500 text-center">
+                        {error}
                     </div>
-                </div>
-            )}
+                )}
 
-            {error && (
-                <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <p className="font-medium">Error:</p>
-                    <p>{typeof error === 'object' ? error.message || JSON.stringify(error) : error}</p>
-                </div>
-            )}
-
-            {response && (
-                <div className="mt-8 p-6 bg-white rounded-lg shadow">
-                    <h3 className="text-xl font-semibold mb-4">Rating Results</h3>
-                    {renderAnalysisResults()}
-                </div>
-            )}
-        </div>
+                <AnalysisResults
+                    analysis={analysis}
+                    getFullImpairmentCode={getFullImpairmentCode}
+                    isDark={isDark}
+                />
+            </div>
+        </Container>
     );
-}
+};
+
+export default RateReports;

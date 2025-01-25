@@ -1,0 +1,948 @@
+{
+    "Impairments_Codes": {
+        "03": {
+            "system": "Cardiovascular System – Heart & Aorta",
+            "impairments": [
+                {
+                    "code": "03.01.00.00",
+                    "description": "Valvular Heart Disease"
+                },
+                {
+                    "code": "03.02.00.00",
+                    "description": "Coronary Heart Disease"
+                },
+                {
+                    "code": "03.03.00.00",
+                    "description": "Congenital Heart Disease"
+                },
+                {
+                    "code": "03.04.00.00",
+                    "description": "Cardiomyopathies"
+                },
+                {
+                    "code": "03.05.00.00",
+                    "description": "Pericardial Heart Disease"
+                },
+                {
+                    "code": "03.06.00.00",
+                    "description": "Arrhythmia"
+                }
+            ]
+        },
+        "04": {
+            "system": "Cardiovascular System – Systemic & Pulmonary Arteries",
+            "impairments": [
+                {
+                    "code": "04.01.00.00",
+                    "description": "Hypertensive Cardiovascular Disease"
+                },
+                {
+                    "code": "04.02.00.00",
+                    "description": "Aortic Disease"
+                },
+                {
+                    "code": "04.03.01.00",
+                    "description": "Peripheral Vascular Disease, Upper Extremities"
+                },
+                {
+                    "code": "04.03.02.00",
+                    "description": "Peripheral Vascular Disease, Lower Extremities"
+                },
+                {
+                    "code": "04.04.00.00",
+                    "description": "Pulmonary Circulation Disease"
+                }
+            ]
+        },
+        "05": {
+            "system": "Respiratory System",
+            "impairments": [
+                {
+                    "code": "05.01.00.00",
+                    "description": "Asthma"
+                },
+                {
+                    "code": "05.02.00.00",
+                    "description": "Respiratory Disorders"
+                },
+                {
+                    "code": "05.03.00.00",
+                    "description": "Cancer"
+                }
+            ]
+        },
+        "06": {
+            "system": "Digestive System",
+            "impairments": [
+                {
+                    "code": "06.01.00.00",
+                    "description": "Upper Digestive Tract"
+                },
+                {
+                    "code": "06.02.00.00",
+                    "description": "Colon, Rectum, Anus"
+                },
+                {
+                    "code": "06.03.00.00",
+                    "description": "Enterocutaneous Fistulas"
+                },
+                {
+                    "code": "06.04.00.00",
+                    "description": "Liver/Biliary Tract"
+                },
+                {
+                    "code": "06.05.00.00",
+                    "description": "Hernias"
+                }
+            ]
+        },
+        "07": {
+            "system": "Urinary & Reproductive Systems",
+            "impairments": [
+                {
+                    "code": "07.01.00.00",
+                    "description": "Upper Urinary Tract"
+                },
+                {
+                    "code": "07.02.00.00",
+                    "description": "Urinary Diversion"
+                },
+                {
+                    "code": "07.03.00.00",
+                    "description": "Bladder"
+                },
+                {
+                    "code": "07.04.00.00",
+                    "description": "Urethra"
+                },
+                {
+                    "code": "07.05.00.00",
+                    "description": "Reproductive System"
+                }
+            ]
+        },
+        "08": {
+            "system": "Skin",
+            "impairments": [
+                {
+                    "code": "08.01.00.00",
+                    "description": "Disfigurement"
+                },
+                {
+                    "code": "08.02.00.00",
+                    "description": "Scars & Skin Grafts"
+                },
+                {
+                    "code": "08.03.00.00",
+                    "description": "Contact Dermatitis"
+                },
+                {
+                    "code": "08.04.00.00",
+                    "description": "Latex Allergy"
+                },
+                {
+                    "code": "08.05.00.00",
+                    "description": "Skin Cancer"
+                }
+            ]
+        },
+        "09": {
+            "system": "Hematopoietic System",
+            "impairments": [
+                {
+                    "code": "09.01.00.00",
+                    "description": "Hematopoietic Impairment"
+                }
+            ]
+        },
+        "10": {
+            "system": "Endocrine System",
+            "impairments": [
+                {
+                    "code": "10.01.00.00",
+                    "description": "Diabetes Mellitus"
+                }
+            ]
+        },
+        "11": {
+            "system": "Ear, Nose & Throat, Face",
+            "impairments": [
+                {
+                    "code": "11.01.01.00",
+                    "description": "Ear – Hearing Impairment"
+                },
+                {
+                    "code": "11.01.02.00",
+                    "description": "Ear – Vestibular Disorder"
+                },
+                {
+                    "code": "11.02.01.00",
+                    "description": "Face/cosmetic"
+                },
+                {
+                    "code": "11.02.02.00",
+                    "description": "Face/eye/cosmetic"
+                },
+                {
+                    "code": "11.03.01.00",
+                    "description": "Nose/Throat/Related Structures – Respiration"
+                },
+                {
+                    "code": "11.03.02.00",
+                    "description": "Nose/Throat/Related Structures – Mastication & Deglutition"
+                },
+                {
+                    "code": "11.03.03.00",
+                    "description": "Nose/Throat/Related Structures – Olfaction & Taste"
+                },
+                {
+                    "code": "11.03.04.00",
+                    "description": "Nose/Throat/Related Structures – Voice & Speech"
+                }
+            ]
+        },
+        "12": {
+            "system": "Visual System",
+            "impairments": [
+                {
+                    "code": "12.01.00.00",
+                    "description": "Visual Acuity"
+                },
+                {
+                    "code": "12.02.00.00",
+                    "description": "Visual Field"
+                },
+                {
+                    "code": "12.03.00.00",
+                    "description": "Visual System"
+                }
+            ]
+        },
+        "13": {
+            "system": "Central & Peripheral Nervous System,disorders,Cranial Nerve, Upper Extremities, Chronic Pain, Peripheral Nerve System",
+            "impairments": [
+                {
+                    "code": "13.01.00.00",
+                    "description": "Consciousness Disorder"
+                },
+                {
+                    "code": "13.02.00.00",
+                    "description": "Episodic Neurologic Disorder"
+                },
+                {
+                    "code": "13.03.00.00",
+                    "description": "Arousal Disorder"
+                },
+                {
+                    "code": "13.04.00.00",
+                    "description": "Cognitive Impairment"
+                },
+                {
+                    "code": "13.05.00.00",
+                    "description": "Language Disorder"
+                },
+                {
+                    "code": "13.06.00.00",
+                    "description": "Behavioral/Emotional Disorder"
+                },
+                {
+                    "code": "13.07.01.00",
+                    "description": "Cranial Nerve – Olfactory"
+                },
+                {
+                    "code": "13.07.02.00",
+                    "description": "Cranial Nerve – Optic"
+                },
+                {
+                    "code": "13.07.03.00",
+                    "description": "Cranial Nerve – Oculomotor, Trochlear & Abducens"
+                },
+                {
+                    "code": "13.07.04.00",
+                    "description": "Cranial Nerve – Trigeminal"
+                },
+                {
+                    "code": "13.07.05.00",
+                    "description": "Cranial Nerve – Facial"
+                },
+                {
+                    "code": "13.07.06.01",
+                    "description": "Cranial Nerve – Vestibulocochlear – Vertigo"
+                },
+                {
+                    "code": "13.07.06.02",
+                    "description": "Cranial Nerve – Vestibulocochlear – Tinnitus"
+                },
+                {
+                    "code": "13.07.07.00",
+                    "description": "Cranial Nerve – Glossopharyngeal & Valgus"
+                },
+                {
+                    "code": "13.07.08.00",
+                    "description": "Cranial Nerve – Spinal Accessory"
+                },
+                {
+                    "code": "13.07.09.00",
+                    "description": "Cranial Nerve – Hypoglossal"
+                },
+                {
+                    "code": "13.08.00.00",
+                    "description": "Station, Gait, Movement"
+                },
+                {
+                    "code": "13.09.00.00",
+                    "description": "Upper Extremities"
+                },
+                {
+                    "code": "13.10.01.00",
+                    "description": "Spinal Cord Disorder – Respiratory"
+                },
+                {
+                    "code": "13.10.02.00",
+                    "description": "Spinal Cord Disorder – Urinary"
+                },
+                {
+                    "code": "13.10.03.00",
+                    "description": "Spinal Cord Disorder – Anorectal"
+                },
+                {
+                    "code": "13.10.04.00",
+                    "description": "Spinal Cord Disorder – Sexual"
+                },
+                {
+                    "code": "13.11.01.01",
+                    "description": "Chronic Pain – Upper Extremities – Causalgia"
+                },
+                {
+                    "code": "13.11.01.02",
+                    "description": "Chronic Pain – Upper Extremities – Post-traumatic Neuralgia"
+                },
+                {
+                    "code": "13.11.01.03",
+                    "description": "Chronic Pain – Upper Extremities – Reflex Sympathetic Dystrophy"
+                },
+                {
+                    "code": "13.11.02.01",
+                    "description": "Chronic Pain – Lower Extremities – Causalgia"
+                },
+                {
+                    "code": "13.11.02.02",
+                    "description": "Chronic Pain – Lower Extremities – Post-traumatic Neuralgia"
+                },
+                {
+                    "code": "13.11.02.03",
+                    "description": "Chronic Pain – Lower Extremities – Reflex Sympathetic Dystrophy"
+                },
+                {
+                    "code": "13.12.01.01",
+                    "description": "Peripheral Nerve System – Spine – Sensory"
+                },
+                {
+                    "code": "13.12.01.02",
+                    "description": "Peripheral Nerve System – Spine – Motor"
+                },
+                {
+                    "code": "13.12.02.01",
+                    "description": "Peripheral Nerve System – Upper Extremity – Sensory"
+                },
+                {
+                    "code": "13.12.02.02",
+                    "description": "Peripheral Nerve System – Upper Extremity – Motor"
+                },
+                {
+                    "code": "13.12.03.01",
+                    "description": "Peripheral Nerve System – Lower Extremity – Sensory"
+                },
+                {
+                    "code": "13.12.03.02",
+                    "description": "Peripheral Nerve System – Lower Extremity – Motor"
+                }
+            ]
+        },
+        "14": {
+            "system": "Mental & Behavioral Disorders",
+            "impairments": [
+                {
+                    "code": "14.01.00.00",
+                    "description": "Psychiatric – Mental and Behavioral"
+                }
+            ]
+        },
+        "15": {
+            "system": "Spine,Cervical,Thoracic,Lumbar,Corticospinal Tract,Pelvic",
+            "impairments": [
+                {
+                    "code": "15.01.01.00",
+                    "description": "Cervical – Diagnosis-Related Estimate (DRE) (DRE)"
+                },
+                {
+                    "code": "15.01.02.01",
+                    "description": "Cervical – Range of Motion (ROM) (ROM) – Fracture"
+                },
+                {
+                    "code": "15.01.02.02",
+                    "description": "Cervical – Range of Motion (ROM) (ROM)– Soft Tissue Lesion"
+                },
+                {
+                    "code": "15.01.02.03",
+                    "description": "Cervical – Range of Motion (ROM) (ROM)– Spondylolysis, no operation"
+                },
+                {
+                    "code": "15.01.02.04",
+                    "description": "Cervical – Range of Motion (ROM) (ROM)– Stenosis, with operation"
+                },
+                {
+                    "code": "15.01.02.05",
+                    "description": "Cervical – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Sensory"
+                },
+                {
+                    "code": "15.01.02.06",
+                    "description": "Cervical – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Motor"
+                },
+                {
+                    "code": "15.02.01.00",
+                    "description": "Thoracic – Diagnosis-Related Estimate (DRE)"
+                },
+                {
+                    "code": "15.02.02.01",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Fracture"
+                },
+                {
+                    "code": "15.02.02.02",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Soft Tissue Lesion"
+                },
+                {
+                    "code": "15.02.02.03",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Spondylolysis, no operation"
+                },
+                {
+                    "code": "15.02.02.04",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Stenosis, with operation"
+                },
+                {
+                    "code": "15.02.02.05",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Sensory"
+                },
+                {
+                    "code": "15.02.02.06",
+                    "description": "Thoracic – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Motor"
+                },
+                {
+                    "code": "15.03.01.00",
+                    "description": "Lumbar – Diagnosis-Related Estimate (DRE)"
+                },
+                {
+                    "code": "15.03.02.01",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Fracture"
+                },
+                {
+                    "code": "15.03.02.02",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Soft Tissue Lesion"
+                },
+                {
+                    "code": "15.03.02.03",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Spondylolysis, no operation"
+                },
+                {
+                    "code": "15.03.02.04",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Stenosis, with operation"
+                },
+                {
+                    "code": "15.03.02.05",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Sensory"
+                },
+                {
+                    "code": "15.03.02.06",
+                    "description": "Lumbar – Range of Motion (ROM) (ROM)– Nerve Root/Spinal Cord – Motor"
+                },
+                {
+                    "code": "15.04.01.00",
+                    "description": "Corticospinal Tract – One Upper Extremity"
+                },
+                {
+                    "code": "15.04.02.00",
+                    "description": "Corticospinal Tract – Two Upper Extremities"
+                },
+                {
+                    "code": "15.04.03.00",
+                    "description": "Corticospinal Tract – Station/Gait Disorder"
+                },
+                {
+                    "code": "15.04.00.00",
+                    "description": "Corticospinal Tract – Bladder Impairment"
+                },
+                {
+                    "code": "15.04.05.00",
+                    "description": "Corticospinal Tract – Anorectal Impairment"
+                },
+                {
+                    "code": "15.04.06.00",
+                    "description": "Corticospinal Tract – Sexual Impairment"
+                },
+                {
+                    "code": "15.04.07.00",
+                    "description": "Corticospinal Tract – Respiratory Impairment"
+                },
+                {
+                    "code": "15.05.01.00",
+                    "description": "Pelvic – Healed Fracture"
+                },
+                {
+                    "code": "15.05.02.00",
+                    "description": "Pelvic – Healed Fracture with Displacement"
+                },
+                {
+                    "code": "15.05.03.00",
+                    "description": "Pelvic – Healed Fracture with Deformity"
+                }
+            ]
+        },
+        "16": {
+            "system": "Upper Extremities, Arm, Shoulder, Elbow, Wrist,Hand/Multiple Fingers, Thumb, index, middle, ring, little",
+            "impairments": [
+                {
+                    "code": "16.01.01.01",
+                    "description": "Arm – Amputation/Deltoid Insertion Proximally"
+                },
+                {
+                    "code": "16.01.01.02",
+                    "description": "Arm – Amputation/Bicipital Insertion Proximally"
+                },
+                {
+                    "code": "16.01.01.03",
+                    "description": "Arm – Amputation/Wrist Proximally"
+                },
+                {
+                    "code": "16.01.01.04",
+                    "description": "Arm – Amputation/All Fingers at MP Joint Proximally"
+                },
+                {
+                    "code": "16.01.02.01",
+                    "description": "Arm – Peripheral Neuropathy – Brachial Plexus"
+                },
+                {
+                    "code": "16.01.02.02",
+                    "description": "Arm – Peripheral Neuropathy – Carpal Tunnel"
+                },
+                {
+                    "code": "16.01.02.03",
+                    "description": "Arm – Peripheral Neuropathy – Entrapment/Compression"
+                },
+                {
+                    "code": "16.01.02.04",
+                    "description": "Arm – Peripheral Neuropathy – CRPS I"
+                },
+                {
+                    "code": "16.01.02.05",
+                    "description": "Arm – Peripheral Neuropathy – CRPS II"
+                },
+                {
+                    "code": "16.01.03.00",
+                    "description": "Arm – Peripheral Vascular"
+                },
+                {
+                    "code": "16.01.04.00",
+                    "description": "Arm – Grip/Pinch Strength"
+                },
+                {
+                    "code": "16.01.05.00",
+                    "description": "Arm – Other"
+                },
+                {
+                    "code": "16.02.01.00",
+                    "description": "Shoulder – Range of Motion (ROM) "
+                },
+                {
+                    "code": "16.02.02.00",
+                    "description": "Shoulder – Other"
+                },
+                {
+                    "code": "16.03.01.00",
+                    "description": "Elbow/Forearm – Range of Motion (ROM) "
+                },
+                {
+                    "code": "16.03.02.00",
+                    "description": "Elbow/Forearm – Other"
+                },
+                {
+                    "code": "16.04.01.00",
+                    "description": "Wrist – Range of Motion (ROM) "
+                },
+                {
+                    "code": "16.04.02.00",
+                    "description": "Wrist – Other"
+                },
+                {
+                    "code": "16.05.01.00",
+                    "description": "Hand/Multiple Fingers – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.05.02.00",
+                    "description": "Hand/Multiple Fingers – Amputation"
+                },
+                {
+                    "code": "16.05.03.00",
+                    "description": "Hand/Multiple Fingers – Sensory"
+                },
+                {
+                    "code": "16.05.04.00",
+                    "description": "Hand/Multiple Fingers – Other"
+                },
+                {
+                    "code": "16.06.01.01",
+                    "description": "Thumb – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.06.01.02",
+                    "description": "Thumb – Amputation"
+                },
+                {
+                    "code": "16.06.01.03",
+                    "description": "Thumb – Sensory"
+                },
+                {
+                    "code": "16.06.01.04",
+                    "description": "Thumb – Other"
+                },
+                {
+                    "code": "16.06.02.01",
+                    "description": "Index – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.06.02.02",
+                    "description": "Index – Amputation"
+                },
+                {
+                    "code": "16.06.02.03",
+                    "description": "Index – Sensory"
+                },
+                {
+                    "code": "16.06.02.04",
+                    "description": "Index – Other"
+                },
+                {
+                    "code": "16.06.03.01",
+                    "description": "Middle – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.06.03.02",
+                    "description": "Middle – Amputation"
+                },
+                {
+                    "code": "16.06.03.03",
+                    "description": "Middle – Sensory"
+                },
+                {
+                    "code": "16.06.03.04",
+                    "description": "Middle – Other"
+                },
+                {
+                    "code": "16.06.04.01",
+                    "description": "Ring – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.06.04.02",
+                    "description": "Ring – Amputation"
+                },
+                {
+                    "code": "16.06.04.03",
+                    "description": "Ring – Sensory"
+                },
+                {
+                    "code": "16.06.04.04",
+                    "description": "Ring – Other"
+                },
+                {
+                    "code": "16.06.05.01",
+                    "description": "Little – Range of Motion (ROM)"
+                },
+                {
+                    "code": "16.06.05.02",
+                    "description": "Little – Amputation"
+                },
+                {
+                    "code": "16.06.05.03",
+                    "description": "Little – Sensory"
+                },
+                {
+                    "code": "16.06.05.04",
+                    "description": "Little – Other"
+                }
+            ]
+        },
+        "17": {
+            "system": "Lower Extremities, leg, pelvis, hip, femur, knee,tibia,fibula,ankle,foot, toes",
+            "impairments": [
+                {
+                    "code": "17.01.01.00",
+                    "description": "Leg – Limb Length"
+                },
+                {
+                    "code": "17.01.02.01",
+                    "description": "Leg – Amputation/Knee Proximally"
+                },
+                {
+                    "code": "17.01.02.02",
+                    "description": "Leg – Amputation/MTP Joint Proximally"
+                },
+                {
+                    "code": "17.01.03.00",
+                    "description": "Leg – Skin Loss"
+                },
+                {
+                    "code": "17.01.04.00",
+                    "description": "Leg – Peripheral Nerve"
+                },
+                {
+                    "code": "17.01.05.00",
+                    "description": "Leg – Vascular"
+                },
+                {
+                    "code": "17.01.06.00",
+                    "description": "Leg – Causalgia/RSD"
+                },
+                {
+                    "code": "17.01.07.00",
+                    "description": "Leg – Gait Derangement"
+                },
+                {
+                    "code": "17.01.08.00",
+                    "description": "Leg – Other"
+                },
+                {
+                    "code": "17.02.10.00",
+                    "description": "Pelvis – Diagnosis-Related Estimate (DRE) (DBE) – Fracture"
+                },
+                {
+                    "code": "17.03.01.00",
+                    "description": "Hip – Muscle Atrophy"
+                },
+                {
+                    "code": "17.03.02.00",
+                    "description": "Hip – Ankylosis"
+                },
+                {
+                    "code": "17.03.03.00",
+                    "description": "Hip – Arthritis"
+                },
+                {
+                    "code": "17.03.04.00",
+                    "description": "Hip – Range of Motion (ROM)"
+                },
+                {
+                    "code": "17.03.05.00",
+                    "description": "Hip – Muscle Strength"
+                },
+                {
+                    "code": "17.03.06.00",
+                    "description": "Hip – Other"
+                },
+                {
+                    "code": "17.03.10.01",
+                    "description": "Hip – Diagnosis-Related Estimate (DRE) – Hip Replacement"
+                },
+                {
+                    "code": "17.03.10.02",
+                    "description": "Hip – Diagnosis-Related Estimate (DRE) – Hip/Femoral Neck Fracture"
+                },
+                {
+                    "code": "17.03.10.03",
+                    "description": "Hip – Diagnosis-Related Estimate (DRE) – Hip/Arthroplasty"
+                },
+                {
+                    "code": "17.03.10.04",
+                    "description": "Hip – Diagnosis-Related Estimate (DRE) – Trochanteric Bursitis"
+                },
+                {
+                    "code": "17.04.10.00",
+                    "description": "Femur – Diagnosis-Related Estimate (DRE) – Fracture"
+                },
+                {
+                    "code": "17.05.01.00",
+                    "description": "Knee – Muscle Atrophy"
+                },
+                {
+                    "code": "17.05.02.00",
+                    "description": "Knee – Ankylosis"
+                },
+                {
+                    "code": "17.05.03.00",
+                    "description": "Knee – Arthritis"
+                },
+                {
+                    "code": "17.05.04.00",
+                    "description": "Knee – Range of Motion (ROM)"
+                },
+                {
+                    "code": "17.05.05.00",
+                    "description": "Knee – Muscle Strength"
+                },
+                {
+                    "code": "17.05.06.00",
+                    "description": "Knee – Other"
+                },
+                {
+                    "code": "17.05.10.01",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Subluxation/Dislocation"
+                },
+                {
+                    "code": "17.05.10.02",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Fracture"
+                },
+                {
+                    "code": "17.05.10.03",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Patellectomy"
+                },
+                {
+                    "code": "17.05.10.04",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Meniscectomy"
+                },
+                {
+                    "code": "17.05.10.05",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Cruciate/Collateral Ligament"
+                },
+                {
+                    "code": "17.05.10.06",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Plateau Fracture"
+                },
+                {
+                    "code": "17.05.10.07",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Supra/Intercondylar Fracture"
+                },
+                {
+                    "code": "17.05.10.08",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Total Replacement"
+                },
+                {
+                    "code": "17.05.10.09",
+                    "description": "Knee – Diagnosis-Related Estimate (DRE) – Proximal Tibial Osteotomy"
+                },
+                {
+                    "code": "17.06.10.00",
+                    "description": "Tibia/Fibula – Diagnosis-Related Estimate (DRE) – Fracture"
+                },
+                {
+                    "code": "17.07.01.00",
+                    "description": "Ankle – Muscle Atrophy"
+                },
+                {
+                    "code": "17.07.02.00",
+                    "description": "Ankle – Ankylosis"
+                },
+                {
+                    "code": "17.07.03.00",
+                    "description": "Ankle – Arthritis"
+                },
+                {
+                    "code": "17.07.04.00",
+                    "description": "Ankle – Range of Motion (ROM)"
+                },
+                {
+                    "code": "17.07.05.00",
+                    "description": "Ankle – Muscle Strength"
+                },
+                {
+                    "code": "17.07.06.00",
+                    "description": "Ankle – Other"
+                },
+                {
+                    "code": "17.07.10.01",
+                    "description": "Ankle – Diagnosis-Related Estimate (DRE) – Ligament Instability"
+                },
+                {
+                    "code": "17.07.10.02",
+                    "description": "Ankle – Diagnosis-Related Estimate (DRE) – Fracture"
+                },
+                {
+                    "code": "17.08.01.00",
+                    "description": "Foot – Muscle Atrophy"
+                },
+                {
+                    "code": "17.08.02.00",
+                    "description": "Foot – Ankylosis"
+                },
+                {
+                    "code": "17.08.03.00",
+                    "description": "Foot – Arthritis"
+                },
+                {
+                    "code": "17.08.04.00",
+                    "description": "Foot – Range of Motion (ROM)"
+                },
+                {
+                    "code": "17.08.05.00",
+                    "description": "Foot – Muscle Strength"
+                },
+                {
+                    "code": "17.08.06.00",
+                    "description": "Foot – Other"
+                },
+                {
+                    "code": "17.08.10.01",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Hind Foot Fracture"
+                },
+                {
+                    "code": "17.08.10.02",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Loss of Tibia"
+                },
+                {
+                    "code": "17.08.10.03",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Intra-articular Fracture"
+                },
+                {
+                    "code": "17.08.10.04",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Calvus"
+                },
+                {
+                    "code": "17.08.10.05",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Rocker Bottom"
+                },
+                {
+                    "code": "17.08.10.06",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Avascular Necrosis"
+                },
+                {
+                    "code": "17.08.10.07",
+                    "description": "Foot – Diagnosis-Related Estimate (DRE) – Metatarsal Fracture"
+                },
+                {
+                    "code": "17.09.01.00",
+                    "description": "Toes – Muscle Atrophy"
+                },
+                {
+                    "code": "17.09.02.00",
+                    "description": "Toes – Ankylosis"
+                },
+                {
+                    "code": "17.09.03.00",
+                    "description": "Toes – Arthritis"
+                },
+                {
+                    "code": "17.09.04.00",
+                    "description": "Toes – Range of Motion (ROM)"
+                },
+                {
+                    "code": "17.09.05.00",
+                    "description": "Toes – Muscle Strength"
+                },
+                {
+                    "code": "17.09.06.00",
+                    "description": "Toes – Amputation"
+                },
+                {
+                    "code": "17.09.07.00",
+                    "description": "Toes – Other"
+                }
+            ]
+        },
+        "18": {
+            "system": "Pain",
+            "impairments": [
+                {
+                    "code": "18.00.00.00",
+                    "description": "Pain – Use FEC Rank for Involved Body Part"
+                }
+            ]
+        }
+    }
+}

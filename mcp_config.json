@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@0.6.2", "/Volumes/DevDrive/caselaw/ai-legal-assistant/uploads"],
+      "env": {}
+    }
+  }
+}

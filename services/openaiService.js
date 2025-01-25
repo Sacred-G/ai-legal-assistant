@@ -1,4 +1,4 @@
-const OpenAI = require('openai');
+import OpenAI from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -25,78 +25,88 @@ function estimateTokenCount(text) {
 
 async function generateResponse(message, context) {
   try {
-    console.log('Generating OpenAI response...');
+    console.log('Generating OpenAI response with:', {
+      messageLength: message?.length,
+      contextLength: context?.length,
+      contextPreview: context?.substring(0, 200) + '...',
+      hasContext: !!context
+    });
 
-    const instructions = `You are a medical-legal report analyzer. When presented with a medical report, carefully extract and summarize all available information, even if it requires careful reading between sections. Look for information throughout the entire report as important details may be mentioned in different sections.
+    if (!context) {
+      console.warn('No context provided to OpenAI service');
+      return 'Please upload a PDF document first to provide context for analysis.';
+    }
 
-When analyzing a medical-legal report, extract and summarize the available information in a clear, organized format. If information is missing, reason and think about it. It may be presented in slightly different terminology, but also consider implicit information that can be reasonably inferred from the context. For example, Injurys, impairment, and body part might mean the same thing.
+    const instructions = `You are a medical-legal report analyzer. Format your response in a clean, structured manner following these guidelines:
 
-Medical-Legal Report Summary Format
+FORMATTING RULES:
+1. Use clear section headers with numbers (e.g., "1. PATIENT DEMOGRAPHICS")
+2. Add a blank line between sections for readability
+3. Use consistent indentation (2 spaces) for all subsections
+4. Present information in a key-value format where applicable
+5. Avoid special characters, markdown, or decorative elements
+6. Use plain text formatting only
 
-1. Patient Demographics and Employment Details
-Extract any available information about:
-- Patient Name
-- Age/DOB
-- Employer
-- Occupation
-- Employment Duration
-- Insurance Carrier
-- Claim Number
-- Incident Date
-- Current Work Status
+REPORT SECTIONS:
 
-2. Injury Claims
-Identify any mentioned:
-- Type of injury
-- Date(s) of injury
-- Body parts affected
-- Mechanism of injury
-- WPI % Rating for each body part
+1. PATIENT DEMOGRAPHICS AND EMPLOYMENT
+  MMI Status: [State if achieved]
+  Patient Name: [Name]
+  Age/DOB: [Age/Date]
+  Employer: [Name]
+  Occupation: [Title]
+  Employment Duration: [Time]
+  Insurance Carrier: [Name]
+  Claim Number: [Number]
+  Incident Date: [Date]
+  Current Work Status: [Status]
 
-3. Prior Relevant Injuries
-If mentioned in the report:
-- Date of occurrence
-- Description of incident
-- Body parts affected
-- Treatment received
-- Outcome
+2. INJURY CLAIMS
+  Cumulative Trauma:
+    Dates: [Dates]
+    Body Parts: [List]
+    Description: [Details]
+  
+  Specific Trauma:
+    Date: [Date]
+    Body Parts: [List]
+    Mechanism: [Description]
+    WPI Ratings: [Percentages by body part]
 
-4. Current Complaints by Body Part
-For each affected body part mentioned in the report, note any details about:
-- Symptoms
-- Pain descriptions
-- Impact on activities
+4. CURRENT COMPLAINTS
+  List by body part:
+    [Body Part]:
+      Symptoms: [List]
+      Pain Level/Description: [Details]
+      Activity Impact: [Description]
 
-5. Clinical Diagnoses
-List any diagnoses mentioned in the report
+5. CLINICAL DIAGNOSES
+  Primary:
+    Diagnosis: [Condition]
+    Description: [Details]
+  Secondary:
+    [List additional diagnoses]
 
-6. Apportionment Determinations
-Include if specified in the report:
-- Any percentage breakdowns
-- Reasoning provided
+6. APPORTIONMENT
+  Percentages: [List breakdowns]
+  Reasoning: [Explanation]
 
-7. Work Restrictions and Limitations
-Note any mentioned restrictions or limitations
+7. WORK RESTRICTIONS
+  Physical Limitations: [List]
+  Activity Restrictions: [List]
 
-8. Future Medical Care Recommendations
-List any mentioned:
-- Treatment recommendations
-- Ongoing care needs
+8. FUTURE MEDICAL CARE
+  Recommended Treatments: [List]
+  Ongoing Care Needs: [Details]
 
-9. Vocational Findings and Recommendations
-Include any vocational-related information if present
+9. VOCATIONAL FINDINGS
+  Current Capacity: [Details]
+  Recommendations: [List]
 
-10. Unique or Notable Aspects
-Note any significant information that doesn't fit the above categories
+10. NOTABLE ASPECTS
+  Additional Findings: [List any significant information]
 
-Important Notes:
-- Only include information that is explicitly stated in the report
-- Mark sections as "Not specified in the report" when information is absent
-- Maintain medical terminology as used in the report
-- Use "Not provided" or similar neutral language for missing information
-- Focus on accuracy over completeness
-- Do not use any markdown formatting or asterisks in your response
-- Format section titles and text as plain text without any special characters
+When analyzing the report, extract information carefully and present it in this structured format. Maintain medical terminology as used in the report.
 
 Here is a section of a medical report to analyze using the above format:\n\n${context}\n\nUser Question: ${message}`;
 
@@ -121,7 +131,24 @@ Here is a section of a medical report to analyze using the above format:\n\n${co
       throw new Error('Invalid response format from OpenAI API');
     }
 
-    return response.choices[0].message.content;
+    // Process the response to ensure consistent formatting
+    let formattedResponse = response.choices[0].message.content;
+
+    // Ensure consistent line spacing
+    formattedResponse = formattedResponse
+      .replace(/\n{3,}/g, '\n\n') // Replace multiple blank lines with double line break
+      .replace(/^\s+|\s+$/g, '') // Trim whitespace at start and end
+      .split('\n')
+      .map(line => {
+        // Ensure consistent indentation
+        if (line.match(/^\d+\./)) {
+          return `\n${line}`; // Add extra line break before numbered sections
+        }
+        return line;
+      })
+      .join('\n');
+
+    return formattedResponse;
   } catch (error) {
     console.error('Error generating OpenAI response:', error);
     console.error('Error details:', {
@@ -133,4 +160,4 @@ Here is a section of a medical report to analyze using the above format:\n\n${co
   }
 }
 
-module.exports = { generateResponse };
+export default { generateResponse };

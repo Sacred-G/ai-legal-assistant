@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { API_URL } from '../config/api';
+import api, { sendMessage, extractTextFromPDF, uploadFileToAssistants, sendAssistantMessage } from '../config/api';
 
-// Create axios instance with base URL
-const api = axios.create({
-  baseURL: API_URL,
-  timeout: 300000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Function to format AI response with headings and bullets
 const formatAIResponse = (text) => {
-  // Split into lines
+  if (!text) return ''; // Add this line to handle undefined text
   const lines = text.split('\n');
   let formattedHtml = '';
-  let inList = false;
-  let inSection = false;
+  let inSubSection = false;
+  let indentLevel = 0;
 
   lines.forEach(line => {
-    // Clean the line
     const cleanLine = line.trim();
 
     if (cleanLine === '') {
@@ -31,49 +19,51 @@ const formatAIResponse = (text) => {
       return;
     }
 
-    // Handle section headings (lines with **)
-    if (cleanLine.startsWith('**') && cleanLine.endsWith('**')) {
-      if (inList) {
-        formattedHtml += '</ul>';
-        inList = false;
+    // Handle main section headers (numbered sections)
+    if (cleanLine.match(/^\d+\.\s+[A-Z]/)) {
+      if (inSubSection) {
+        formattedHtml += '</div>';
+        inSubSection = false;
       }
-      const headingText = cleanLine.replace(/\*\*/g, '');
-      formattedHtml += `<h2 class="font-bold text-xl mt-4 mb-3">${headingText}</h2>`;
-      inSection = true;
+      const headingText = cleanLine.replace(/^\d+\.\s+/, '');
+      formattedHtml += `
+        <div class="mt-6 mb-3">
+          <h2 class="text-xl font-bold tracking-wide">${headingText}</h2>
+        </div>`;
+      indentLevel = 0;
       return;
     }
 
-    // Handle sub-headings (numbered or with single *)
-    if ((cleanLine.match(/^\d+\.\s/) || cleanLine.startsWith('*')) && !cleanLine.startsWith('**')) {
-      if (inList) {
-        formattedHtml += '</ul>';
-        inList = false;
+    // Handle key-value pairs
+    if (cleanLine.includes(':')) {
+      const [key, value] = cleanLine.split(':').map(part => part.trim());
+      const indent = line.match(/^\s*/)[0].length;
+
+      // Adjust indent level based on spacing
+      if (indent > indentLevel) {
+        formattedHtml += '<div class="ml-4">';
+        inSubSection = true;
+      } else if (indent < indentLevel && inSubSection) {
+        formattedHtml += '</div>';
+        inSubSection = false;
       }
-      const headingText = cleanLine.replace(/^\d+\.\s/, '').replace(/\*/g, '');
-      formattedHtml += `<h3 class="font-bold text-lg mt-3 mb-2">${headingText}</h3>`;
+      indentLevel = indent;
+
+      formattedHtml += `
+        <div class="mb-2">
+          <span class="font-semibold">${key}:</span>
+          <span class="ml-2">${value || 'Not provided'}</span>
+        </div>`;
       return;
     }
 
-    // Handle bullet points (lines starting with - or •)
-    if (cleanLine.startsWith('-') || cleanLine.startsWith('•')) {
-      if (!inList) {
-        formattedHtml += '<ul class="list-disc pl-6 space-y-1">';
-        inList = true;
-      }
-      formattedHtml += `<li>${cleanLine.substring(1).trim()}</li>`;
-    }
-    // Regular text
-    else {
-      if (inList) {
-        formattedHtml += '</ul>';
-        inList = false;
-      }
-      formattedHtml += `<p class="mb-2">${cleanLine}</p>`;
-    }
+    // Handle regular text
+    formattedHtml += `<p class="mb-2 ${indentLevel > 0 ? 'ml-4' : ''}">${cleanLine}</p>`;
   });
 
-  if (inList) {
-    formattedHtml += '</ul>';
+  // Close any open subsections
+  if (inSubSection) {
+    formattedHtml += '</div>';
   }
 
   return formattedHtml;
@@ -82,155 +72,338 @@ const formatAIResponse = (text) => {
 function ChatInterface() {
   const { isDark, theme, animations } = useTheme();
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState(null);
   const [context, setContext] = useState('');
-  const [provider, setProvider] = useState('openai');
+  const [selectedModel, setSelectedModel] = useState('openai');
+  const [age, setAge] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [threadId, setThreadId] = useState(null);
   const [fileId, setFileId] = useState(null);
+  const [assistantId, setAssistantId] = useState(null);
 
-  // Effect to trigger initial analysis when context is set
-  useEffect(() => {
-    if (context) {
-      const analysisPrompt = "Please provide a detailed analysis of this medical report, including all key findings, diagnoses, treatment recommendations, and any notable medical-legal considerations.";
-      handleSubmit(null, analysisPrompt);
-    }
-  }, [context, provider, fileId]);
+  const models = [
+    { id: 'openai', name: 'OpenAI o1' },
+    { id: 'anthropic', name: 'Claude 3.5 Sonnet' },
+    { id: 'gemini', name: 'Google Gemini' },
+    { id: 'assistant', name: 'Medical Report Assistant' }
+  ];
 
   const handleFileChange = async (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      console.log('File selected:', selectedFile.name, 'Size:', selectedFile.size, 'Type:', selectedFile.type);
+    if (event.target.files && event.target.files[0]) {
+      const selectedFile = event.target.files[0];
 
-      if (selectedFile.size > 50 * 1024 * 1024) { // 50MB limit
-        const error = 'File size exceeds 50MB limit';
-        console.error(error);
-        setMessages(prev => [...prev, { text: error, sender: 'error' }]);
-        return;
-      }
-
-      if (selectedFile.type !== 'application/pdf') {
-        const error = 'Please select a PDF file';
-        console.error(error);
-        setMessages(prev => [...prev, { text: error, sender: 'error' }]);
+      // Validate file size (50MB limit)
+      if (selectedFile.size > 50 * 1024 * 1024) {
+        setMessages(prev => [...prev, {
+          text: 'Error: File size must be less than 50MB',
+          sender: 'error'
+        }]);
         return;
       }
 
       setFile(selectedFile);
-      const formData = new FormData();
-      formData.append('pdf', selectedFile);
-      console.log('Uploading file to /api/chat/upload...');
+      setIsUploading(true);
+      setMessages(prev => [...prev, {
+        text: 'Processing medical report...',
+        sender: 'system'
+      }]);
 
       try {
-        console.log('Starting file upload...');
-        const response = await api.post('/api/chat/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: (progressEvent) => {
-            console.log('Upload progress:', Math.round((progressEvent.loaded * 100) / progressEvent.total));
-          }
-        });
-        console.log('Upload successful, response:', response.data);
+        if (selectedModel === 'assistant') {
+          // Use the assistants API
+          const result = await uploadFileToAssistants(selectedFile, true);
+          setThreadId(result.threadId);
+          setFileId(result.fileId);
+          setAssistantId(result.assistantId);
+          setContext({ threadId: result.threadId, fileId: result.fileId, assistantId: result.assistantId });
 
-        if (!response.data) {
-          throw new Error('No response data received from server');
-        }
-        
-        if (!response.data.text || typeof response.data.text !== 'string') {
-          console.error('Invalid response data:', response.data);
-          throw new Error('Invalid text content received from server');
-        }
+          // Display initial summary
+          setMessages(prev => [...prev, {
+            text: 'Medical report processed. Here is the initial analysis:',
+            sender: 'system'
+          }, {
+            text: result.summary,
+            sender: 'ai'
+          }]);
 
-        const textContent = response.data.text.trim();
-        if (textContent.length === 0) {
-          throw new Error('No text content extracted from PDF');
-        }
+        } else if (selectedModel === 'anthropic') {
+          // For Anthropic, send raw file as base64
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            // Remove data URL prefix and get pure base64
+            const base64String = reader.result.replace(/^data:application\/pdf;base64,/, '');
+            setContext({ base64: base64String }); // Set context as an object with base64 property
 
-        console.log('Setting context with text length:', textContent.length);
-        setContext(textContent);
+            // Process with Anthropic
+            const contextObj = { base64: base64String };
+            const response = await sendMessage(
+              "Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.",
+              selectedModel,
+              contextObj
+            );
 
-        // Show success message
-        setMessages(prev => [...prev, {
-          text: `PDF uploaded successfully (${response.data.pages} pages)`,
-          sender: 'system'
-        }]);
+            // Display initial summary
+            setMessages(prev => [...prev, {
+              text: 'Medical report processed. Here is the initial analysis:',
+              sender: 'system'
+            }, {
+              text: response,
+              sender: 'ai'
+            }]);
 
-        // If using assistants service, process the PDF first
-        if (provider === 'assistants') {
-          console.log('Processing PDF with assistants service...');
-          const assistantsResponse = await api.post('/api/process-pdf', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          });
-          if (assistantsResponse.data.fileId) {
-            console.log('Assistants processing successful, fileId:', assistantsResponse.data.fileId);
-            setFileId(assistantsResponse.data.fileId);
+            // Extract age and occupation
+            const extractionResponse = await sendMessage(
+              "Please extract the patient's age and occupation from this report. Return only a JSON object in this exact format: { \"age\": number, \"occupation\": string }",
+              selectedModel,
+              contextObj
+            );
+
+            try {
+              const extractedData = JSON.parse(extractionResponse);
+              if (extractedData.age) setAge(extractedData.age);
+              if (extractedData.occupation) setOccupation(extractedData.occupation);
+            } catch (error) {
+              console.error('Error extracting age/occupation:', error);
+            }
+          };
+          reader.readAsDataURL(selectedFile);
+        } else {
+          // For OpenAI and Gemini, send file directly
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          formData.append('provider', selectedModel);
+          formData.append('message', "Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.");
+
+          const response = await api.post('/chat', formData);
+          const extractedText = response.data.response;
+          setContext(extractedText);
+
+          // Display initial summary
+          setMessages(prev => [...prev, {
+            text: 'Medical report processed. Here is the initial analysis:',
+            sender: 'system'
+          }, {
+            text: response.data.response,
+            sender: 'ai'
+          }]);
+
+          // Extract age and occupation
+          const extractionFormData = new FormData();
+          extractionFormData.append('file', selectedFile);
+          extractionFormData.append('provider', selectedModel);
+          extractionFormData.append('message', "Please extract the patient's age and occupation from this report. Return only a JSON object in this exact format: { \"age\": number, \"occupation\": string }");
+
+          const extractionResponse = await api.post('/chat', extractionFormData);
+
+          try {
+            // Parse the response from the JSON string
+            const extractedData = JSON.parse(extractionResponse.data.response);
+            if (extractedData.age) setAge(extractedData.age);
+            if (extractedData.occupation) setOccupation(extractedData.occupation);
+          } catch (error) {
+            console.error('Error extracting age/occupation:', error);
           }
         }
       } catch (error) {
-        const errorMessage = error.response?.data?.error || error.message;
-        console.error('Error uploading file:', {
-          message: errorMessage,
-          response: error.response?.data,
-          status: error.response?.status,
-          fullError: error
-        });
-
-        // Show error message to user
+        console.error('Error processing file:', error);
+        let errorMessage = 'Error processing file: ';
+        if (error.response?.data?.error) {
+          errorMessage += error.response.data.error;
+        } else if (error.message) {
+          errorMessage += error.message;
+        } else {
+          errorMessage += 'Unknown error occurred';
+        }
         setMessages(prev => [...prev, {
-          text: `Error uploading file: ${errorMessage}`,
+          text: errorMessage,
           sender: 'error'
         }]);
-
-        // Clear file selection and state
-        event.target.value = '';
         setFile(null);
         setContext('');
-        setFileId(null);
+      } finally {
+        setIsUploading(false);
       }
     }
   };
 
-  const handleSubmit = async (e, promptText) => {
-    if (e) e.preventDefault();
+  const handleSubmit = async (e, overrideMessage = null) => {
+    e?.preventDefault();
 
-    const messageText = promptText || input;
+    const messageText = overrideMessage || inputText;
     if (!messageText.trim()) return;
 
-    // Set sender as 'system' for automatic analysis prompts
-    const newMessage = {
+    if (!overrideMessage) {
+      setInputText('');
+    }
+
+    setMessages(prev => [...prev, {
       text: messageText,
-      sender: promptText ? 'system' : 'user'
-    };
-    setMessages(prev => [...prev, newMessage]);
-    setInput('');
+      sender: 'user'
+    }]);
+
     setIsLoading(true);
 
     try {
-      // Validate context is available
-      if (!context) {
-        throw new Error('No document context available. Please upload a PDF first.');
+      if (selectedModel === 'assistant') {
+        if (!context || !context.threadId || !context.fileId || !context.assistantId) {
+          throw new Error('Thread ID, File ID, and Assistant ID are required for assistant messages');
+        }
+      } else if (!context) {
+        throw new Error('Please upload a medical report first');
       }
 
-      const useAssistants = provider === 'assistants';
-      const endpoint = useAssistants ? '/api/assistants/chat' : '/api/chat';
+      // Check if this is a request to calculate PD rating
+      if (messageText.toLowerCase().includes('calculate') && messageText.toLowerCase().includes('pd')) {
+        const analysisPrompt = `Please analyze this medical report and extract all impairments with WPI values and pain add-ons. Return the data in this JSON format:
+        {
+          "demographics": {
+            "dateOfBirth": "YYYY-MM-DD",
+            "dateOfInjury": "YYYY-MM-DD",
+            "occupation": {
+              "title": "${occupation || "string"}"
+            },
+            "weeklyEarnings": number
+          },
+          "impairments": [
+            {
+              "bodyPart": {
+                "code": "string",
+                "name": "string",
+                "section": "string",
+                "type": "string"
+              },
+              "wpi": number,
+              "adjustments": {
+                "pain": {
+                  "add": boolean
+                },
+                "adl": {
+                  "impacted": boolean
+                }
+              },
+              "apportionment": {
+                "industrial": number,
+                "nonIndustrial": number
+              },
+              "futureMedial": boolean
+            }
+          ]
+        }`;
 
-      const payload = {
-        message: messageText,
-        context: typeof context === 'string' ? context : JSON.stringify(context),
-        ...(useAssistants ? { fileId } : { provider })
-      };
+        let response;
+        if (selectedModel === 'assistant') {
+          response = await new Promise((resolve, reject) => {
+            let messageContent = '';
+            sendAssistantMessage(
+              analysisPrompt,
+              context.threadId,
+              context.assistantId,
+              context.fileId,
+              {
+                textDelta: (data) => {
+                  messageContent += data.text;
+                },
+                done: () => {
+                  resolve(messageContent);
+                },
+                error: (error) => {
+                  reject(new Error(error.message || 'Error processing assistant message'));
+                }
+              }
+            );
+          });
+        } else {
+          response = await sendMessage(
+            analysisPrompt,
+            selectedModel,
+            selectedModel === 'anthropic' ? context : context
+          );
+        }
 
-      console.log('Sending payload with context length:', payload.context.length);
+        try {
+          const analysisData = JSON.parse(response);
 
-      const response = await api.post(endpoint, payload);
-      if (response.data.response) {
-        const aiMessage = { text: response.data.response, sender: 'ai' };
-        setMessages(prev => [...prev, aiMessage]);
+          // Use the PDR service to calculate rating
+          const result = await calculatePDRRatings(analysisData);
+
+          // Format the response
+          const noApportText = result.no_apportionment.sections.map(section =>
+            `${section.name}: ${section.wpi}% WPI → ${section.rating}% (after adjustments)`
+          ).join('\n');
+
+          const withApportText = result.with_apportionment.sections.map(section =>
+            `${section.name}: ${section.wpi}% WPI → ${section.rating}% (after adjustments and ${section.apportionment.industrial}% apportionment)`
+          ).join('\n');
+
+          const responseText = `PD Rating Calculation:
+
+${noApportText ? `\nWithout Apportionment:\n${noApportText}\nTotal: ${result.no_apportionment.total}%` : ''}
+${withApportText ? `\nWith Apportionment:\n${withApportText}\nTotal: ${result.with_apportionment.total}%` : ''}
+
+Weekly Rate: $${result.pd_weekly_rate}
+Total PD Payout: $${result.total_pd_payout}
+Life Pension Weekly Rate: $${result.life_weekly_rate}`;
+
+          setMessages(prev => [...prev, {
+            text: responseText,
+            sender: 'ai'
+          }]);
+        } catch (parseError) {
+          console.error('Error parsing analysis response:', parseError);
+          throw new Error('Could not calculate PD rating from the medical report');
+        }
+
+      } else {
+        // Regular question about the medical report
+        let response;
+        if (selectedModel === 'openai' || selectedModel === 'gemini') {
+          // For OpenAI and Gemini, send file with message
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('provider', selectedModel);
+          formData.append('message', messageText);
+          const result = await api.post('/chat', formData);
+          response = result.data.response;
+        } else {
+          // For Anthropic
+          if (selectedModel === 'anthropic') {
+            response = await sendMessage(messageText, selectedModel, context);
+          } else {
+            // For Assistant
+            response = await new Promise((resolve, reject) => {
+              let messageContent = '';
+              sendAssistantMessage(
+                messageText,
+                context.threadId,
+                context.assistantId,
+                context.fileId,
+                {
+                  textDelta: (data) => {
+                    messageContent += data.text;
+                  },
+                  done: () => {
+                    resolve(messageContent);
+                  },
+                  error: (error) => {
+                    reject(new Error(error.message || 'Error processing assistant message'));
+                  }
+                }
+              );
+            });
+          }
+        }
+        setMessages(prev => [...prev, {
+          text: response,
+          sender: 'ai'
+        }]);
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage = error.response?.data?.error || error.message || 'An error occurred while processing your message';
       setMessages(prev => [...prev, {
-        text: `Error: ${errorMessage}`,
+        text: `Error: ${error.response?.data?.error || error.message}`,
         sender: 'error'
       }]);
     } finally {
@@ -239,74 +412,86 @@ function ChatInterface() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className={`route-content w-full max-w-full mx-auto p-2 ${isDark ? 'bg-gray-900/95 backdrop-blur-sm' : 'bg-white'} rounded-lg flex flex-col h-[calc(100vh-6rem)]`}
-      style={{
-        boxShadow: theme.shadow.lg,
-        transition: animations.transition.normal
-      }}
-    >
-      <h2 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-800'}`}>Medical Report Analysis</h2>
+    <div className="h-full flex flex-col p-4">
+      <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-800'}`}>Medical Report Analysis</h2>
 
       {/* Controls Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 sm:gap-6 mb-4 flex-shrink-0">
         <div>
-          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>AI Provider</label>
+          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>Model</label>
           <select
-            value={provider}
-            onChange={(e) => {
-              setProvider(e.target.value);
-              setFileId(null);
-              if (e.target.value === 'assistants' && file) {
-                const formData = new FormData();
-                formData.append('pdf', file);
-                api.post('/api/process-pdf', formData, {
-                  headers: { 'Content-Type': 'multipart/form-data' },
-                }).then(response => {
-                  if (response.data.fileId) {
-                    setFileId(response.data.fileId);
-                  }
-                }).catch(error => {
-                  console.error('Error uploading file to assistants:', error);
-                });
-              }
-            }}
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
             className={`w-full py-2 px-4 border ${isDark
               ? 'bg-gray-700 border-gray-600 text-white'
               : 'bg-white border-gray-300 text-gray-900'
               } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200`}
           >
-            <option value="openai">OpenAI GPT-4</option>
-            <option value="anthropic">Anthropic Claude</option>
-            <option value="gemini">Google Gemini</option>
-            <option value="assistants">Assistants Service</option>
+            {models.map(model => (
+              <option key={model.id} value={model.id}>{model.name}</option>
+            ))}
           </select>
         </div>
-
         <div>
-          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>Upload Medical Report (PDF)</label>
+          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>Age</label>
           <input
-            type="file"
-            accept=".pdf"
-            onChange={handleFileChange}
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            placeholder="Enter age"
             className={`w-full py-2 px-4 border ${isDark
-              ? 'bg-gray-700 border-gray-600 text-white file:text-gray-200 file:bg-gray-600'
+              ? 'bg-gray-700 border-gray-600 text-white'
               : 'bg-white border-gray-300 text-gray-900'
               } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200`}
           />
+        </div>
+
+        <div>
+          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>Occupation</label>
+          <input
+            type="text"
+            value={occupation}
+            onChange={(e) => setOccupation(e.target.value)}
+            placeholder="Enter occupation"
+            className={`w-full py-2 px-4 border ${isDark
+              ? 'bg-gray-700 border-gray-600 text-white'
+              : 'bg-white border-gray-300 text-gray-900'
+              } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200`}
+          />
+        </div>
+
+        <div>
+          <label className={`block text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'} mb-2`}>Upload File</label>
+          <div className="relative">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              disabled={isUploading}
+              className={`w-full py-2 px-4 border ${isDark
+                ? 'bg-gray-700 border-gray-600 text-white file:text-gray-200 file:bg-gray-600'
+                : 'bg-white border-gray-300 text-gray-900'
+                } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+            />
+            {isUploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-md">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="rounded-full h-6 w-6 border-t-2 border-b-2 border-white"
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Chat Messages Section */}
       <div
-        className={`${isDark ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-50'} rounded-lg p-2 mb-4 flex-1 overflow-y-auto scroll-smooth`}
+        className={`${isDark ? 'bg-gray-800/80 backdrop-blur-sm' : 'bg-gray-50'} rounded-lg p-4 flex-1 overflow-y-auto scroll-smooth`}
         style={{
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
-          transition: animations.transition.normal,
-          minHeight: '600px',
-          height: 'calc(100vh - 300px)'
+          transition: animations.transition.normal
         }}
       >
         <AnimatePresence mode="popLayout">
@@ -399,16 +584,16 @@ function ChatInterface() {
       {/* Input Section */}
       <motion.form
         onSubmit={handleSubmit}
-        className="flex flex-col sm:flex-row gap-2 sm:gap-4"
+        className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4 flex-shrink-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your question about the medical report..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Ask a question about the medical report..."
           className={`flex-1 py-3 px-4 border ${isDark
             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -417,7 +602,7 @@ function ChatInterface() {
         />
         <motion.button
           type="submit"
-          disabled={isLoading || !input.trim()}
+          disabled={isLoading || !inputText.trim()}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className={`px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -429,7 +614,7 @@ function ChatInterface() {
           Send
         </motion.button>
       </motion.form>
-    </motion.div>
+    </div>
   );
 }
 

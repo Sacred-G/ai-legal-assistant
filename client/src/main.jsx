@@ -1,7 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { GlobalWorkerOptions } from 'pdfjs-dist';
+import { MantineProvider } from '@mantine/core';
 import App from './App';
 import './index.css';
+import '@mantine/core/styles.css';
+
+// Configure PDF.js worker
+// Ensure PDF.js worker is loaded from the correct path
+const pdfjsWorkerPath = new URL('/pdf.worker.min.mjs', window.location.origin).href;
+GlobalWorkerOptions.workerSrc = pdfjsWorkerPath;
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -38,7 +46,27 @@ if (root) {
     ReactDOM.createRoot(root).render(
         <React.StrictMode>
             <ErrorBoundary>
-                <App />
+                <MantineProvider
+                    theme={{
+                        primaryColor: 'blue',
+                        colors: {
+                            blue: [
+                                '#e6f2ff',
+                                '#bfdfff',
+                                '#99ccff',
+                                '#73b9ff',
+                                '#4da6ff',
+                                '#2563eb',
+                                '#1d4ed8',
+                                '#1a44b8',
+                                '#163a98',
+                                '#133078'
+                            ]
+                        }
+                    }}
+                >
+                    <App />
+                </MantineProvider>
             </ErrorBoundary>
         </React.StrictMode>
     );

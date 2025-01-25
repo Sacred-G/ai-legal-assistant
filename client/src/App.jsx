@@ -5,7 +5,9 @@ import ChatInterface from './components/ChatInterface';
 import CaseLawResearcher from './components/CaseLawResearcher';
 import RateReports from './components/RateReports.jsx';
 import LegalDocumentGenerator from './components/LegalDocumentGenerator';
-import LegalDocumentReview from './components/LegalDocumentReview';
+import AdvancedChat from './components/AdvancedChat';
+import TavilyDocs from './components/TavilyDocs';
+import AssistantChat from './components/AssistantChat';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
 function Navigation() {
@@ -37,7 +39,7 @@ function Navigation() {
 
   return (
     <nav
-      className={`${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}
+      className={`${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg flex-shrink-0`}
       style={{
         boxShadow: theme.shadow.md,
         transition: animations.transition.normal
@@ -58,10 +60,12 @@ function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             <NavLink to="/">Chat Interface</NavLink>
+            <NavLink to="/advanced">Advanced Chat</NavLink>
             <NavLink to="/case-law">Case Law Researcher</NavLink>
             <NavLink to="/rate-reports">Rate Reports</NavLink>
             <NavLink to="/legal-docs">Legal Document Generator</NavLink>
-            <NavLink to="/doc-review">Legal Document Review</NavLink>
+            <NavLink to="/tavily-docs">Tavily API Docs</NavLink>
+            <NavLink to="/assistant">AI Assistant</NavLink>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -130,6 +134,13 @@ function Navigation() {
                   Chat Interface
                 </Link>
                 <Link
+                  to="/advanced"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Advanced Chat
+                </Link>
+                <Link
                   to="/case-law"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -151,11 +162,18 @@ function Navigation() {
                   Legal Document Generator
                 </Link>
                 <Link
-                  to="/doc-review"
+                  to="/tavily-docs"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Legal Document Review
+                  Tavily API Docs
+                </Link>
+                <Link
+                  to="/assistant"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  AI Assistant
                 </Link>
               </div>
             </motion.div>
@@ -171,13 +189,13 @@ function AppContent() {
   const location = useLocation();
 
   return (
-    <div className={`h-full ${isDark ? 'bg-gray-900' : 'bg-gray-100'}`}
+    <div className={`h-screen flex flex-col ${isDark ? 'bg-gray-900' : 'bg-gray-100'}`}
       style={{
         transition: theme.transition || 'background-color 0.2s ease-in-out'
       }}>
       <Navigation />
-      <main className="flex-1">
-        <div className="max-w-[99%] mx-auto py-2 px-1">
+      <main className="flex-1 overflow-y-auto">
+        <div className="h-full max-w-[99%] mx-auto relative">
           <Routes>
             <Route
               path="/"
@@ -187,8 +205,23 @@ function AppContent() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  className="h-full"
                 >
                   <ChatInterface />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/advanced"
+              element={
+                <motion.div
+                  key="advanced"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full"
+                >
+                  <AdvancedChat />
                 </motion.div>
               }
             />
@@ -232,15 +265,34 @@ function AppContent() {
               }
             />
             <Route
-              path="/doc-review"
+              path="/tavily-docs"
               element={
                 <motion.div
-                  key="doc-review"
+                  key="tavily-docs"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <LegalDocumentReview />
+                  <TavilyDocs />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/assistant"
+              element={
+                <motion.div
+                  key="assistant"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full"
+                >
+                  <AssistantChat
+                    assistantId={import.meta.env.VITE_OPENAI_ASSISTANT_ID}
+                    vectorStoreId={import.meta.env.VITE_OPENAI_VECTORSTORE_ID}
+                    ratingAssistantId={import.meta.env.VITE_OPENAI_RATING_ASSISTANT_ID}
+                    ratingVectorStoreId={import.meta.env.VITE_OPENAI_RATING_VECTORSTORE_ID}
+                  />
                 </motion.div>
               }
             />
