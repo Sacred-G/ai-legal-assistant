@@ -4,10 +4,5 @@
     "require": {
         "php": ">=7.4"
     },
-    "scripts": {
-        "post-install-cmd": [
-            "npm install",
-            "npm start"
-        ]
-    }
+    "scripts": {}
 }
