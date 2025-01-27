@@ -17,15 +17,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "^/assets/(.*)",
-      "dest": "/client/dist/assets/$1"
-    },
-    {
-      "src": "^/(?!api).*",
-      "dest": "/client/dist/index.html"
+      "dest": "/server.js"
     }
   ],
   "env": {
