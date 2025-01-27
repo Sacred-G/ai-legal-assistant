@@ -1,5 +1,5 @@
 {
-    "name": "ai-legal-assistant",
+    "name": "sacred-g/ai-legal-assistant",
     "description": "AI Legal Assistant Application",
     "require": {
         "php": ">=7.4"

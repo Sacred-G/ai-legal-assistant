@@ -1,0 +1,10 @@
+{
+  "vps": {
+    "ssh_ip": "147.93.41.71",
+    "ssh_username": "root",
+    "ssh_password": "Bboul62566256#",
+    "default_ssh_port": 22,
+    "ipv6": "2a02:4780:2d:e0d7::1",
+    "terminal_command": "ssh root@147.93.41.71"
+  }
+}
