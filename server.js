@@ -10,6 +10,7 @@ import chatRoutes from './routes/chatRoutes.js';
 import tavilyRoutes from './routes/tavilyRoutes.js';
 import pdrRoutes from './routes/pdrRoutes.js';
 import assistantChatRoutes from './routes/assistantChatRoutes.js';
+import chatInterfaceRoutes from './routes/chatInterfaceRoutes.js';
 import { performCaseLawResearch, generateLegalDocument } from './services/wordwareService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -79,7 +80,7 @@ export function configureServer(app) {
 
   // Configure CORS
   app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -187,6 +188,7 @@ export function configureServer(app) {
   app.use('/api/tavily', tavilyRoutes);
   app.use('/api/pdr', pdrRoutes);
   app.use('/api/chat/assistants', assistantChatRoutes);
+  app.use('/api/chat-interface', chatInterfaceRoutes);
 
   // Legal Document Generation endpoint
   app.post('/api/generate-legal-document', async (req, res) => {

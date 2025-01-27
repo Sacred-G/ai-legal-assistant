@@ -6,7 +6,7 @@ const router = express.Router();
 const upload = multer();
 
 // Create a new thread
-router.post('/chat/assistants/create-thread', async (req, res) => {
+router.post('/create-thread', async (req, res) => {
     try {
         const { type = 'chat' } = req.body;
         const { assistantId, threadId, vectorStoreId } = await assistantsService.createAssistant(type);
@@ -25,7 +25,7 @@ router.post('/chat/assistants/create-thread', async (req, res) => {
 });
 
 // Handle file uploads
-router.post('/chat/assistants/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('file'), async (req, res) => {
     try {
         const file = req.file;
         const type = req.body.type || 'chat';
@@ -44,7 +44,10 @@ router.post('/chat/assistants/upload', upload.single('file'), async (req, res) =
     } catch (error) {
         console.error('Error uploading file:', {
             error: error.message,
-            stack: error.stack
+            stack: error.stack,
+            details: error.response?.data,
+            status: error.status,
+            code: error.code
         });
         res.status(500).json({
             error: error.message || 'Error uploading file'
@@ -53,7 +56,7 @@ router.post('/chat/assistants/upload', upload.single('file'), async (req, res) =
 });
 
 // Handle chat messages with streaming
-router.post('/assistants/message', async (req, res) => {
+router.post('/message', async (req, res) => {
     try {
         const { message, threadId, assistantId, fileId } = req.body;
 

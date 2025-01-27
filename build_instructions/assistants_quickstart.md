@@ -624,61 +624,25 @@ In this example, we’ll create an assistant that can help answer questions abou
 
 Create a new assistant with `file_search` enabled in the `tools` parameter of the Assistant.
 
-```python
-from openai import OpenAI
-
-client = OpenAI()
-
-assistant = client.beta.assistants.create(
-name="Financial Analyst Assistant",
-instructions="You are an expert financial analyst. Use you knowledge base to answer questions about audited financial statements.",
-model="gpt-4o",
-tools=[{"type": "file_search"}],
-)
-```
-
 ```javascript
 import OpenAI from "openai";
 const openai = new OpenAI();
 
 async function main() {
 const assistant = await openai.beta.assistants.create({
-  name: "Financial Analyst Assistant",
-  instructions: "You are an expert financial analyst. Use you knowledge base to answer questions about audited financial statements.",
+  name: "Workers Comp Assistant",
+  instructions: "You are an expert workers comp analyst. Use you knowledge base to answer questions about workers comp claims.",
   model: "gpt-4o",
   tools: [{ type: "file_search" }],
 });
 }
-
-main();
-```
-
-```bash
-curl https://api.openai.com/v1/assistants \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--H "OpenAI-Beta: assistants=v2" \
--d '{
-  "name": "Financial Analyst Assistant",
-  "instructions": "You are an expert financial analyst. Use you knowledge base to answer questions about audited financial statements.",
-  "tools": [{"type": "file_search"}],
-  "model": "gpt-4o"
-}'
-```
-
 Once the `file_search` tool is enabled, the model decides when to retrieve content based on user messages.
 
 ### Step 2: Upload files and add them to a Vector Store
 
 To access your files, the `file_search` tool uses the Vector Store object. Upload your files and create a Vector Store to contain them. Once the Vector Store is created, you should poll its status until all files are out of the `in_progress` state to ensure that all content has finished processing. The SDK provides helpers to uploading and polling in one shot.
 
-```python
-# Create a vector store caled "Financial Statements"
-vector_store = client.beta.vector_stores.create(name="Financial Statements")
 
-# Ready the files for upload to OpenAI
-file_paths = ["edgar/goog-10k.pdf", "edgar/brka-10k.txt"]
-file_streams = [open(path, "rb") for path in file_paths]
 
 # Use the upload and poll SDK helper to upload the files, add them to the vector store,
 # and poll the status of the file batch for completion.
@@ -686,19 +650,14 @@ file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
 vector_store_id=vector_store.id, files=file_streams
 )
 
-# You can print the status and the file counts of the batch to see the result of this operation.
-print(file_batch.status)
-print(file_batch.file_counts)
-```
-
 ```javascript
-const fileStreams = ["edgar/goog-10k.pdf", "edgar/brka-10k.txt"].map((path) =>
+const fileStreams = ["Users uploaded pdf file ", "another user uploaded pdf file"].map((path) =>
 fs.createReadStream(path),
 );
 
 // Create a vector store including our two files.
 let vectorStore = await openai.beta.vectorStores.create({
-name: "Financial Statement",
+name: "workers comp Vector store"
 });
 
 await openai.beta.vectorStores.fileBatches.uploadAndPoll(vectorStore.id, fileStreams)
@@ -708,53 +667,25 @@ await openai.beta.vectorStores.fileBatches.uploadAndPoll(vectorStore.id, fileStr
 
 To make the files accessible to your assistant, update the assistant’s `tool_resources` with the new `vector_store` id.
 
-```python
-assistant = client.beta.assistants.update(
-assistant_id=assistant.id,
-tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
-)
-```
-
-```javascript
 await openai.beta.assistants.update(assistant.id, {
 tool_resources: { file_search: { vector_store_ids: [vectorStore.id] } },
 });
-```
+
 
 ### Step 4: Create a thread
 
 You can also attach files as Message attachments on your thread. Doing so will create another `vector_store` associated with the thread, or, if there is already a vector store attached to this thread, attach the new files to the existing thread vector store. When you create a Run on this thread, the file search tool will query both the `vector_store` from your assistant and the `vector_store` on the thread.
 
-In this example, the user attached a copy of Apple’s latest 10-K filing.
-
-```python
-# Upload the user provided file to OpenAI
-message_file = client.files.create(
-file=open("edgar/aapl-10k.pdf", "rb"), purpose="assistants"
-)
-
-# Create a thread and attach the file to the message
-thread = client.beta.threads.create(
-messages=[
-  {
-    "role": "user",
-    "content": "How many shares of AAPL were outstanding at the end of of October 2023?",
-    # Attach the new file to the message.
-    "attachments": [
-      { "file_id": message_file.id, "tools": [{"type": "file_search"}] }
-    ],
-  }
-]
-)
+In this example, the user attached a copy of medical report that needs summarized.
 
 # The thread now has a vector store with that file in its tool resources.
 print(thread.tool_resources.file_search)
 ```
 
-```javascript
+
 // A user wants to attach a file to a specific message, let's upload it.
-const aapl10k = await openai.files.create({
-file: fs.createReadStream("edgar/aapl-10k.pdf"),
+const medicalReport = await openai.files.create({
+file: fs.createReadStream("/medical_report.pdf"),
 purpose: "assistants",
 });
 
@@ -763,9 +694,9 @@ messages: [
   {
     role: "user",
     content:
-      "How many shares of AAPL were outstanding at the end of of October 2023?",
+      "what is the pd rating of uploaded medical report?",
     // Attach the new file to the message.
-    attachments: [{ file_id: aapl10k.id, tools: [{ type: "file_search" }] }],
+    attachments: [{ file_id: medicalReport.id, tools: [{ type: "file_search" }] }],
   },
 ],
 });
@@ -782,52 +713,6 @@ Now, create a Run and observe that the model uses the File Search tool to provid
 
 With streamingWithout streaming
 
-```python
-from typing_extensions import override
-from openai import AssistantEventHandler, OpenAI
-
-client = OpenAI()
-
-class EventHandler(AssistantEventHandler):
-  @override
-  def on_text_created(self, text) -> None:
-      print(f"\nassistant > ", end="", flush=True)
-
-  @override
-  def on_tool_call_created(self, tool_call):
-      print(f"\nassistant > {tool_call.type}\n", flush=True)
-
-  @override
-  def on_message_done(self, message) -> None:
-      # print a citation to the file searched
-      message_content = message.content[0].text
-      annotations = message_content.annotations
-      citations = []
-      for index, annotation in enumerate(annotations):
-          message_content.value = message_content.value.replace(
-              annotation.text, f"[{index}]"
-          )
-          if file_citation := getattr(annotation, "file_citation", None):
-              cited_file = client.files.retrieve(file_citation.file_id)
-              citations.append(f"[{index}] {cited_file.filename}")
-
-      print(message_content.value)
-      print("\n".join(citations))
-
-# Then, we use the stream SDK helper
-# with the EventHandler class to create the Run
-# and stream the response.
-
-with client.beta.threads.runs.stream(
-  thread_id=thread.id,
-  assistant_id=assistant.id,
-  instructions="Please address the user as Jane Doe. The user has a premium account.",
-  event_handler=EventHandler(),
-) as stream:
-  stream.until_done()
-```
-
-```javascript
 const stream = openai.beta.threads.runs
 .stream(thread.id, {
   assistant_id: assistant.id,
@@ -899,53 +784,29 @@ Vector Store objects give the File Search tool the ability to search your files.
 
 You can create a vector store and add files to it in a single API call:
 
-```python
-vector_store = client.beta.vector_stores.create(
-name="Product Documentation",
-file_ids=['file_1', 'file_2', 'file_3', 'file_4', 'file_5']
-)
-```
-
-```javascript
 const vectorStore = await openai.beta.vectorStores.create({
 name: "Product Documentation",
 file_ids: ['file_1', 'file_2', 'file_3', 'file_4', 'file_5']
 });
-```
+
 
 Adding files to vector stores is an async operation. To ensure the operation is complete, we recommend that you use the 'create and poll' helpers in our official SDKs. If you're not using the SDKs, you can retrieve the `vector_store` object and monitor it's [`file_counts`](/docs/api-reference/vector-stores/object#vector-stores/object-file_counts) property to see the result of the file ingestion operation.
 
 Files can also be added to a vector store after it's created by [creating vector store files](/docs/api-reference/vector-stores/createFile).
 
-```python
-file = client.beta.vector_stores.files.create_and_poll(
-vector_store_id="vs_abc123",
-file_id="file-abc123"
-)
-```
 
-```javascript
 const file = await openai.beta.vectorStores.files.createAndPoll(
 "vs_abc123",
 { file_id: "file-abc123" }
 );
-```
 
-Alternatively, you can add several files to a vector store by [creating batches](/docs/api-reference/vector-stores/createBatch) of up to 500 files.
+Alternatively, you can add several files to a vector store by [creating batches](/docs/api-reference/vector-stores/createBatch) of up to 500 files
 
-```python
-batch = client.beta.vector_stores.file_batches.create_and_poll(
-vector_store_id="vs_abc123",
-file_ids=['file_1', 'file_2', 'file_3', 'file_4', 'file_5']
-)
-```
 
-```javascript
 const batch = await openai.beta.vectorStores.fileBatches.createAndPoll(
 "vs_abc123",
 { file_ids: ["file_1", "file_2", "file_3", "file_4", "file_5"] },
-);
-```
+
 
 Similarly, these files can be removed from a vector store by either:
 
@@ -960,29 +821,7 @@ File Search supports a variety of file formats including `.pdf`, `.md`, and `.do
 
 You can attach vector stores to your Assistant or Thread using the `tool_resources` parameter.
 
-```python
-assistant = client.beta.assistants.create(
-instructions="You are a helpful product support assistant and you answer questions based on the files provided to you.",
-model="gpt-4o",
-tools=[{"type": "file_search"}],
-tool_resources={
-  "file_search": {
-    "vector_store_ids": ["vs_1"]
-  }
-}
-)
 
-thread = client.beta.threads.create(
-messages=[ { "role": "user", "content": "How do I cancel my subscription?"} ],
-tool_resources={
-  "file_search": {
-    "vector_store_ids": ["vs_2"]
-  }
-}
-)
-```
-
-```javascript
 const assistant = await openai.beta.assistants.create({
 instructions: "You are a helpful product support assistant and you answer questions based on the files provided to you.",
 model: "gpt-4o",
@@ -1002,7 +841,7 @@ tool_resources: {
   }
 }
 });
-```
+
 
 You can also attach a vector store to Threads or Assistants after they're created by updating them with the right `tool_resources`.
 
@@ -1046,21 +885,6 @@ The first step in improving the quality of your file search results is inspectin
 
 Include file search results in response when creating a run
 
-```python
-from openai import OpenAI
-client = OpenAI()
-
-run_step = client.beta.threads.runs.steps.retrieve(
-  thread_id="thread_abc123",
-  run_id="run_abc123",
-  step_id="step_abc123",
-  include=["step_details.tool_calls[*].file_search.results[*].content"]
-)
-
-print(run_step)
-```
-
-```javascript
 import OpenAI from "openai";
 const openai = new OpenAI();
 
@@ -1074,14 +898,7 @@ const runStep = await openai.beta.threads.runs.steps.retrieve(
 );
 
 console.log(runStep);
-```
 
-```bash
-curl -g https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_abc123?include[]=step_details.tool_calls[*].file_search.results[*].content \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--H "Content-Type: application/json" \
--H "OpenAI-Beta: assistants=v2"
-```
 
 You can then log and inspect the search results used during the run step, and determine whether or not they are consistently relevant to the responses your assistant should generate.
 
@@ -1102,18 +919,7 @@ You first GB is free and beyond that, usage is billed at $0.10/GB/day of vector 
 
 In order to help you manage the costs associated with these `vector_store` objects, we have added support for expiration policies in the `vector_store` object. You can set these policies when creating or updating the `vector_store` object.
 
-```python
-vector_store = client.beta.vector_stores.create_and_poll(
-name="Product Documentation",
-file_ids=['file_1', 'file_2', 'file_3', 'file_4', 'file_5'],
-expires_after={
-  "anchor": "last_active_at",
-  "days": 7
-}
-)
-```
 
-```javascript
 let vectorStore = await openai.beta.vectorStores.create({
 name: "rag-store",
 file_ids: ['file_1', 'file_2', 'file_3', 'file_4', 'file_5'],
@@ -1122,7 +928,6 @@ expires_after: {
   days: 7
 }
 });
-```
 
 **Thread vector stores have default expiration policies**
 
@@ -1130,22 +935,7 @@ Vector stores created using thread helpers (like [`tool_resources.file_search.ve
 
 When a vector store expires, runs on that thread will fail. To fix this, you can simply recreate a new `vector_store` with the same files and reattach it to the thread.
 
-```python
-all_files = list(client.beta.vector_stores.files.list("vs_expired"))
 
-vector_store = client.beta.vector_stores.create(name="rag-store")
-client.beta.threads.update(
-  "thread_abc123",
-  tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
-)
-
-for file_batch in chunked(all_files, 100):
-  client.beta.vector_stores.file_batches.create_and_poll(
-      vector_store_id=vector_store.id, file_ids=[file.id for file in file_batch]
-  )
-```
-
-```javascript
 const fileIds = [];
 for await (const file of openai.beta.vectorStores.files.list(
 "vs_toWTk90YblRLCkbE2xSVoJlF",
@@ -1165,41 +955,6 @@ await openai.beta.vectorStores.fileBatches.create(vectorStore.id, {
   file_ids: fileBatch,
 });
 }
-```
-
-Supported files
----------------
-
-_For `text/` MIME types, the encoding must be one of `utf-8`, `utf-16`, or `ascii`._
-
-|File format|MIME type|
-|---|---|
-|.c|text/x-c|
-|.cpp|text/x-c++|
-|.cs|text/x-csharp|
-|.css|text/css|
-|.doc|application/msword|
-|.docx|application/vnd.openxmlformats-officedocument.wordprocessingml.document|
-|.go|text/x-golang|
-|.html|text/html|
-|.java|text/x-java|
-|.js|text/javascript|
-|.json|application/json|
-|.md|text/markdown|
-|.pdf|application/pdf|
-|.php|text/x-php|
-|.pptx|application/vnd.openxmlformats-officedocument.presentationml.presentation|
-|.py|text/x-python|
-|.py|text/x-script.python|
-|.rb|text/x-ruby|
-|.sh|application/x-sh|
-|.tex|text/x-tex|
-|.ts|application/typescript|
-|.txt|text/plain|
-
-Was this page useful?
-
-
 
 Assistants Code Interpreter
 
@@ -1220,14 +975,6 @@ Code Interpreter is charged at $0.03 per session. If your Assistant calls Code I
 
 Pass `code_interpreter` in the `tools` parameter of the Assistant object to enable Code Interpreter:
 
-```python
-assistant = client.beta.assistants.create(
-instructions="You are a personal math tutor. When asked a math question, write and run code to answer the question.",
-model="gpt-4o",
-tools=[{"type": "code_interpreter"}]
-)
-```
-
 ```javascript
 const assistant = await openai.beta.assistants.create({
 instructions: "You are a personal math tutor. When asked a math question, write and run code to answer the question.",
@@ -1236,32 +983,11 @@ tools: [{"type": "code_interpreter"}]
 });
 ```
 
-```bash
-curl https://api.openai.com/v1/assistants \
--u :$OPENAI_API_KEY \
--H 'Content-Type: application/json' \
--H 'OpenAI-Beta: assistants=v2' \
--d '{
-  "instructions": "You are a personal math tutor. When asked a math question, write and run code to answer the question.",
-  "tools": [
-    { "type": "code_interpreter" }
-  ],
-  "model": "gpt-4o"
-}'
-```
-
 The model then decides when to invoke Code Interpreter in a Run based on the nature of the user request. This behavior can be promoted by prompting in the Assistant's `instructions` (e.g., “write code to solve this problem”).
 
 ### Passing files to Code Interpreter
 
 Files that are passed at the Assistant level are accessible by all Runs with this Assistant:
-
-```python
-# Upload a file with an "assistants" purpose
-file = client.files.create(
-file=open("mydata.csv", "rb"),
-purpose='assistants'
-)
 
 # Create an assistant using the file ID
 assistant = client.beta.assistants.create(
@@ -1274,9 +1000,8 @@ tool_resources={
   }
 }
 )
-```
 
-```javascript
+
 // Upload a file with an "assistants" purpose
 const file = await openai.files.create({
 file: fs.createReadStream("mydata.csv"),
@@ -1294,52 +1019,12 @@ tool_resources: {
   }
 }
 });
-```
 
-```bash
-# Upload a file with an "assistants" purpose
-curl https://api.openai.com/v1/files \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--F purpose="assistants" \
--F file="@/path/to/mydata.csv"
-
-# Create an assistant using the file ID
-curl https://api.openai.com/v1/assistants \
--u :$OPENAI_API_KEY \
--H 'Content-Type: application/json' \
--H 'OpenAI-Beta: assistants=v2' \
--d '{
-  "instructions": "You are a personal math tutor. When asked a math question, write and run code to answer the question.",
-  "tools": [{"type": "code_interpreter"}],
-  "model": "gpt-4o",
-  "tool_resources": {
-    "code_interpreter": {
-      "file_ids": ["file-BK7bzQj3FfZFXr7DbL6xJwfo"]
-    }
-  }
-}'
-```
 
 Files can also be passed at the Thread level. These files are only accessible in the specific Thread. Upload the File using the [File upload](/docs/api-reference/files/create) endpoint and then pass the File ID as part of the Message creation request:
 
-```python
-thread = client.beta.threads.create(
-messages=[
-  {
-    "role": "user",
-    "content": "I need to solve the equation `3x + 11 = 14`. Can you help me?",
-    "attachments": [
-      {
-        "file_id": file.id,
-        "tools": [{"type": "code_interpreter"}]
-      }
-    ]
-  }
-]
-)
-```
 
-```javascript
+
 const thread = await openai.beta.threads.create({
 messages: [
   {
@@ -1354,24 +1039,7 @@ messages: [
   }
 ]
 });
-```
 
-```bash
-curl https://api.openai.com/v1/threads/thread_abc123/messages \
--u :$OPENAI_API_KEY \
--H 'Content-Type: application/json' \
--H 'OpenAI-Beta: assistants=v2' \
--d '{
-  "role": "user",
-  "content": "I need to solve the equation `3x + 11 = 14`. Can you help me?",
-  "attachments": [
-    {
-      "file_id": "file-ACq8OjcLQm2eIG0BvRM4z5qX",
-      "tools": [{"type": "code_interpreter"}]
-    }
-  ]
-}'
-```
 
 Files have a maximum size of 512 MB. Code Interpreter supports a variety of file formats including `.csv`, `.pdf`, `.json` and many more. More details on the file extensions (and their corresponding MIME-types) supported can be found in the [Supported files](#supported-files) section below.
 
@@ -1405,17 +1073,6 @@ When Code Interpreter generates an image, you can look up and download this file
 
 The file content can then be downloaded by passing the file ID to the Files API:
 
-```python
-from openai import OpenAI
-
-client = OpenAI()
-
-image_data = client.files.content("file-abc123")
-image_data_bytes = image_data.read()
-
-with open("./my-image.png", "wb") as file:
-  file.write(image_data_bytes)
-```
 
 ```javascript
 import fs from "fs";
@@ -1436,14 +1093,9 @@ const image_data_buffer = Buffer.from(image_data);
 fs.writeFileSync("./my-image.png", image_data_buffer);
 }
 
-main();
-```
 
-```bash
-curl https://api.openai.com/v1/files/file-abc123/content \
--H "Authorization: Bearer $OPENAI_API_KEY" \
---output image.png
-```
+
+
 
 When Code Interpreter references a file path (e.g., ”Download this csv file”), file paths are listed as annotations. You can convert these annotations into links to download the file:
 
@@ -1476,12 +1128,6 @@ When Code Interpreter references a file path (e.g., ”Download this csv file”
 
 By listing the steps of a Run that called Code Interpreter, you can inspect the code `input` and `outputs` logs of Code Interpreter:
 
-```python
-run_steps = client.beta.threads.runs.steps.list(
-thread_id=thread.id,
-run_id=run.id
-)
-```
 
 ```javascript
 const runSteps = await openai.beta.threads.runs.steps.list(
@@ -1490,75 +1136,3 @@ run.id
 );
 ```
 
-```bash
-curl https://api.openai.com/v1/threads/thread_abc123/runs/RUN_ID/steps \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--H "OpenAI-Beta: assistants=v2" \
-```
-
-```bash
-{
-  "object": "list",
-  "data": [
-    {
-      "id": "step_abc123",
-      "object": "thread.run.step",
-      "type": "tool_calls",
-      "run_id": "run_abc123",
-      "thread_id": "thread_abc123",
-      "status": "completed",
-      "step_details": {
-        "type": "tool_calls",
-        "tool_calls": [
-          {
-            "type": "code",
-            "code": {
-              "input": "# Calculating 2 + 2\nresult = 2 + 2\nresult",
-              "outputs": [
-                {
-                  "type": "logs",
-                  "logs": "4"
-                }
-						...
- }
-```
-
-Supported files
----------------
-
-|File format|MIME type|
-|---|---|
-|.c|text/x-c|
-|.cs|text/x-csharp|
-|.cpp|text/x-c++|
-|.csv|text/csv|
-|.doc|application/msword|
-|.docx|application/vnd.openxmlformats-officedocument.wordprocessingml.document|
-|.html|text/html|
-|.java|text/x-java|
-|.json|application/json|
-|.md|text/markdown|
-|.pdf|application/pdf|
-|.php|text/x-php|
-|.pptx|application/vnd.openxmlformats-officedocument.presentationml.presentation|
-|.py|text/x-python|
-|.py|text/x-script.python|
-|.rb|text/x-ruby|
-|.tex|text/x-tex|
-|.txt|text/plain|
-|.css|text/css|
-|.js|text/javascript|
-|.sh|application/x-sh|
-|.ts|application/typescript|
-|.csv|application/csv|
-|.jpeg|image/jpeg|
-|.jpg|image/jpeg|
-|.gif|image/gif|
-|.pkl|application/octet-stream|
-|.png|image/png|
-|.tar|application/x-tar|
-|.xlsx|application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|
-|.xml|application/xml or "text/xml"|
-|.zip|application/zip|
-
-Was this page useful?

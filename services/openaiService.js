@@ -118,7 +118,7 @@ Here is a section of a medical report to analyze using the above format:\n\n${co
     });
 
     const response = await openai.chat.completions.create({
-      model: "o1-mini",
+      model: "o1-preview",
       messages: [
         {
           role: "user",

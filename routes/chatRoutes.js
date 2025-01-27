@@ -3,7 +3,7 @@ import multer from 'multer';
 import openaiService from '../services/openaiService.js';
 import anthropicService from '../services/anthropicService.js';
 import geminiService from '../services/geminiService.js';
-import assistantsService from '../services/assistantsService.js';
+import chatInterfaceService from '../services/chatInterfaceService.js';
 
 // Configure multer for file uploads
 const upload = multer({
@@ -114,21 +114,84 @@ router.post('/', uploadMiddleware, async (req, res) => {
         });
         break;
       case 'assistant':
-        console.log('Calling Assistant service...');
+        console.log('Calling Chat Interface service...');
         if (req.file) {
-          // If there's a file, process it first
-          const result = await assistantsService.processFile(req.file.buffer, req.file.originalname);
-          // Return the raw data as the response
-          response = JSON.stringify(result.rawData, null, 2);
+          // Process the uploaded file
+          const { fileId, vectorStoreId } = await chatInterfaceService.processUploadedPDF({
+            buffer: req.file.buffer,
+            originalname: req.file.originalname
+          });
+
+          // Create a thread with initial message
+          const thread = await chatInterfaceService.createThread(
+            message || "Please analyze this document",
+            vectorStoreId
+          );
+
+          // Set up SSE headers
+          res.writeHead(200, {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive'
+          });
+
+          // Create streaming run
+          const stream = await chatInterfaceService.createAndPollRun(thread.id);
+
+          // Handle stream events
+          stream.on('text', (data) => {
+            if (data.type === 'text') {
+              res.write(`data: ${JSON.stringify({ type: 'text', content: data.content })}\n\n`);
+            } else if (data.type === 'delta') {
+              res.write(`data: ${JSON.stringify({ type: 'delta', content: data.content })}\n\n`);
+            }
+          });
+
+          stream.on('fileSearch', (results) => {
+            res.write(`data: ${JSON.stringify({ type: 'fileSearch', content: results })}\n\n`);
+          });
+
+          stream.on('error', (error) => {
+            res.write(`data: ${JSON.stringify({ type: 'error', content: error.message })}\n\n`);
+            res.end();
+          });
+
+          stream.on('end', () => {
+            res.write(`data: ${JSON.stringify({ type: 'end' })}\n\n`);
+            res.end();
+          });
+
+          // Send initial data
+          res.write(`data: ${JSON.stringify({
+            type: 'start',
+            threadId: thread.id,
+            fileId: fileId,
+            vectorStoreId: vectorStoreId
+          })}\n\n`);
+
+          // Handle client disconnect
+          req.on('close', () => {
+            stream.removeAllListeners();
+          });
+
+          return; // Skip the normal JSON response
         } else {
           // For regular messages, we need a thread ID
-          const { threadId, fileId, assistantId } = req.body;
-          if (!threadId || !fileId || !assistantId) {
-            throw new Error('Thread ID, File ID, and Assistant ID are required for assistant messages');
+          const { threadId, vectorStoreId } = req.body;
+          if (!threadId) {
+            throw new Error('Thread ID is required for chat messages');
           }
-          response = await assistantsService.generateResponse(threadId, assistantId, message, fileId);
+
+          // Add message to thread
+          await chatInterfaceService.addMessageToThread(threadId, message, vectorStoreId);
+
+          // Create and poll run
+          const result = await chatInterfaceService.createAndPollRun(threadId);
+
+          // Return messages
+          response = result.messages;
         }
-        console.log('Assistant response received');
+        console.log('Chat Interface response received');
         break;
       default:
         return res.status(400).json({ error: 'Invalid provider' });
@@ -150,7 +213,7 @@ router.post('/', uploadMiddleware, async (req, res) => {
         size: req.file.size
       } : null,
       threadId: req.body.threadId,
-      assistantId: req.body.assistantId
+      vectorStoreId: req.body.vectorStoreId
     });
     res.status(500).json({
       error: error.message || 'Error generating response',
@@ -163,50 +226,29 @@ router.post('/', uploadMiddleware, async (req, res) => {
   }
 });
 
-// Assistants endpoints
-router.post('/assistants/create-thread', async (req, res) => {
-  try {
-    const thread = await assistantsService.createThread();
-    res.json({ threadId: thread.id });
-  } catch (error) {
-    console.error('Error creating thread:', {
-      error: error.message,
-      status: error.status,
-      type: error.type,
-      response: error.response?.data,
-      stack: error.stack
-    });
-    res.status(500).json({
-      error: error.message || 'Error creating thread',
-      details: {
-        apiError: error.response?.data?.error?.message,
-        status: error.status
-      }
-    });
-  }
-});
-
-router.post('/assistants/upload', uploadMiddleware, async (req, res) => {
+router.post('/chat-interface/upload', uploadMiddleware, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Create file buffer with proper name
-    const fileBuffer = req.file.buffer;
-    const fileName = req.file.originalname;
+    // Process uploaded PDF
+    const result = await chatInterfaceService.processUploadedPDF({
+      buffer: req.file.buffer,
+      originalname: req.file.originalname
+    });
 
-    // Process file with assistants service
-    const result = await assistantsService.processFile(fileBuffer, fileName);
+    // Create initial thread
+    const thread = await chatInterfaceService.createThread(
+      "Please analyze this document",
+      result.vectorStoreId
+    );
 
-    // Return both the raw data and calculator-formatted data
+    // Return necessary IDs for future interactions
     res.json({
       fileId: result.fileId,
-      threadId: result.threadId,
-      assistantId: result.assistantId,
-      vectorStoreId: result.vectorStoreId,
-      rawData: result.rawData,
-      calculatorData: result.calculatorData
+      threadId: thread.id,
+      vectorStoreId: result.vectorStoreId
     });
   } catch (error) {
     console.error('Error uploading file to assistants:', {
@@ -232,34 +274,80 @@ router.post('/assistants/upload', uploadMiddleware, async (req, res) => {
   }
 });
 
-router.post('/assistants/message', async (req, res) => {
+router.post('/chat-interface/message', async (req, res) => {
   try {
-    const { message, threadId, fileId, assistantId } = req.body;
+    const { message, threadId, vectorStoreId } = req.body;
 
-    if (!message || !threadId || !fileId || !assistantId) {
-      return res.status(400).json({ error: 'Message, threadId, fileId, and assistantId are required' });
+    if (!message || !threadId) {
+      return res.status(400).json({ error: 'Message and threadId are required' });
     }
 
-    const response = await assistantsService.generateResponse(threadId, assistantId, message, fileId);
-    res.json({ response });
+    // Add message to thread
+    await chatInterfaceService.addMessageToThread(threadId, message, vectorStoreId);
+
+    // Set up SSE headers
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive'
+    });
+
+    // Create streaming run
+    const stream = await chatInterfaceService.createAndPollRun(threadId);
+
+    // Handle stream events
+    stream.on('text', (data) => {
+      if (data.type === 'text') {
+        res.write(`data: ${JSON.stringify({ type: 'text', content: data.content })}\n\n`);
+      } else if (data.type === 'delta') {
+        res.write(`data: ${JSON.stringify({ type: 'delta', content: data.content })}\n\n`);
+      }
+    });
+
+    stream.on('fileSearch', (results) => {
+      res.write(`data: ${JSON.stringify({ type: 'fileSearch', content: results })}\n\n`);
+    });
+
+    stream.on('error', (error) => {
+      res.write(`data: ${JSON.stringify({ type: 'error', content: error.message })}\n\n`);
+      res.end();
+    });
+
+    stream.on('end', () => {
+      res.write(`data: ${JSON.stringify({ type: 'end' })}\n\n`);
+      res.end();
+    });
+
+    // Send initial data
+    res.write(`data: ${JSON.stringify({
+      type: 'start',
+      threadId: threadId,
+      vectorStoreId: vectorStoreId
+    })}\n\n`);
+
+    // Handle client disconnect
+    req.on('close', () => {
+      stream.removeAllListeners();
+    });
+
+    return; // Skip the normal JSON response
   } catch (error) {
-    console.error('Error in assistants chat:', {
+    console.error('Error in chat interface message:', {
       error: error.message,
       status: error.status,
       type: error.type,
       response: error.response?.data,
       stack: error.stack,
       threadId,
-      assistantId,
       messageLength: message?.length,
-      hasFileId: !!fileId
+      vectorStoreId
     });
     res.status(500).json({
       error: error.message || 'Error generating response',
       details: {
         apiError: error.response?.data?.error?.message,
         threadId,
-        assistantId
+        vectorStoreId
       }
     });
   }

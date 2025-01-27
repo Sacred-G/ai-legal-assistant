@@ -4,8 +4,61 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import api, { sendMessage, extractTextFromPDF, uploadFileToAssistants, sendAssistantMessage } from '../config/api';
 
-const formatAIResponse = (text) => {
-  if (!text) return ''; // Add this line to handle undefined text
+const formatAIResponse = (message) => {
+  if (!message) return '';
+
+  // Handle string input
+  if (typeof message === 'string') {
+    return formatTextResponse(message);
+  }
+
+  let textContent = '';
+  let annotations = [];
+
+  // Handle OpenAI assistant message format
+  if (message.role === 'assistant' && message.content && Array.isArray(message.content)) {
+    const content = message.content[0];
+    if (content?.type === 'text') {
+      textContent = content.text.value || '';
+      annotations = content.text.annotations || [];
+    }
+  }
+  // Handle legacy assistant message format
+  else if (message.content && Array.isArray(message.content)) {
+    textContent = message.content[0]?.text?.value || '';
+    annotations = message.content[0]?.text?.annotations || [];
+  }
+  // Handle plain text response
+  else if (typeof message === 'string') {
+    textContent = message;
+  }
+
+  if (!textContent) return '';
+
+  // Process text with annotations
+  let formattedText = textContent;
+
+  // Sort annotations by start_index in descending order to process from end to start
+  if (annotations.length > 0) {
+    annotations.sort((a, b) => b.start_index - a.start_index);
+
+    // Replace citations with styled spans
+    annotations.forEach(annotation => {
+      if (annotation.type === 'file_citation') {
+        const citationText = textContent.substring(annotation.start_index, annotation.end_index);
+        const replacement = `<span class="citation" title="File citation">${citationText}</span>`;
+        formattedText = formattedText.substring(0, annotation.start_index) +
+          replacement +
+          formattedText.substring(annotation.end_index);
+      }
+    });
+  }
+
+  return formatTextResponse(formattedText);
+};
+
+const formatTextResponse = (text) => {
+  if (!text) return '';
   const lines = text.split('\n');
   let formattedHtml = '';
   let inSubSection = false;
@@ -27,16 +80,22 @@ const formatAIResponse = (text) => {
       }
       const headingText = cleanLine.replace(/^\d+\.\s+/, '');
       formattedHtml += `
-        <div class="mt-6 mb-3">
-          <h2 class="text-xl font-bold tracking-wide">${headingText}</h2>
+        <div class="mt-8 mb-6">
+          <div class="flex items-center">
+            <span class="text-2xl font-bold text-blue-600 dark:text-blue-400 mr-3">${cleanLine.split('.')[0]}.</span>
+            <h2 class="text-xl font-bold tracking-wide text-gray-900 dark:text-gray-100">${headingText}</h2>
+          </div>
+          <div class="mt-2 border-b border-gray-200 dark:border-gray-700"></div>
         </div>`;
       indentLevel = 0;
       return;
     }
 
-    // Handle key-value pairs
-    if (cleanLine.includes(':')) {
-      const [key, value] = cleanLine.split(':').map(part => part.trim());
+    // Handle key-value pairs - only if the line starts with a key pattern
+    if (cleanLine.match(/^[A-Za-z][A-Za-z\s-]*:/) && !cleanLine.match(/^https?:/)) {
+      const colonIndex = cleanLine.indexOf(':');
+      const key = cleanLine.substring(0, colonIndex).trim();
+      const value = cleanLine.substring(colonIndex + 1).trim();
       const indent = line.match(/^\s*/)[0].length;
 
       // Adjust indent level based on spacing
@@ -50,15 +109,41 @@ const formatAIResponse = (text) => {
       indentLevel = indent;
 
       formattedHtml += `
-        <div class="mb-2">
-          <span class="font-semibold">${key}:</span>
-          <span class="ml-2">${value || 'Not provided'}</span>
+        <div class="mb-3 p-2 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <span class="font-semibold text-sm uppercase tracking-wide text-gray-700 dark:text-gray-300">${key}:</span>
+          <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">${value}</span>
+        </div>`;
+      return;
+    }
+
+    // Handle lines that have colons but aren't key-value pairs (like URLs or regular text)
+    if (cleanLine.includes(':')) {
+      formattedHtml += `<p class="mb-2 ${indentLevel > 0 ? 'ml-4' : ''} text-gray-700 dark:text-gray-300 leading-relaxed">${cleanLine}</p>`;
+      return;
+    }
+
+    // Handle bold text with **
+    if (cleanLine.match(/\*\*.*\*\*/)) {
+      const boldText = cleanLine.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>');
+      formattedHtml += `<p class="mb-2 ${indentLevel > 0 ? 'ml-4' : ''} text-gray-800 dark:text-gray-200 leading-relaxed text-lg">${boldText}</p>`;
+      return;
+    }
+
+    // Handle bullet points
+    if (cleanLine.startsWith('-')) {
+      const bulletText = cleanLine.substring(1).trim();
+      formattedHtml += `
+        <div class="mb-3 ml-6">
+          <div class="flex items-start">
+            <span class="mr-2 mt-1.5 h-1.5 w-1.5 rounded-full bg-gray-500 dark:bg-gray-400 flex-shrink-0"></span>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${bulletText}</p>
+          </div>
         </div>`;
       return;
     }
 
     // Handle regular text
-    formattedHtml += `<p class="mb-2 ${indentLevel > 0 ? 'ml-4' : ''}">${cleanLine}</p>`;
+    formattedHtml += `<p class="mb-2 ${indentLevel > 0 ? 'ml-4' : ''} text-gray-700 dark:text-gray-300 leading-relaxed">${cleanLine}</p>`;
   });
 
   // Close any open subsections
@@ -69,6 +154,7 @@ const formatAIResponse = (text) => {
   return formattedHtml;
 };
 
+
 function ChatInterface() {
   const { isDark, theme, animations } = useTheme();
   const [messages, setMessages] = useState([]);
@@ -77,7 +163,7 @@ function ChatInterface() {
   const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState(null);
   const [context, setContext] = useState('');
-  const [selectedModel, setSelectedModel] = useState('openai');
+  const [selectedModel, setSelectedModel] = useState('assistant');
   const [age, setAge] = useState('');
   const [occupation, setOccupation] = useState('');
   const [threadId, setThreadId] = useState(null);
@@ -114,20 +200,24 @@ function ChatInterface() {
       try {
         if (selectedModel === 'assistant') {
           // Use the assistants API
-          const result = await uploadFileToAssistants(selectedFile, true);
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          const result = await uploadFileToAssistants(formData, true);
           setThreadId(result.threadId);
           setFileId(result.fileId);
           setAssistantId(result.assistantId);
-          setContext({ threadId: result.threadId, fileId: result.fileId, assistantId: result.assistantId });
+          setContext(result);
 
-          // Display initial summary
-          setMessages(prev => [...prev, {
-            text: 'Medical report processed. Here is the initial analysis:',
-            sender: 'system'
-          }, {
-            text: result.summary,
-            sender: 'ai'
-          }]);
+          // Use the summary from the initial response
+          if (result.summary) {
+            setMessages(prev => [...prev, {
+              text: 'Medical report processed. Here is the initial analysis:',
+              sender: 'system'
+            }, {
+              text: result.summary,
+              sender: 'ai'
+            }]);
+          }
 
         } else if (selectedModel === 'anthropic') {
           // For Anthropic, send raw file as base64
@@ -140,7 +230,7 @@ function ChatInterface() {
             // Process with Anthropic
             const contextObj = { base64: base64String };
             const response = await sendMessage(
-              "Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.",
+              "Please provide both a summary analysis and PD ratings for this medical report. Include a structured overview with bullet points for injuries, medical findings, and recommendations, followed by detailed PD calculations for each affected body part.",
               selectedModel,
               contextObj
             );
@@ -175,7 +265,7 @@ function ChatInterface() {
           const formData = new FormData();
           formData.append('file', selectedFile);
           formData.append('provider', selectedModel);
-          formData.append('message', "Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.");
+          formData.append('message', "Please provide both a summary analysis and PD ratings for this medical report. Include a structured overview with bullet points for injuries, medical findings, and recommendations, followed by detailed PD calculations for each affected body part.");
 
           const response = await api.post('/chat', formData);
           const extractedText = response.data.response;
@@ -248,158 +338,56 @@ function ChatInterface() {
 
     try {
       if (selectedModel === 'assistant') {
-        if (!context || !context.threadId || !context.fileId || !context.assistantId) {
-          throw new Error('Thread ID, File ID, and Assistant ID are required for assistant messages');
+        if (!threadId || !fileId || !assistantId) {
+          throw new Error('Please upload a medical report first');
         }
       } else if (!context) {
         throw new Error('Please upload a medical report first');
       }
 
-      // Check if this is a request to calculate PD rating
-      if (messageText.toLowerCase().includes('calculate') && messageText.toLowerCase().includes('pd')) {
-        const analysisPrompt = `Please analyze this medical report and extract all impairments with WPI values and pain add-ons. Return the data in this JSON format:
-        {
-          "demographics": {
-            "dateOfBirth": "YYYY-MM-DD",
-            "dateOfInjury": "YYYY-MM-DD",
-            "occupation": {
-              "title": "${occupation || "string"}"
-            },
-            "weeklyEarnings": number
-          },
-          "impairments": [
-            {
-              "bodyPart": {
-                "code": "string",
-                "name": "string",
-                "section": "string",
-                "type": "string"
-              },
-              "wpi": number,
-              "adjustments": {
-                "pain": {
-                  "add": boolean
-                },
-                "adl": {
-                  "impacted": boolean
-                }
-              },
-              "apportionment": {
-                "industrial": number,
-                "nonIndustrial": number
-              },
-              "futureMedial": boolean
-            }
-          ]
-        }`;
-
-        let response;
-        if (selectedModel === 'assistant') {
-          response = await new Promise((resolve, reject) => {
-            let messageContent = '';
-            sendAssistantMessage(
-              analysisPrompt,
-              context.threadId,
-              context.assistantId,
-              context.fileId,
-              {
-                textDelta: (data) => {
-                  messageContent += data.text;
-                },
-                done: () => {
-                  resolve(messageContent);
-                },
-                error: (error) => {
-                  reject(new Error(error.message || 'Error processing assistant message'));
-                }
-              }
-            );
-          });
-        } else {
-          response = await sendMessage(
-            analysisPrompt,
-            selectedModel,
-            selectedModel === 'anthropic' ? context : context
-          );
-        }
-
-        try {
-          const analysisData = JSON.parse(response);
-
-          // Use the PDR service to calculate rating
-          const result = await calculatePDRRatings(analysisData);
-
-          // Format the response
-          const noApportText = result.no_apportionment.sections.map(section =>
-            `${section.name}: ${section.wpi}% WPI → ${section.rating}% (after adjustments)`
-          ).join('\n');
-
-          const withApportText = result.with_apportionment.sections.map(section =>
-            `${section.name}: ${section.wpi}% WPI → ${section.rating}% (after adjustments and ${section.apportionment.industrial}% apportionment)`
-          ).join('\n');
-
-          const responseText = `PD Rating Calculation:
-
-${noApportText ? `\nWithout Apportionment:\n${noApportText}\nTotal: ${result.no_apportionment.total}%` : ''}
-${withApportText ? `\nWith Apportionment:\n${withApportText}\nTotal: ${result.with_apportionment.total}%` : ''}
-
-Weekly Rate: $${result.pd_weekly_rate}
-Total PD Payout: $${result.total_pd_payout}
-Life Pension Weekly Rate: $${result.life_weekly_rate}`;
-
-          setMessages(prev => [...prev, {
-            text: responseText,
-            sender: 'ai'
-          }]);
-        } catch (parseError) {
-          console.error('Error parsing analysis response:', parseError);
-          throw new Error('Could not calculate PD rating from the medical report');
-        }
-
+      // Regular question about the medical report
+      let response;
+      if (selectedModel === 'openai' || selectedModel === 'gemini') {
+        // For OpenAI and Gemini, send file with message
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('provider', selectedModel);
+        formData.append('message', messageText);
+        const result = await api.post('/chat', formData);
+        response = result.data.response;
       } else {
-        // Regular question about the medical report
-        let response;
-        if (selectedModel === 'openai' || selectedModel === 'gemini') {
-          // For OpenAI and Gemini, send file with message
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('provider', selectedModel);
-          formData.append('message', messageText);
-          const result = await api.post('/chat', formData);
-          response = result.data.response;
+        // For Anthropic
+        if (selectedModel === 'anthropic') {
+          response = await sendMessage(messageText, selectedModel, context);
         } else {
-          // For Anthropic
-          if (selectedModel === 'anthropic') {
-            response = await sendMessage(messageText, selectedModel, context);
-          } else {
-            // For Assistant
-            response = await new Promise((resolve, reject) => {
-              let messageContent = '';
-              sendAssistantMessage(
-                messageText,
-                context.threadId,
-                context.assistantId,
-                context.fileId,
-                {
-                  textDelta: (data) => {
-                    messageContent += data.text;
-                  },
-                  done: () => {
-                    resolve(messageContent);
-                  },
-                  error: (error) => {
-                    reject(new Error(error.message || 'Error processing assistant message'));
-                  }
-                }
-              );
-            });
+          // For Assistant
+          const result = await api.post('/chat-interface/thread/messages', {
+            message: messageText,
+            threadId,
+            assistantId,
+            fileId
+          });
+          // Get the last assistant message from the messages array
+          const messages = result.data.messages;
+          const assistantMessage = messages.find(msg => msg.role === 'assistant');
+          if (!assistantMessage) {
+            throw new Error('No assistant response found');
           }
+
+          // Log the message structure for debugging
+          console.log('Assistant message structure:', assistantMessage);
+
+          if (!assistantMessage.content?.[0]?.text?.value) {
+            throw new Error('Invalid message format received');
+          }
+
+          response = assistantMessage.content[0].text.value;
         }
-        setMessages(prev => [...prev, {
-          text: response,
-          sender: 'ai'
-        }]);
       }
+      setMessages(prev => [...prev, {
+        text: response,
+        sender: 'ai'
+      }]);
     } catch (error) {
       console.error('Error sending message:', error);
       setMessages(prev => [...prev, {
@@ -548,7 +536,7 @@ Life Pension Weekly Rate: $${result.life_weekly_rate}`;
                     </svg>
                   </motion.button>
                 )}
-                <div className={`text-sm ${message.sender === 'user' ? 'text-white' : isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                <div className={`text-sm ${message.sender === 'user' ? 'text-white' : isDark ? 'text-gray-200' : 'text-gray-800'} citations-container`}>
                   {message.sender === 'error' ? (
                     <div className="text-red-500">{message.text}</div>
                   ) : (
@@ -582,6 +570,35 @@ Life Pension Weekly Rate: $${result.life_weekly_rate}`;
       </div>
 
       {/* Input Section */}
+      {/* Quick Actions */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <button
+          onClick={() => handleSubmit(null, "Please provide a summary analysis of the medical report.")}
+          className={`px-4 py-2 text-sm rounded-md ${isDark
+            ? 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
+        >
+          Get Summary
+        </button>
+        <button
+          onClick={() => handleSubmit(null, "Please calculate and display PD ratings for all affected body parts.")}
+          className={`px-4 py-2 text-sm rounded-md ${isDark
+            ? 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
+        >
+          Calculate PD Ratings
+        </button>
+        <button
+          onClick={() => handleSubmit(null, "Please provide both a summary analysis and PD ratings for this medical report.")}
+          className={`px-4 py-2 text-sm rounded-md ${isDark
+            ? 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
+        >
+          Full Analysis
+        </button>
+      </div>
+
+      {/* Input Form */}
       <motion.form
         onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4 flex-shrink-0"

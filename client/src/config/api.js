@@ -35,93 +35,36 @@ api.interceptors.response.use(
   }
 );
 
-// Create a new assistant chat session
-export const createAssistantThread = async (type = 'chat') => {
-  try {
-    const response = await api.post('/chat/assistants/create-thread', { type });
-    return response.data;
-  } catch (error) {
-    console.error('Error creating assistant thread:', error);
-    throw new Error(`Error creating assistant thread: ${error.response?.data?.error || error.message}`);
-  }
-};
-
-// Upload file and create session
+// Process PDF and create thread
 export const uploadFileToAssistants = async (formData, type = 'rate') => {
   try {
-    // Add assistant type to form data
-    formData.append('type', type);
+    // Add message for medical report analysis
+    if (type === 'rate') {
+      formData.append('message', 'Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.');
+    }
 
-    const response = await api.post('/chat/assistants/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    const response = await api.post('/chat-interface/process-pdf', formData);
     return response.data;
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;
   }
 };
-
-// Send message with streaming response
-export const sendAssistantMessage = async (message, threadId, assistantId, fileId = null, onEvent = {}) => {
+// Send message to assistant
+export const sendAssistantMessage = async (message, threadId, assistantId, fileId = null) => {
   try {
     // Validate required parameters
     if (!threadId) throw new Error('Thread ID is required');
-    if (!assistantId) throw new Error('Assistant ID is required');
     if (!message && !fileId) throw new Error('Either message or file is required');
 
-    // Create EventSource for streaming response
-    const params = new URLSearchParams({
+    const response = await api.post('/chat-interface/thread/messages', {
+      message,
       threadId,
       assistantId,
-      ...(message && { message }),
-      ...(fileId && { fileId })
+      fileId
     });
 
-    const eventSource = new EventSource(`${baseURL}/assistants/message?${params}`);
-
-    // Handle different event types
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      onEvent.message?.(data);
-    };
-
-    eventSource.addEventListener('textCreated', () => {
-      onEvent.textCreated?.();
-    });
-
-    eventSource.addEventListener('textDelta', (event) => {
-      const data = JSON.parse(event.data);
-      onEvent.textDelta?.(data);
-    });
-
-    eventSource.addEventListener('toolCallCreated', (event) => {
-      const data = JSON.parse(event.data);
-      onEvent.toolCallCreated?.(data);
-    });
-
-    eventSource.addEventListener('toolCallDelta', (event) => {
-      const data = JSON.parse(event.data);
-      onEvent.toolCallDelta?.(data);
-    });
-
-    eventSource.addEventListener('error', (error) => {
-      console.error('Stream error:', error);
-      eventSource.close();
-      onEvent.error?.(error);
-    });
-
-    eventSource.addEventListener('done', () => {
-      eventSource.close();
-      onEvent.done?.();
-    });
-
-    // Return cleanup function
-    return () => {
-      eventSource.close();
-    };
+    return response.data;
   } catch (error) {
     console.error('Error sending message to assistant:', error);
     throw new Error(`Error sending message to assistant: ${error.response?.data?.error || error.message}`);
@@ -164,6 +107,17 @@ export const calculatePDRRatings = async (data) => {
   } catch (error) {
     console.error('Error calculating PDR ratings:', error);
     throw new Error(`Error calculating PDR ratings: ${error.response?.data?.error || error.message}`);
+  }
+};
+
+// Create a new assistant thread
+export const createAssistantThread = async (type = 'chat') => {
+  try {
+    const response = await api.post('/chat-interface/thread', { type });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating assistant thread:', error);
+    throw error;
   }
 };
 
