@@ -208,17 +208,22 @@ function ChatInterface() {
           setAssistantId(result.assistantId);
           setContext(result);
 
-          // Use the summary from the initial response
-          if (result.summary) {
-            setMessages(prev => [...prev, {
-              text: 'Medical report processed. Here is the initial analysis:',
-              sender: 'system'
-            }, {
-              text: result.summary,
-              sender: 'ai'
-            }]);
-          }
+          // Send initial analysis request
+          const initialResponse = await sendAssistantMessage(
+            "Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.",
+            result.threadId,
+            result.assistantId,
+            result.fileId
+          );
 
+          // Add the response to messages
+          setMessages(prev => [...prev, {
+            text: 'Medical report processed. Here is the initial analysis:',
+            sender: 'system'
+          }, {
+            text: initialResponse,
+            sender: 'ai'
+          }]);
         } else if (selectedModel === 'anthropic') {
           // For Anthropic, send raw file as base64
           const reader = new FileReader();

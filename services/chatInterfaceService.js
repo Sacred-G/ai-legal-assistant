@@ -21,46 +21,121 @@ const openai = new OpenAI({
 
 class ChatInterfaceService {
     constructor() {
-        this.assistantId = process.env.OPENAI_ASSISTANT_ID || null;
-        this.vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID || null;
+        this.assistantId = null;
+        this.vectorStoreId = null;
         this.fileIds = [];
     }
 
-    async initializeResources() {
+    setAssistantType(type) {
+        if (type === 'rate') {
+            this.assistantId = process.env.OPENAI_RATING_ASSISTANT_ID;
+            this.vectorStoreId = process.env.OPENAI_RATING_VECTORSTORE_ID;
+        } else {
+            this.assistantId = process.env.OPENAI_ASSISTANT_ID;
+            this.vectorStoreId = process.env.OPENAI_VECTORSTORE_ID;
+        }
+    }
+
+    async initializeResources(type = 'chat') {
+        // Set the correct assistant type
+        this.setAssistantType(type);
+
         // Ensure Assistant
         if (!this.assistantId) {
-            console.log('No assistant ID found in .env. Creating a new assistant.');
-            const assistant = await openai.beta.assistants.create({
-                name: "Medical Report Assistant",
-                instructions: `You are an expert at analyzing medical reports and extracting key information. Focus on:
-                1. Patient demographics and history
-                2. Key medical findings and diagnoses
-                3. Impairment ratings and WPI values
-                4. Work restrictions and limitations
-                5. Future medical needs
-                6. Job duties and apportionment
+            console.log('No assistant ID found. Creating a new assistant.');
+            try {
+                const assistant = await openai.beta.assistants.create({
+                    name: "Medical Report Assistant",
+                    instructions: `You are an expert at analyzing medical reports. Follow this exact format and replace the placeholders with actual information:
 
-                When analyzing reports:
-                - Extract and cite specific details from the reports
-                - Organize information into clear sections
-                - Highlight important medical terminology and ratings
-                - Note any inconsistencies or areas needing clarification
-                - Provide context for medical terms and abbreviations`,
-                model: "gpt-4o-mini",
-                tools: [{
-                    type: "file_search",
-                    config: {
-                        chunk_size: 1000,
-                        chunk_overlap: 500,
-                        max_chunks: 30,
-                        score_threshold: 0.7
-                    }
-                }],
-            });
-            this.assistantId = assistant.id;
-            console.log('New assistant created:', this.assistantId);
+1. PATIENT DEMOGRAPHICS AND EMPLOYMENT
+MMI Status: [State if achieved]
+Patient Name: [Name]
+Age/DOB: [Age/Date]
+Employer: [Name]
+Occupation: [Title]
+Employment Duration: [Time]
+Insurance Carrier: [Name]
+Claim Number: [Number]
+Incident Date: [Date]
+Current Work Status: [Status]
+
+2. INJURY CLAIMS
+Cumulative Trauma:
+  Dates: [Dates]
+  Body Parts: [List]
+  Description: [Details]
+
+Specific Trauma:
+  Date: [Date]
+  Body Parts: [List]
+  Mechanism: [Description]
+  WPI Ratings: [Percentages by body part]
+
+3. CURRENT COMPLAINTS
+List by body part:
+  [Body Part]:
+    Symptoms: [List]
+    Pain Level/Description: [Details]
+    Activity Impact: [Description]
+
+4. CLINICAL DIAGNOSES
+Primary:
+  Diagnosis: [Condition]
+  Description: [Details]
+Secondary:
+  [List additional diagnoses]
+
+5. APPORTIONMENT
+Percentages: [List breakdowns]
+Reasoning: [Explanation]
+
+6. WORK RESTRICTIONS
+Physical Limitations: [List]
+Activity Restrictions: [List]
+
+7. FUTURE MEDICAL CARE
+Recommended Treatments: [List]
+Ongoing Care Needs: [Details]
+
+8. VOCATIONAL FINDINGS
+Current Capacity: [Details]
+Recommendations: [List]`,
+                    model: "gpt-4o",
+                    tools: [{
+                        type: "file_search",
+                        config: {
+                            chunk_size: 1000,
+                            chunk_overlap: 500,
+                            max_chunks: 30,
+                            score_threshold: 0.7
+                        }
+                    }],
+                });
+                this.assistantId = assistant.id;
+                console.log('New assistant created successfully:', {
+                    id: this.assistantId,
+                    model: assistant.model,
+                    created_at: assistant.created_at
+                });
+            } catch (error) {
+                console.error('Failed to create assistant:', error);
+                throw new Error(`Failed to create assistant: ${error.message}`);
+            }
         } else {
-            console.log('Using assistant ID from .env:', this.assistantId);
+            try {
+                // Verify the assistant exists
+                const assistant = await openai.beta.assistants.retrieve(this.assistantId);
+                console.log('Using existing assistant:', {
+                    id: assistant.id,
+                    model: assistant.model,
+                    created_at: assistant.created_at
+                });
+            } catch (error) {
+                console.error('Failed to retrieve assistant:', error);
+                this.assistantId = null; // Reset so we can create a new one
+                return this.initializeResources(type); // Retry with creation
+            }
         }
 
         // Ensure Vector Store

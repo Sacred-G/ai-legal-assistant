@@ -23,29 +23,122 @@ const openai = new OpenAI({
 class AssistantsService {
     constructor() {
         this.assistants = {};
+        // File IDs from upload-csv-files.js script
+        this.csvFileIds = [
+            // TODO: Replace with actual file IDs after running upload-csv-files.js
+            // Run: node scripts/upload-csv-files.js
+            // Then paste the generated file IDs here
+        ];
     }
 
-    async createAssistant(type = 'chat') {
+    async createAssistant(type = 'rate') {
         try {
             let assistant;
 
             // Check if we already have an assistant for this type
             if (this.assistants[type]) {
+                console.log('Using existing assistant:', this.assistants[type].id);
                 assistant = this.assistants[type];
             } else {
+                console.log('Creating new assistant...');
                 // Create new assistant based on type
                 const assistantConfig = {
-                    tools: [{ type: "file_search" }]
+                    model: "gpt-4o",  // Always use gpt-4o model
+                    tools: [
+                        { type: "code_interpreter" },
+                        { type: "file_search" }
+                    ]
                 };
 
                 if (type === 'rate') {
                     assistantConfig.name = "Medical Report Assistant";
-                    assistantConfig.instructions = "You are an expert at analyzing medical reports and extracting key information including: demographics, dates, body parts and WPI ratings, work restrictions, future medical needs, job duties and apportionment. Process the uploaded medical reports based on the type of request:\n\n1. For requests containing keywords like 'rate', 'rating', 'calculate PD', or 'permanent disability', provide detailed PD calculations using the California Permanent Disability rating schedule. Use 1.4 FEC multiplier for each body part instead of rank, factor in occupation and age-related factors, and display rating strings in this format: 'Hand: 16.05.01.00 – 10 – [1]11 – 351G – 13 – 11 PD'\n\n2. For general analysis or summary requests, provide a structured overview with these sections:\n• Summary of Injuries and Claims\n• Medical Evaluations and Findings\n• Treatment and Recommendations\n\nFormat all responses without markdown, using clear headings, bullet points (•), and minimal line spacing.";
-                    assistantConfig.model = "gpt-4o-mini";
-                } else {
-                    assistantConfig.name = "Chat Assistant";
-                    assistantConfig.instructions = "You are a helpful assistant that can analyze documents and answer questions.";
-                    assistantConfig.model = "gpt-4o-mini";
+                    assistantConfig.instructions = `You are an expert at analyzing medical reports and extracting key information including: demographics, dates, body parts and WPI ratings, work restrictions, future medical needs, job duties and apportionment.
+
+For rating calculations:
+1. Start with base WPI and multiply by 1.4
+2. Apply occupational adjustment based on work category
+3. Apply pain add-on (3% standard) to base WPI before multiplying by 1.4
+4. Apply age adjustment additively to the rating
+5. Maximum age adjustment is 0.6 (60%)
+6. Minimum age adjustment is -0.1 (-10%)
+7. Values between listed points can be interpolated linearly
+8. Maximum final adjustment caps at 0.62 (62%)
+
+Display ratings in this format:
+Body Part (Industrial%)
+Industrial% - code - base WPI - [1.4] adjusted WPI - group/variant - occupational adjusted - final% Description
+
+Example:
+Cervical Spine (100% Industrial)
+100% - 15.01.02.02 - 18 - [1.4] 25 - 470H - 28 - 30% DRE Category III with radiculopathy
+
+Left Shoulder (100% Industrial)
+100% - 16.02.01.00 - 7 - [1.4] 10 - 470H - 13 - 15% Loss of ROM with impingement syndrome
+
+For general analysis, provide:
+•REPORT SECTIONS:
+
+1. PATIENT DEMOGRAPHICS AND EMPLOYMENT
+  MMI Status: [State if achieved]
+  Patient Name: [Name]
+  Age/DOB: [Age/Date]
+  Employer: [Name]
+  Occupation: [Title]
+  Employment Duration: [Time]
+  Insurance Carrier: [Name]
+  Claim Number: [Number]
+  Incident Date: [Date]
+  Current Work Status: [Status]
+
+2. INJURY CLAIMS
+  Cumulative Trauma:
+    Dates: [Dates]
+    Body Parts: [List]
+    Description: [Details]
+
+  Specific Trauma:
+    Date: [Date]
+    Body Parts: [List]
+    Mechanism: [Description]
+    WPI Ratings: [Percentages by body part]
+
+3. CURRENT COMPLAINTS
+  List by body part:
+    [Body Part]:
+      Symptoms: [List]
+      Pain Level/Description: [Details]
+      Activity Impact: [Description]
+
+4. CLINICAL DIAGNOSES
+  Primary:
+    Diagnosis: [Condition]
+    Description: [Details]
+  Secondary:
+    [List additional diagnoses]
+
+5. APPORTIONMENT
+  Percentages: [List breakdowns]
+  Reasoning: [Explanation]
+
+6. WORK RESTRICTIONS
+  Physical Limitations: [List]
+  Activity Restrictions: [List]
+
+7. FUTURE MEDICAL CARE
+  Recommended Treatments: [List]
+  Ongoing Care Needs: [Details]
+
+8. VOCATIONAL FINDINGS
+  Current Capacity: [Details]
+  Recommendations: [List]
+Format all responses without markdown, using clear headings, bullet points (•), and minimal line spacing.
+
+Include in summary:
+- Total Pain Add-ons
+- Weekly PD Rate
+- Average Weekly Earnings
+- Total PD Payout
+- Age at Date of Injury`;
                 }
 
                 assistant = await openai.beta.assistants.create(assistantConfig);
@@ -65,117 +158,151 @@ class AssistantsService {
         }
     }
 
-    async processFileWithAssistant(fileBuffer, fileName, type = 'chat') {
-        let tempFilePath = null;
-        let openaiFile = null;
+    async processFiles(pdfFile, csvFiles) {
+        let pdfTempPath = null;
+        let pdfFileId = null;
         let vectorStore = null;
 
         try {
-            // Create temporary file path
-            const randomSuffix = Math.random().toString(36).substring(7);
-            const safeName = fileName.replace(/[^a-zA-Z0-9.-]/g, '_');
-            tempFilePath = path.join(uploadsDir, `${path.parse(safeName).name}-${randomSuffix}${path.parse(safeName).ext}`);
+            // Process PDF file for file_search
+            pdfTempPath = await this.createTempFile(pdfFile);
 
-            console.log('Writing file to temp path:', tempFilePath);
-            await fs.promises.writeFile(tempFilePath, fileBuffer);
-
-            console.log('Uploading file to OpenAI...');
-            openaiFile = await openai.files.create({
-                file: fs.createReadStream(tempFilePath),
+            console.log('Uploading PDF to OpenAI...');
+            const pdfUpload = await openai.files.create({
+                file: fs.createReadStream(pdfTempPath),
                 purpose: 'assistants'
             });
-            console.log('File uploaded to OpenAI:', {
-                fileId: openaiFile.id,
-                filename: openaiFile.filename,
-                purpose: openaiFile.purpose,
-                status: openaiFile.status
-            });
+            pdfFileId = pdfUpload.id;
 
+            // Create vector store for PDF
             console.log('Creating vector store...');
             vectorStore = await openai.beta.vectorStores.create({
-                name: `${type}_analysis_${fileName}`
-            });
-            console.log('Vector store created:', {
-                id: vectorStore.id,
-                name: vectorStore.name
+                name: `rate_analysis_${pdfFile.originalname}`
             });
 
-            // Create and process file batch
-            const fileBatch = await openai.beta.vectorStores.fileBatches.create(vectorStore.id);
-            await openai.beta.vectorStores.fileBatches.files.create(
-                vectorStore.id,
-                fileBatch.id,
-                [{ content: fileBuffer, name: fileName }]
-            );
-
-            // Poll for completion
+            // Process PDF with vector store
             await openai.beta.vectorStores.fileBatches.createAndPoll(
                 vectorStore.id,
-                fileBatch.id
+                { file_ids: [pdfFileId] }
             );
 
+            // Wait for PDF processing
+            let pdfStatus = await openai.files.retrieve(pdfFileId);
+            while (pdfStatus.status === 'processing') {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                pdfStatus = await openai.files.retrieve(pdfFileId);
+            }
+
+            if (pdfStatus.status !== 'processed') {
+                throw new Error(`PDF processing failed with status: ${pdfStatus.status}`);
+            }
+
+            // Use stored CSV file IDs
+            const csvFileIds = this.csvFileIds;
+
             // Create assistant and thread
-            const { assistantId, threadId } = await this.createAssistant(type);
+            const { assistantId, threadId } = await this.createAssistant('rate');
 
-            // Log file_ids for debugging
-            console.log('Updating assistant with file_ids:', [openaiFile.id]);
+            // Ensure vector store is ready
+            let vectorStoreStatus = await openai.beta.vectorStores.retrieve(vectorStore.id);
+            while (vectorStoreStatus.status === 'in_progress') {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                vectorStoreStatus = await openai.beta.vectorStores.retrieve(vectorStore.id);
+            }
 
-            // Update assistant with vector store and file_ids
+            if (vectorStoreStatus.status !== 'completed') {
+                throw new Error(`Vector store processing failed with status: ${vectorStoreStatus.status}`);
+            }
+
+            // Update assistant with tool resources
             await openai.beta.assistants.update(assistantId, {
-                file_ids: [openaiFile.id],
                 tool_resources: {
+                    code_interpreter: {
+                        file_ids: csvFileIds
+                    },
                     file_search: {
                         vector_store_ids: [vectorStore.id]
                     }
                 }
             });
 
-            // Create initial message for medical reports
-            if (type === 'rate') {
-                await openai.beta.threads.messages.create(threadId, {
-                    role: "user",
-                    content: "Please provide both a summary analysis and PD ratings for this medical report:\n\nFirst, provide a structured overview with:\n• Summary of Injuries and Claims (include dates and details)\n• Medical Evaluations and Findings (include diagnoses and WPI values)\n• Treatment and Recommendations\n\nThen, calculate and display PD ratings for each affected body part using:\n• California Permanent Disability rating schedule\n• 1.4 FEC multiplier instead of rank\n• Occupation and age factors\n• Rating string format: [Body Part]: [Code] – [WPI] – [FEC] – [Occupation] – [Age] – [Final PD]"
-                });
+            // Create initial message
+            const initialMessage = {
+                role: "user",
+                content: `Please analyze this medical report and provide ratings:
 
-                // Create and run the initial analysis
-                const run = await openai.beta.threads.runs.create(threadId, {
-                    assistant_id: assistantId
-                });
+1. First, use file_search to extract from the medical report:
+- Patient demographics
+- Occupation
+- Body parts affected
+- WPI ratings
+- Age at date of injury
 
-                // Wait for completion
-                let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
-                while (runStatus.status !== 'completed' && runStatus.status !== 'failed') {
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
-                }
+2. Then, use code_interpreter with the CSV files to:
+- Find the group number for the occupation
+- Determine impairment codes and variants for each body part
+- Calculate occupational values for each WPI
+- Apply age adjustments to get final WPI values
 
-                // Get the assistant's response
-                const messages = await openai.beta.threads.messages.list(threadId);
-                const summary = messages.data[0].content[0].text.value;
+3. Finally, format the results as:
+Body Part (Industrial%)
+Industrial% - code - base WPI - [1.4] adjusted WPI - group/variant - occupational adjusted - final% Description`,
+                attachments: [
+                    {
+                        file_id: pdfFileId,
+                        tools: [{ type: "file_search" }]
+                    }
+                ]
+            };
 
-                return {
-                    fileId: openaiFile.id,
-                    threadId,
-                    assistantId,
-                    vectorStoreId: vectorStore.id,
-                    summary
-                };
+            await openai.beta.threads.messages.create(threadId, initialMessage);
+
+            // Create and run the analysis
+            const run = await openai.beta.threads.runs.create(threadId, {
+                assistant_id: assistantId
+            });
+
+            // Wait for completion
+            let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
+            while (runStatus.status === 'queued' || runStatus.status === 'in_progress') {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
             }
 
-            return {
-                fileId: openaiFile.id,
-                threadId,
-                assistantId,
-                vectorStoreId: vectorStore.id
-            };
+            // Handle run completion
+            switch (runStatus.status) {
+                case 'completed':
+                    const messages = await openai.beta.threads.messages.list(threadId);
+                    const summary = messages.data[0].content[0].text.value;
+                    return {
+                        pdfFileId,
+                        csvFileIds,
+                        threadId,
+                        assistantId,
+                        vectorStoreId: vectorStore.id,
+                        summary
+                    };
+                case 'failed':
+                    throw new Error(`Run failed: ${runStatus.last_error?.message || 'Unknown error'}`);
+                case 'expired':
+                    throw new Error('Run expired: The operation took too long to complete');
+                case 'cancelled':
+                    throw new Error('Run was cancelled');
+                case 'requires_action':
+                    throw new Error('Run requires action: Function execution needed');
+                case 'incomplete':
+                    throw new Error(`Run incomplete: ${runStatus.incomplete_details?.message || 'Token limit reached'}`);
+                default:
+                    throw new Error(`Unexpected run status: ${runStatus.status}`);
+            }
 
         } catch (error) {
             // Clean up resources in case of error
-            if (openaiFile) {
+            if (pdfFileId) {
                 try {
-                    await openai.files.del(openaiFile.id);
+                    await openai.files.del(pdfFileId);
                 } catch (cleanupError) {
-                    console.error('Error cleaning up file:', cleanupError);
+                    console.error('Error cleaning up PDF file:', cleanupError);
                 }
             }
             if (vectorStore) {
@@ -187,18 +314,108 @@ class AssistantsService {
             }
             throw error;
         } finally {
-            // Clean up temporary file
-            if (tempFilePath) {
+            // Clean up temporary PDF file
+            if (pdfTempPath) {
                 try {
-                    await fs.promises.unlink(tempFilePath);
+                    await fs.promises.unlink(pdfTempPath);
                 } catch (cleanupError) {
-                    console.error('Error cleaning up temporary file:', cleanupError);
+                    console.error('Error cleaning up temporary PDF file:', cleanupError);
                 }
             }
         }
     }
 
-    async sendMessageStream(message, threadId, assistantId, fileId = null) {
+    async processFileWithAssistant(fileBuffer, filename, type = 'rate', tool = 'code_interpreter') {
+        let tempFilePath = null;
+        let fileId = null;
+        let vectorStore = null;
+
+        try {
+            // Create temp file
+            const randomSuffix = Math.random().toString(36).substring(7);
+            const safeName = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
+            tempFilePath = path.join(uploadsDir, `${path.parse(safeName).name}-${randomSuffix}${path.parse(safeName).ext}`);
+
+            // Write buffer to temp file
+            await fs.promises.writeFile(tempFilePath, fileBuffer);
+
+            // Upload file to OpenAI
+            console.log('Uploading file to OpenAI...');
+            const fileUpload = await openai.files.create({
+                file: fs.createReadStream(tempFilePath),
+                purpose: 'assistants'
+            });
+            fileId = fileUpload.id;
+
+            // Wait for file processing
+            let fileStatus = await openai.files.retrieve(fileId);
+            while (fileStatus.status === 'processing') {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                fileStatus = await openai.files.retrieve(fileId);
+            }
+
+            if (fileStatus.status !== 'processed') {
+                throw new Error(`File processing failed with status: ${fileStatus.status}`);
+            }
+
+            // Create vector store if using file_search
+            if (tool === 'file_search') {
+                console.log('Creating vector store...');
+                vectorStore = await openai.beta.vectorStores.create({
+                    name: `${type}_analysis_${filename}`
+                });
+
+                // Process file with vector store
+                await openai.beta.vectorStores.fileBatches.createAndPoll(
+                    vectorStore.id,
+                    { file_ids: [fileId] }
+                );
+            }
+
+            // Create assistant and thread
+            const { assistantId, threadId } = await this.createAssistant(type);
+
+            // Update assistant with tool resources
+            const toolResources = {};
+            if (tool === 'code_interpreter') {
+                toolResources.code_interpreter = { file_ids: [fileId] };
+            }
+            if (tool === 'file_search' && vectorStore) {
+                toolResources.file_search = { vector_store_ids: [vectorStore.id] };
+            }
+
+            await openai.beta.assistants.update(assistantId, { tool_resources: toolResources });
+
+            return {
+                assistantId,
+                threadId,
+                fileId,
+                vectorStoreId: vectorStore?.id
+            };
+        } catch (error) {
+            console.error('Error processing file:', error);
+            throw error;
+        } finally {
+            // Cleanup temp file
+            if (tempFilePath) {
+                await fs.promises.unlink(tempFilePath).catch(e =>
+                    console.error('Error cleaning up temp file:', e)
+                );
+            }
+        }
+    }
+
+    async createTempFile(file) {
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const safeName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const tempPath = path.join(uploadsDir, `${path.parse(safeName).name}-${randomSuffix}${path.parse(safeName).ext}`);
+
+        await fs.promises.writeFile(tempPath, file.buffer);
+        return tempPath;
+    }
+
+
+    async sendMessageStream(message, threadId, assistantId) {
         try {
             // Create event emitter for streaming
             const emitter = new EventEmitter();
@@ -206,10 +423,7 @@ class AssistantsService {
             // Add message to thread
             await openai.beta.threads.messages.create(threadId, {
                 role: "user",
-                content: message,
-                ...(fileId && {
-                    file_ids: [fileId]
-                })
+                content: message
             });
 
             // Create run
@@ -222,23 +436,42 @@ class AssistantsService {
                 try {
                     const runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
 
-                    if (runStatus.status === 'completed') {
-                        // Get messages since last user message
-                        const messages = await openai.beta.threads.messages.list(threadId);
-                        const assistantMessage = messages.data.find(msg =>
-                            msg.role === 'assistant' && msg.run_id === run.id
-                        );
+                    if (runStatus.status === 'queued' || runStatus.status === 'in_progress') {
+                        return; // Continue polling
+                    }
 
-                        if (assistantMessage) {
-                            emitter.emit('textCreated');
-                            emitter.emit('textDelta', { value: assistantMessage.content[0].text.value });
-                        }
+                    clearInterval(pollInterval);
 
-                        clearInterval(pollInterval);
-                        emitter.emit('end');
-                    } else if (runStatus.status === 'failed') {
-                        clearInterval(pollInterval);
-                        emitter.emit('error', new Error(runStatus.last_error?.message || 'Run failed'));
+                    switch (runStatus.status) {
+                        case 'completed':
+                            const messages = await openai.beta.threads.messages.list(threadId);
+                            const assistantMessage = messages.data.find(msg =>
+                                msg.role === 'assistant' && msg.run_id === run.id
+                            );
+
+                            if (assistantMessage) {
+                                emitter.emit('textCreated');
+                                emitter.emit('textDelta', { value: assistantMessage.content[0].text.value });
+                            }
+                            emitter.emit('end');
+                            break;
+                        case 'failed':
+                            emitter.emit('error', new Error(`Run failed: ${runStatus.last_error?.message || 'Unknown error'}`));
+                            break;
+                        case 'expired':
+                            emitter.emit('error', new Error('Run expired: The operation took too long to complete'));
+                            break;
+                        case 'cancelled':
+                            emitter.emit('error', new Error('Run was cancelled'));
+                            break;
+                        case 'requires_action':
+                            emitter.emit('error', new Error('Run requires action: Function execution needed'));
+                            break;
+                        case 'incomplete':
+                            emitter.emit('error', new Error(`Run incomplete: ${runStatus.incomplete_details?.message || 'Token limit reached'}`));
+                            break;
+                        default:
+                            emitter.emit('error', new Error(`Unexpected run status: ${runStatus.status}`));
                     }
                 } catch (error) {
                     clearInterval(pollInterval);

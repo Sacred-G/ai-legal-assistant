@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-const baseURL = process.env.NODE_ENV === 'production'
-  ? '/api'
-  : 'http://localhost:4006/api';
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:4006/api';
 
 const api = axios.create({
   baseURL,
@@ -38,12 +36,16 @@ api.interceptors.response.use(
 // Process PDF and create thread
 export const uploadFileToAssistants = async (formData, type = 'rate') => {
   try {
-    // Add message for medical report analysis
-    if (type === 'rate') {
+    // Add message for medical report analysis if not already present
+    if (type === 'rate' && !formData.get('message')) {
       formData.append('message', 'Please analyze this medical report and provide a summary focusing on: 1) Patient demographics and history 2) Key medical findings and diagnoses 3) Impairment ratings and WPI values 4) Work restrictions and limitations 5) Treatment recommendations.');
     }
 
-    const response = await api.post('/chat-interface/process-pdf', formData);
+    // Add type and tool parameters
+    formData.append('type', type);
+    formData.append('tool', 'file_search');  // Use file_search for vector search capability
+
+    const response = await api.post('/chat/assistants/upload', formData);
     return response.data;
   } catch (error) {
     console.error('Error uploading file:', error);
@@ -57,7 +59,7 @@ export const sendAssistantMessage = async (message, threadId, assistantId, fileI
     if (!threadId) throw new Error('Thread ID is required');
     if (!message && !fileId) throw new Error('Either message or file is required');
 
-    const response = await api.post('/chat-interface/thread/messages', {
+    const response = await api.post('/chat/assistants/message', {
       message,
       threadId,
       assistantId,
@@ -111,14 +113,24 @@ export const calculatePDRRatings = async (data) => {
 };
 
 // Create a new assistant thread
-export const createAssistantThread = async (type = 'chat') => {
+export const createAssistantThread = async (type = 'chat', tool = 'file_search') => {
   try {
-    const response = await api.post('/chat-interface/thread', { type });
+    const response = await api.post('/chat/assistants/create-thread', { type, tool });
     return response.data;
   } catch (error) {
     console.error('Error creating assistant thread:', error);
     throw error;
   }
+};
+
+export const uploadFileForSearch = async (formData) => {
+  const response = await api.post('/chat/file/upload', formData);
+  return response.data;
+};
+
+export const searchAndSummarize = async (query, fileId, sessionId) => {
+  const response = await api.post('/chat/file/search', { query, fileId, sessionId });
+  return response.data.response;
 };
 
 export const API_URL = baseURL;

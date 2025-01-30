@@ -86,23 +86,55 @@ class PDRService {
                     throw new Error(`Occupational adjustment not found for occupation: ${medicalData.demographics.occupation.title}`);
                 }
 
-                // Get age adjustment
-                const ageAdjustment = await this.getAgeAdjustmentFactor(age, impairment.wpi);
-                if (!ageAdjustment) {
-                    throw new Error(`Age adjustment not found for age: ${age}`);
-                }
+                // Start with base WPI and multiply by 1.4
+                let finalRating = impairment.wpi * 1.4;
 
-                // Calculate base rating with occupational and age adjustments
-                let finalRating = impairment.wpi * (occupationalAdjustment / 100) * (ageAdjustment / 100);
+                // Apply occupational adjustment based on work category
+                const occupationGroup = occupationalAdjustment;
+                if (occupationGroup === 'C') { // Light Work
+                    if (finalRating <= 0.05) finalRating = 0.03;
+                    else if (finalRating <= 0.10) finalRating = 0.07;
+                    else if (finalRating <= 0.15) finalRating = 0.11;
+                    else if (finalRating <= 0.20) finalRating = 0.15;
+                    else if (finalRating <= 0.25) finalRating = 0.18;
+                    else if (finalRating <= 0.30) finalRating = 0.23;
+                    else if (finalRating <= 0.35) finalRating = 0.27;
+                    else if (finalRating <= 0.40) finalRating = 0.32;
+                    else if (finalRating <= 0.45) finalRating = 0.36;
+                    else if (finalRating <= 0.50) finalRating = 0.41;
+                } else if (occupationGroup === 'J') { // Heavy Work
+                    if (finalRating <= 0.05) finalRating = 0.09;
+                    else if (finalRating <= 0.10) finalRating = 0.16;
+                    else if (finalRating <= 0.15) finalRating = 0.23;
+                    else if (finalRating <= 0.20) finalRating = 0.29;
+                    else if (finalRating <= 0.25) finalRating = 0.36;
+                    else if (finalRating <= 0.30) finalRating = 0.41;
+                    else if (finalRating <= 0.35) finalRating = 0.47;
+                    else if (finalRating <= 0.40) finalRating = 0.52;
+                    else if (finalRating <= 0.45) finalRating = 0.58;
+                    else if (finalRating <= 0.50) finalRating = 0.62;
+                }
+                // For Medium Work (Category F), rating stays the same
+
+                // Calculate age adjustment factor
+                let ageAdjustmentFactor = 0;
+                if (age < 30) ageAdjustmentFactor = -0.1;
+                else if (age >= 35 && age <= 39) ageAdjustmentFactor = 0.1;
+                else if (age >= 40 && age <= 44) ageAdjustmentFactor = 0.2;
+                else if (age >= 45 && age <= 49) ageAdjustmentFactor = 0.3;
+                else if (age >= 50 && age <= 54) ageAdjustmentFactor = 0.4;
+                else if (age >= 55 && age <= 59) ageAdjustmentFactor = 0.5;
+                else if (age >= 60) ageAdjustmentFactor = 0.6;
+
+                // Add age adjustment to rating
+                finalRating += ageAdjustmentFactor;
+
+                // Cap at maximum adjustment of 0.62 (62%)
+                finalRating = Math.min(finalRating, 0.62);
 
                 // Apply pain add-on if specified (3% standard)
                 if (impairment.adjustments.pain.add) {
-                    finalRating += 3;
-                }
-
-                // Apply ADL impacts if specified
-                if (impairment.adjustments.adl.impacted) {
-                    finalRating *= 1.4; // 40% increase for ADL impacts
+                    finalRating += 0.03;
                 }
 
                 // Get impairment details from database
@@ -117,7 +149,7 @@ class PDRService {
                     description: impairmentDetails ? impairmentDetails.description : impairment.bodyPart.name,
                     wpi: impairment.wpi,
                     occupationalAdjustment: occupationalAdjustment,
-                    ageAdjustment: ageAdjustment,
+                    ageAdjustment: ageAdjustmentFactor,
                     painAdd: impairment.adjustments.pain.add,
                     adlImpact: impairment.adjustments.adl.impacted,
                     rating: parseFloat(finalRating.toFixed(2)),

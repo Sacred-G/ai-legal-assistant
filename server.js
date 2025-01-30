@@ -11,6 +11,8 @@ import tavilyRoutes from './routes/tavilyRoutes.js';
 import pdrRoutes from './routes/pdrRoutes.js';
 import assistantChatRoutes from './routes/assistantChatRoutes.js';
 import chatInterfaceRoutes from './routes/chatInterfaceRoutes.js';
+import fileSearchRoutes from './routes/fileSearchRoutes.js';
+import aiAssistantRoutes from './routes/aiAssistantRoutes.js';
 import { performCaseLawResearch, generateLegalDocument } from './services/wordwareService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -79,12 +81,23 @@ export function configureServer(app) {
   validateEnvironmentVariables();
 
   // Configure CORS
+  // Configure CORS based on environment
+  const corsOrigins = process.env.NODE_ENV === 'production'
+    ? process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : []
+    : ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:4006', 'http://127.0.0.1:4006', 'http://localhost:3000'];
+
   app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174'],
+    origin: corsOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    exposedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   }));
+
+  // Handle preflight requests
+  app.options('*', cors());
 
   // Serve static files from public directory
   app.use(express.static(path.join(__dirname, '../public')));
@@ -187,9 +200,12 @@ export function configureServer(app) {
   app.use('/api/chat', chatRoutes);
   app.use('/api/tavily', tavilyRoutes);
   app.use('/api/pdr', pdrRoutes);
-  app.use('/api/chat/assistants', assistantChatRoutes);
-  app.use('/api/chat-interface', chatInterfaceRoutes);
-
+  
+  // Chat-related routes
+  app.use('/api/chat/interface', chatInterfaceRoutes);   // For Chat Interface page
+  app.use('/api/chat/assistants', assistantChatRoutes);  // For AI Assistant page (ratings)
+  app.use('/api/ai-assistant', aiAssistantRoutes);
+  
   // Legal Document Generation endpoint
   app.post('/api/generate-legal-document', async (req, res) => {
     const { docName, purpose, law } = req.body;
@@ -274,7 +290,7 @@ export function configureServer(app) {
           type: error.type,
           apiError: error.response?.data?.error?.message
         }
-      });
+      })
     }
   });
 

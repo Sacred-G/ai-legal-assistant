@@ -16,16 +16,16 @@ const upload = multer({
 router.post('/process-pdf', upload.single('file'), async (req, res) => {
     try {
         const file = req.file;
-        const { message } = req.body;
+        const { message, type = 'chat' } = req.body;
 
         if (!file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
-        // Process the PDF and create vector store
-        // Initialize resources first
-        await chatInterfaceService.initializeResources();
+        // Initialize resources first with the correct type
+        await chatInterfaceService.initializeResources(type);
 
+        // Process the PDF and create vector store
         const { fileId, vectorStoreId } = await chatInterfaceService.processUploadedPDF({
             buffer: file.buffer,
             originalname: file.originalname,
@@ -68,14 +68,14 @@ router.post('/process-pdf', upload.single('file'), async (req, res) => {
 router.post('/thread/:threadId/messages', async (req, res) => {
     try {
         const { threadId } = req.params;
-        const { message } = req.body;
+        const { message, type = 'chat' } = req.body;
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Initialize resources first
-        await chatInterfaceService.initializeResources();
+        // Initialize resources first with the correct type
+        await chatInterfaceService.initializeResources(type);
 
         // Add message to thread
         await chatInterfaceService.addMessageToThread(threadId, message);
@@ -89,15 +89,13 @@ router.post('/thread/:threadId/messages', async (req, res) => {
             throw new Error('No assistant response found');
         }
 
-        // Log the message structure for debugging
-        console.log('Assistant message structure:', assistantMessage);
-
         if (!assistantMessage.content?.[0]?.text?.value) {
             throw new Error('Invalid message format received');
         }
 
         res.json({
-            messages: [assistantMessage]
+            messages: result.messages,
+            response: assistantMessage.content[0].text.value
         });
     } catch (error) {
         console.error('Error in add message endpoint:', error);
@@ -105,38 +103,7 @@ router.post('/thread/:threadId/messages', async (req, res) => {
     }
 });
 
-// Get messages for a thread
-// Create a new thread
-router.post('/thread', async (req, res) => {
-    try {
-        const { type } = req.body;
-        await chatInterfaceService.initializeResources();
-        const thread = await chatInterfaceService.createThread();
-        const result = await chatInterfaceService.createAndPollRun(thread.id);
-
-        res.json({
-            threadId: thread.id,
-            messages: result.messages,
-            assistantId: chatInterfaceService.assistantId
-        });
-    } catch (error) {
-        console.error('Error in create thread endpoint:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-router.get('/thread/:threadId/messages', async (req, res) => {
-    try {
-        const { threadId } = req.params;
-        const messages = await chatInterfaceService.getThreadMessages(threadId);
-        res.json({ messages });
-    } catch (error) {
-        console.error('Error in get messages endpoint:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Cleanup endpoint to delete vector store
+// Cleanup endpoint
 router.delete('/cleanup/:vectorStoreId', async (req, res) => {
     try {
         const { vectorStoreId } = req.params;
